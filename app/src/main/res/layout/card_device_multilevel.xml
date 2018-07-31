@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/card_spacing"
+    android:layout_marginRight="@dimen/card_spacing"
+    app:cardElevation="@dimen/card_elevation"
+    app:cardCornerRadius="@dimen/card_no_radius">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/card_padding_lg">
+
+        <TextView
+            android:id="@+id/device_multilevel_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/primaryColor"
+            android:textSize="@dimen/card_title_size"
+            android:singleLine="true"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/device_multilevel_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/device_multilevel_name"
+            android:layout_below="@+id/device_multilevel_name"
+            android:textSize="12sp"
+            android:singleLine="true"
+            android:ellipsize="end" />
+
+        <SeekBar
+            android:id="@+id/device_multilevel_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/device_multilevel_tag"
+            android:layout_marginTop="5dp" />
+
+    </RelativeLayout>
+
+</android.support.design.card.MaterialCardView>

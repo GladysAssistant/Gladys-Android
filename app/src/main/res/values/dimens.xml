@@ -1,0 +1,15 @@
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_padding">12dp</dimen>
+    <dimen name="card_padding_lg">16dp</dimen>
+    <dimen name="card_radius">8dp</dimen>
+    <dimen name="card_radius_lg">20dp</dimen>
+    <dimen name="card_padding_xs">6dp</dimen>
+    <dimen name="card_spacing">8dp</dimen>
+    <dimen name="card_title_size">18sp</dimen>
+    <dimen name="card_no_radius">0dp</dimen>
+    <dimen name="divider_spacing">8dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+</resources>

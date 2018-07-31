@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.github.captain_miao.optroundcardview.OptRoundCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_room"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/card_spacing"
+    android:layout_marginRight="@dimen/card_spacing"
+    android:layout_marginTop="@dimen/card_spacing"
+    app:cardElevation="@dimen/card_elevation"
+    app:optRoundCardCornerRadius="@dimen/card_radius"
+    app:optRoundCardBackgroundColor="@color/secondaryColor">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/card_padding_lg"
+        android:paddingRight="@dimen/card_padding_lg"
+        android:paddingTop="@dimen/card_padding_lg">
+
+        <TextView
+            android:id="@+id/roomName"
+            android:layout_width="292dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            android:layout_toStartOf="@+id/arrow"
+            android:text=""
+            android:textSize="@dimen/card_title_size" />
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ic_arrow_down_24dp"
+            tools:ignore="ContentDescription" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/roomName"
+            android:layout_marginTop="@dimen/card_padding_lg"
+            android:background="?android:attr/listDivider"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+</com.github.captain_miao.optroundcardview.OptRoundCardView>

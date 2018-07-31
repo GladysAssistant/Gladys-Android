@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Gladys</string>
+    <string name="app_description">Your home assistant</string>
+    <string name="message">Message</string>
+    <string name="no_tag">Aucun tag</string>
+    <string name="title_home">Accueil</string>
+    <string name="title_messages">Message</string>
+    <string name="title_task">Tache</string>
+    <string name="title_timeline">Timeline</string>
+</resources>

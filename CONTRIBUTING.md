@@ -14,3 +14,5 @@ Any contributions, large or small, major features, bug fixes, additional languag
  - Follow the [material design](https://material.io/design/introduction/#principles) guidelines 
  - Respect and use the [colors](https://github.com/GladysProject/Gladys-Android/blob/master/app/src/main/res/values/colors.xml) of the theme 
 - Test and comments your code, of course :smile:
+
+All the devellopement task are managed on [trello](https://trello.com/b/3jJ5Rg1E/gladys-android-app)

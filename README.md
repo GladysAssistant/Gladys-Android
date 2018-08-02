@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-		<a href=""><img src="https://raw.githubusercontent.com/GladysProject/Gladys-Android/master/art/ic_launcher_round.png" width="200"></a>
+	<img src="https://raw.githubusercontent.com/GladysProject/Gladys-Android/master/art/ic_launcher_round.png" width="200">
   <br>
   Gladys Android
 </h1>
@@ -16,7 +16,7 @@
   <a href="#how-do-use-this-app">How do use this App</a> •
   <a href="#contributing">Contributing</a> •
   <a href="#links">Links</a> •
-  <a href="#copyright-&-license">Copyright & License</a> 
+  <a href="#copyright--license">Copyright & License</a> 
 </p>
 
 <table align="center">
@@ -53,7 +53,7 @@ This application is in the development stage, it is not ready for production use
 
 ## Contributing
 
-Pull request are welcome, but code must follow some guidelines. Please read the contributing file.
+Pull request are welcome, but code must follow some guidelines. Please read the [contributing](https://github.com/GladysProject/Gladys-Android/blob/master/CONTRIBUTING.md) file.
 
 ## Links
 
@@ -69,4 +69,3 @@ Pull request are welcome, but code must follow some guidelines. Please read the 
 ## Copyright & License
 
 Copyright (c) 2018 Gladys Project Android - Released under the [MIT license](https://github.com/GladysProject/Gladys-Android/blob/master/LICENSE)
-Gladys Android

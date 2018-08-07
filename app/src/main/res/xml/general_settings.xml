@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/info">
+
+        <EditTextPreference
+            android:hint="Pepperwood"
+            android:key="user_name"
+            android:singleLine="true"
+            android:title="@string/name"
+            android:negativeButtonText="@string/negative_button"
+            android:positiveButtonText="@string/positve_button"/>
+
+        <EditTextPreference
+            android:hint="John"
+            android:key="user_firstname"
+            android:singleLine="true"
+            android:title="@string/firstname"
+            android:negativeButtonText="@string/negative_button"
+            android:positiveButtonText="@string/positve_button" />
+
+        <EditTextPreference
+            android:hint="1"
+            android:key="user_id"
+            android:singleLine="true"
+            android:title="@string/user_id"
+            android:negativeButtonText="@string/negative_button"
+            android:positiveButtonText="@string/positve_button"/>
+
+    </PreferenceCategory>
+
+    <Preference
+        android:layout="@layout/custom_divider_settings">
+    </Preference>
+
+    <PreferenceCategory
+        android:title="@string/connection">
+
+        <Preference
+            android:title="@string/http"
+            android:key="http_settings">
+        </Preference>
+
+        <Preference
+            android:title="@string/mqtt"
+            android:key="mqtt_settings">
+        </Preference>
+
+    </PreferenceCategory>
+
+    <!-- <Preference
+        android:layout="@layout/custom_divider_settings">
+    </Preference>
+
+    <PreferenceCategory
+        android:title="@string/general">
+
+        <Preference
+            android:title="@string/notifications"
+            android:key="notification_settings">
+        </Preference>
+
+        <Preference
+            android:title="@string/geolocation"
+            android:key="geolocation_settings">
+        </Preference>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="auto_start"
+            android:title="@string/auto_start"
+            android:summary="@string/auto_start_explanation"/>
+    </PreferenceCategory> -->
+
+    <Preference
+        android:layout="@layout/custom_divider_settings">
+    </Preference>
+
+    <PreferenceCategory
+        android:title="@string/assistance">
+
+        <Preference
+            android:title="@string/report_bug">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/report_bug_url" />
+        </Preference>
+
+        <Preference
+            android:title="@string/forum">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/forum_url" />
+        </Preference>
+
+        <Preference
+            android:title="@string/open_source_licence"
+            android:key="open_source_licence_list">
+        </Preference>
+
+        <Preference
+            android:layout="@layout/custom_text_view_settings">
+        </Preference>
+
+    </PreferenceCategory>
+</PreferenceScreen>

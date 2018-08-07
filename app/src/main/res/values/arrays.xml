@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="open_source_licence">
+        <item>Advanced RecyclerView</item>
+        <item>Moshi</item>
+        <item>OkHttp</item>
+        <item>Retrofit</item>
+        <item>Round cardview</item>
+        <item>Timeline View</item>
+    </string-array>
+
+</resources>

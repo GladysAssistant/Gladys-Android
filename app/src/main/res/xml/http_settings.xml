@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:dialogTitle="@string/ip_adress"
+        android:inputType="number|numberDecimal"
+        android:digits="0123456789."
+        android:key="local_ip"
+        android:hint="@string/ip_adresse_example"
+        android:negativeButtonText="@string/negative_button"
+        android:positiveButtonText="@string/positve_button"
+        android:title="@string/ip_adress" />
+
+    <EditTextPreference
+        android:dialogTitle="@string/port"
+        android:inputType="number"
+        android:key="local_port"
+        android:hint="@string/port_example"
+        android:negativeButtonText="@string/negative_button"
+        android:positiveButtonText="@string/positve_button"
+        android:title="@string/port" />
+
+    <EditTextPreference
+        android:dialogTitle="@string/token"
+        android:key="token"
+        android:hint="@string/token_example"
+        android:negativeButtonText="@string/negative_button"
+        android:positiveButtonText="@string/positve_button"
+        android:title="@string/token" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="nat"
+        android:title="@string/use_dns_adress" />
+
+    <EditTextPreference
+        android:dependency="nat"
+        android:dialogTitle="@string/dns_adress"
+        android:key="dns"
+        android:hint="@string/dns_adress_example"
+        android:negativeButtonText="@string/negative_button"
+        android:positiveButtonText="@string/positve_button"
+        android:title="@string/dns_adress" />
+
+    <SwitchPreference
+        android:dependency="nat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="true"
+        android:key="https"
+        android:title="@string/https"
+        android:disableDependentsState="true"/>
+
+    <EditTextPreference
+        android:dependency="https"
+        android:dialogTitle="@string/port"
+        android:inputType="number"
+        android:key="nat_port"
+        android:hint="@string/dns_port_example"
+        android:negativeButtonText="@string/negative_button"
+        android:positiveButtonText="@string/positve_button"
+        android:title="@string/port" />
+
+</PreferenceScreen>

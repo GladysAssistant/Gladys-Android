@@ -1,8 +1,10 @@
 package com.gladysproject.gladys.fragments
 
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +25,8 @@ import java.util.*
 
 class TimelineFragment : Fragment() {
 
-    private val token :String = ""
-    private val retrofit: Retrofit
+    private var token : String = ""
+    private lateinit var retrofit: Retrofit
 
     companion object {
         fun newInstance() = TimelineFragment()
@@ -34,12 +36,16 @@ class TimelineFragment : Fragment() {
             inflater.inflate(R.layout.fragment_timeline, container, false)
 
 
-    init {
+    override fun onStart() {
+        super.onStart()
+
         retrofit = Retrofit.Builder()
                 .baseUrl(getConnection()) // The function getConnection return string address
                 .addConverterFactory(MoshiConverterFactory.create())
                 .client(SelfSigningClientBuilder.unsafeOkHttpClient)
                 .build()
+
+        token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "")
 
         getEvents()
     }
@@ -76,10 +82,10 @@ class TimelineFragment : Fragment() {
      See Connectivity file in utils folder for more info
     */
     private fun getConnection(): String {
-        return when(Connectivity.getTypeOfConnection(context!!)){
+        return when(context?.let { Connectivity.getTypeOfConnection(it) }){
             1 -> Connectivity.getLocalPreferences(context!!)
             2 -> Connectivity.getNatPreferences(context!!)
-            else -> ""
+            else -> "http://fakeurl"
         }
     }
 }

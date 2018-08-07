@@ -1,13 +1,12 @@
 package com.gladysproject.gladys
 
-import android.graphics.Color
-import android.os.Build
+import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.view.View
+import android.view.Menu
+import android.view.MenuItem
 import com.gladysproject.gladys.fragments.ChatFragment
 import com.gladysproject.gladys.fragments.HomeFragment
 import com.gladysproject.gladys.fragments.TaskFragment
@@ -50,5 +49,19 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.container, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.settings_button -> {
+            val intent = Intent(this@MainActivity, SettingsActivity::class.java)
+            startActivity(intent)
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 }

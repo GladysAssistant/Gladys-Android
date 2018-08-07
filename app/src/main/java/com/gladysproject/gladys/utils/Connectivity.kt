@@ -39,7 +39,7 @@ class Connectivity {
         */
         fun getLocalPreferences(context: Context) : String {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            return "http:// ${prefs.getString("local_ip", "")}:${prefs.getString("local_port", "")}"
+            return if(prefs.getString("local_ip", "fakeurl") != "") "http://${prefs.getString("local_ip", "fakeurl")}:${prefs.getString("local_port", "8080")}" else "http://fakeurl"
         }
 
         /*
@@ -52,13 +52,18 @@ class Connectivity {
         fun getNatPreferences(context: Context) : String {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             return if (prefs.getBoolean("nat", false)){
-                if (prefs.getBoolean("https", false)){
-                    "https://${prefs.getString("dns", "")}"
-                }else{
-                    "http://${prefs.getString("dns", "")}:${prefs.getString("nat_port", "")}"
+                // Test if the string is not empty
+                if(prefs.getString("dns", "fakeurl") != ""){
+                    if (prefs.getBoolean("https", false)){
+                        "https://${prefs.getString("dns", "fakeurl")}"
+                    }else{
+                        "http://${prefs.getString("dns", "fakeurl")}:${prefs.getString("nat_port", "80")}"
+                    }
+                }else {
+                    "http://fakeurl"
                 }
             }else{
-                ""
+                "http://fakeurl"
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.gladysproject.gladys.fragments
 
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -21,8 +22,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class ChatFragment : Fragment() {
 
-    private val token :String = ""
-    private val retrofit: Retrofit
+    private var token :String = ""
+    private lateinit var retrofit: Retrofit
 
     companion object {
         fun newInstance() = ChatFragment()
@@ -31,12 +32,16 @@ class ChatFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_chat, container, false)
 
-    init {
+    override fun onStart() {
+        super.onStart()
+
         retrofit = Retrofit.Builder()
                 .baseUrl(getConnection()) // The function getConnection return string address
                 .addConverterFactory(MoshiConverterFactory.create())
                 .client(SelfSigningClientBuilder.unsafeOkHttpClient)
                 .build()
+
+        token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "")
 
         getMessages()
     }
@@ -75,10 +80,10 @@ class ChatFragment : Fragment() {
      See Connectivity file in utils folder for more info
     */
     private fun getConnection(): String {
-        return when(Connectivity.getTypeOfConnection(context!!)){
+        return when(context?.let { Connectivity.getTypeOfConnection(it) }){
             1 -> Connectivity.getLocalPreferences(context!!)
             2 -> Connectivity.getNatPreferences(context!!)
-            else -> ""
+            else -> "http://fakeurl"
         }
     }
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="advanced_recyclerview_url">https://github.com/h6ah4i/android-advancedrecyclerview</string>
+    <string name="forum_url">https://community.gladysproject.com/</string>
+    <string name="moshi_url">https://github.com/square/moshi</string>
+    <string name="okhttp_url">https://github.com/square/okhttp</string>
+    <string name="report_bug_url">https://github.com/GladysProject/Gladys-Android/issues/new?template=bug_report.md</string>
+    <string name="retrofit_url">https://github.com/square/retrofit</string>
+    <string name="round_cardview_url">https://github.com/captain-miao/OptionRoundCardview</string>
+    <string name="timeline_view_url">https://github.com/vipulasri/Timeline-View</string>
+</resources>

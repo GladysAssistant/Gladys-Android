@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:title="Advanced RecyclerView"
+        android:summary="Haruki Hasegawa">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/advanced_recyclerview_url" />
+    </Preference>
+    <Preference
+        android:title="Moshi"
+        android:summary="Square">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/moshi_url" />
+    </Preference>
+    <Preference
+        android:title="OkHttp"
+        android:summary="Square">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/okhttp_url" />
+    </Preference>
+    <Preference
+        android:title="Retrofit"
+        android:summary="Square">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/retrofit_url" />
+    </Preference>
+    <Preference
+        android:title="Round cardview"
+        android:summary="yan_lu">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/round_cardview_url" />
+    </Preference>
+    <Preference
+        android:title="Timeline View"
+        android:summary="Vipul Asri">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/timeline_view_url" />
+    </Preference>
+</PreferenceScreen>

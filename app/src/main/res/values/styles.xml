@@ -1,6 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
     <style name="Gladys" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
@@ -13,6 +13,12 @@
         <item name="windowNoTitle">true</item>
         <item name="android:background">@color/primaryColor</item>
         <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
+    <style name="Gladys_Settings" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/primaryColor</item>
     </style>
 
 </resources>

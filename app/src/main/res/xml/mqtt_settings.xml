@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="activate_mqtt"
+        android:title="@string/activate_mqtt"
+        android:summary="@string/activate_mqtt_explanation"/>
+    <EditTextPreference
+        android:key="mqtt_host"
+        android:singleLine="true"
+        android:title="@string/host"
+        android:negativeButtonText="@string/negative_button"
+        android:positiveButtonText="@string/positve_button"
+        android:dependency="activate_mqtt"/>
+    <EditTextPreference
+        android:inputType="number"
+        android:key="mqtt_port"
+        android:negativeButtonText="@string/negative_button"
+        android:positiveButtonText="@string/positve_button"
+        android:singleLine="true"
+        android:title="@string/port"
+        android:dependency="activate_mqtt"/>
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="activate_auth"
+        android:title="@string/activate_authentication"
+        android:dependency="activate_mqtt"/>
+    <EditTextPreference
+        android:key="mqtt_user"
+        android:singleLine="true"
+        android:title="@string/user_name"
+        android:negativeButtonText="@string/negative_button"
+        android:positiveButtonText="@string/positve_button"
+        android:dependency="activate_auth"/>
+    <EditTextPreference
+        android:key="mqtt_user_password"
+        android:title="@string/password"
+        android:negativeButtonText="@string/negative_button"
+        android:positiveButtonText="@string/positve_button"
+        android:dependency="activate_auth"/>
+</PreferenceScreen>

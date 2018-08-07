@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="activate_notification"
+        android:title="@string/activate_notification" />
+    <RingtonePreference
+        android:key="ringtone_notification"
+        android:title="@string/select_ringtone"
+        android:summary="@string/select_ringtone_explanation"
+        android:dependency="activate_notification"/>
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="vibration"
+        android:title="@string/activate_vibration"
+        android:summary="@string/activate_vibration_explanation"
+        android:dependency="activate_notification"/>
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="phone-light"
+        android:title="@string/indicator_light"
+        android:summary="@string/indicator_light_explanation"
+        android:dependency="activate_notification"/>
+</PreferenceScreen>

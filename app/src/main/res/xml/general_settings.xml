@@ -29,6 +29,14 @@
             android:negativeButtonText="@string/negative_button"
             android:positiveButtonText="@string/positve_button"/>
 
+        <EditTextPreference
+            android:hint="1"
+            android:key="house_id"
+            android:singleLine="true"
+            android:title="@string/house_id"
+            android:negativeButtonText="@string/negative_button"
+            android:positiveButtonText="@string/positve_button"/>
+
     </PreferenceCategory>
 
     <Preference

@@ -23,6 +23,7 @@
     <string name="geolocation">Géolocalisation</string>
     <string name="home">Accueil</string>
     <string name="host">Hôte</string>
+    <string name="house_id">Identifiant de la maison</string>
     <string name="http">Http</string>
     <string name="https">HTTPS</string>
     <string name="indicator_light">Voyant du téléphone</string>
@@ -34,6 +35,7 @@
     <string name="mqtt">Mqtt</string>
     <string name="name">Nom</string>
     <string name="negative_button">Annuler</string>
+    <string name="news">Nouveau</string>
     <string name="no_tag">Aucun tag</string>
     <string name="notifications">Notifications</string>
     <string name="open_source_licence">Licences open source</string>
@@ -49,6 +51,7 @@
     <string name="timeline">Timeline</string>
     <string name="token">Token</string>
     <string name="token_example">Exemple: 95g6s2d5g3e5s1fg5d7g46d</string>
+    <string name="trigger_an_event">Déclencher un évènement</string>
     <string name="use_dns_adress">Utiliser un DNS / IP publique</string>
     <string name="user_id">Identifiant utilisateur</string>
     <string name="user_name">Nom d\'utilisateur</string>

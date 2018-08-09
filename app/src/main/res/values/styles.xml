@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/primaryColor</item>
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="md_dark_theme">false</item>
     </style>
 
     <style name="Gladys_Splash" parent="Theme.MaterialComponents.Light">

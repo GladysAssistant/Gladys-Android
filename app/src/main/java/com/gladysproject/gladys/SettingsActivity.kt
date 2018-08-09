@@ -76,11 +76,12 @@ class SettingsActivity : AppCompatActivity() {
             bindPreferenceSummaryToValue(findPreference("user_name"))
             bindPreferenceSummaryToValue(findPreference("user_firstname"))
             bindPreferenceSummaryToValue(findPreference("user_id"))
+            bindPreferenceSummaryToValue(findPreference("house_id"))
 
             val http = findPreference("http_settings") as Preference
             val mqtt = findPreference("mqtt_settings") as Preference
-            val notification = findPreference("notification_settings") as Preference
-            val geolocation = findPreference("geolocation_settings") as Preference
+            //val notification = findPreference("notification_settings") as Preference
+            //val geolocation = findPreference("geolocation_settings") as Preference
             val openSourceLicence = findPreference("open_source_licence_list") as Preference
 
             http.onPreferenceClickListener = OnPreferenceClickListener {
@@ -93,15 +94,15 @@ class SettingsActivity : AppCompatActivity() {
                 true
             }
 
-            notification.onPreferenceClickListener = OnPreferenceClickListener {
-                openFragment(NotificationSettingsFragment())
-                true
-            }
+            //notification.onPreferenceClickListener = OnPreferenceClickListener {
+            //    openFragment(NotificationSettingsFragment())
+            //    true
+            //}
 
-            geolocation.onPreferenceClickListener = OnPreferenceClickListener {
-                openFragment(GeolocationSettingsFragment())
-                true
-            }
+            //geolocation.onPreferenceClickListener = OnPreferenceClickListener {
+            //    openFragment(GeolocationSettingsFragment())
+            //    true
+            //}
 
             openSourceLicence.onPreferenceClickListener = OnPreferenceClickListener {
                 openFragment(OpenSourceLicenceFragment())

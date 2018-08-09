@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.DeviceTypeAdapter
 import com.gladysproject.gladys.models.DeviceTypeByRoom
@@ -18,6 +15,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import android.support.v7.widget.SimpleItemAnimator
+import android.view.*
 import com.gladysproject.gladys.utils.AdapterCallback
 import com.gladysproject.gladys.utils.Connectivity
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager
@@ -32,8 +30,10 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
         fun newInstance() = HomeFragment()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_home, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
+        return inflater.inflate(R.layout.fragment_home, container, false)
+    }
 
     override fun onStart() {
         super.onStart()
@@ -44,7 +44,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                 .client(SelfSigningClientBuilder.unsafeOkHttpClient)
                 .build()
 
-        token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "")
+        token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "")!!
 
         getAllDeviceTypes()
     }
@@ -104,5 +104,11 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
             2 -> Connectivity.getNatPreferences(context!!)
             else -> "http://fakeurl"
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.toolbar_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

@@ -1,17 +1,13 @@
 package com.gladysproject.gladys.utils
 
 import android.annotation.SuppressLint
-
+import okhttp3.OkHttpClient
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
-
-import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
-
-import okhttp3.OkHttpClient
 
 object SelfSigningClientBuilder {
 
@@ -47,7 +43,7 @@ object SelfSigningClientBuilder {
                         .connectTimeout(30, TimeUnit.SECONDS)
                         .readTimeout(30, TimeUnit.SECONDS)
                         .sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
-                        .hostnameVerifier(HostnameVerifier { hostname, session -> true }).build()
+                        .hostnameVerifier { _, _ -> true }.build()
 
             } catch (e: Exception) {
                 throw RuntimeException(e)

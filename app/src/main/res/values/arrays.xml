@@ -1,13 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="open_source_licence">
-        <item>Advanced RecyclerView</item>
-        <item>Moshi</item>
-        <item>OkHttp</item>
-        <item>Retrofit</item>
-        <item>Round cardview</item>
-        <item>Timeline View</item>
+    <string-array
+        name="events">
+        <item>Alarme</item>
+        <item>Changement de mode</item>
+        <item>Coucher de soleil</item>
+        <item>Départ de la maison</item>
+        <item>Départ d\'une zone</item>
+        <item>Entrée dans une zone</item>
+        <item>Gladys installée</item>
+        <item>Gladys mise à jour</item>
+        <item>Lever de soleil</item>
+        <item>Nouvelle valeur deviceType</item>
+        <item>Retour à la maison</item>
+        <item>Réveil</item>
+        <item>Utilisateur vu à la maison</item>
+        <item>Va se coucher</item>
+    </string-array>
+
+    <string-array
+        name="events_code">
+        <item>alarm</item>
+        <item>house-mode-changed</item>
+        <item>sunset</item>
+        <item>left-home</item>
+        <item>left-area</item>
+        <item>enter-area</item>
+        <item>gladys-installed</item>
+        <item>gladys-updated</item>
+        <item>sunrise</item>
+        <item>devicetype-new-value</item>
+        <item>back-at-home</item>
+        <item>wake-up</item>
+        <item>user-seen-at-home</item>
+        <item>going-to-sleep</item>
     </string-array>
 
 </resources>

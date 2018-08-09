@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.ChatAdapter
 import com.gladysproject.gladys.models.Message
@@ -29,8 +27,10 @@ class ChatFragment : Fragment() {
         fun newInstance() = ChatFragment()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_chat, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
+        return inflater.inflate(R.layout.fragment_chat, container, false)
+    }
 
     override fun onStart() {
         super.onStart()
@@ -41,7 +41,7 @@ class ChatFragment : Fragment() {
                 .client(SelfSigningClientBuilder.unsafeOkHttpClient)
                 .build()
 
-        token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "")
+        token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "")!!
 
         getMessages()
     }
@@ -85,5 +85,11 @@ class ChatFragment : Fragment() {
             2 -> Connectivity.getNatPreferences(context!!)
             else -> "http://fakeurl"
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.toolbar_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

@@ -21,9 +21,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    configurations.all {
+        resolutionStrategy {
+            force 'com.android.support:support-v4:28.0.0-rc01'
+            force 'com.android.support:support-media-compat:28.0.0-rc01'
+            force 'com.android.support:customtabs:28.0.0-rc01'
+        }
+    }
 }
 
 dependencies {
+    configurations { all*.exclude group: 'com.android.support', module: 'support-v13' }
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:28.0.0-rc01'
@@ -39,7 +47,6 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
     implementation 'com.github.vipulasri:timelineview:1.0.6'
     implementation 'com.github.captain-miao:optroundcardview:1.0.0'
-    implementation('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar') {
-        transitive = true
-    }
+    implementation('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar') { transitive = true }
+    implementation 'com.afollestad.material-dialogs:core:0.9.4.5'
 }

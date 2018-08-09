@@ -6,7 +6,15 @@
     <item
         android:id="@+id/settings_button"
         android:icon="@drawable/ic_settings_24dp"
+        android:orderInCategory="1"
         android:title="@string/settings"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/add_button"
+        android:icon="@drawable/ic_add_24dp"
+        android:title="@string/news"
+        android:visible="false"
         app:showAsAction="ifRoom" />
 
 </menu>

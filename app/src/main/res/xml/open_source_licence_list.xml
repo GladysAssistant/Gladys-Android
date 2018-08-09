@@ -8,6 +8,13 @@
             android:data="@string/advanced_recyclerview_url" />
     </Preference>
     <Preference
+        android:title="Material Dialogs"
+        android:summary="Aidan Follestad">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/material_dialogs_url" />
+    </Preference>
+    <Preference
         android:title="Moshi"
         android:summary="Square">
         <intent

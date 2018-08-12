@@ -44,6 +44,11 @@ class ChatFragment : Fragment() {
         token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "")!!
 
         getMessages()
+
+        send_button.setOnClickListener {
+            if (message.text.isNotEmpty() || message.text != null) sendMessage(message.text.toString())
+        }
+
     }
 
     private fun getMessages(){
@@ -57,6 +62,23 @@ class ChatFragment : Fragment() {
                     }
 
                     override fun onFailure(call: Call<List<Message>>, err: Throwable) {
+                        println(err.message)
+                    }
+                })
+    }
+
+    private fun sendMessage(text : String){
+        retrofit
+                .create(RetrofitAPI::class.java)
+                .sendMessage(text ,"0" ,token)
+                .enqueue(object : Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        if(response.code() == 200) {
+                            getMessages()
+                            message.setText("")
+                        }
+                    }
+                    override fun onFailure(call: Call<Void>, err: Throwable) {
                         println(err.message)
                     }
                 })

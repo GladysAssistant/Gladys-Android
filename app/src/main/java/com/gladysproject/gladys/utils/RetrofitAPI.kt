@@ -25,5 +25,9 @@ interface RetrofitAPI {
     @GET("/message/user/null")
     fun getMessages(@Query("token") token: String): Call<List<Message>>
 
+    @FormUrlEncoded
+    @POST("/message")
+    fun sendMessage(@Field("text") text: String?, @Field("receiver") receiver: String?, @Field("token") token: String): Call<Void>
+
 }
 

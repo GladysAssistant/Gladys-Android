@@ -2,6 +2,7 @@ package com.gladysproject.gladys
 
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -11,9 +12,14 @@ import com.gladysproject.gladys.fragments.ChatFragment
 import com.gladysproject.gladys.fragments.HomeFragment
 import com.gladysproject.gladys.fragments.TaskFragment
 import com.gladysproject.gladys.fragments.TimelineFragment
+import com.gladysproject.gladys.utils.ConnectivityAPI
+import io.socket.client.Socket
 import kotlinx.android.synthetic.main.activity_main.*
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var socket: Socket
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -41,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        connectSocket()
         openFragment(HomeFragment.newInstance())
     }
 
@@ -63,5 +70,11 @@ class MainActivity : AppCompatActivity() {
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun connectSocket(){
+        socket = ConnectivityAPI.Companion.WebSocket.getInstance(this)!!
+        socket.emit("post", JSONObject().put("url", "/socket/subscribe?token=${PreferenceManager.getDefaultSharedPreferences(this).getString("token", "")!!}"))
+        socket.connect()
     }
 }

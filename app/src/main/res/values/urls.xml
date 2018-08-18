@@ -8,5 +8,6 @@
     <string name="report_bug_url">https://github.com/GladysProject/Gladys-Android/issues/new?template=bug_report.md</string>
     <string name="retrofit_url">https://github.com/square/retrofit</string>
     <string name="round_cardview_url">https://github.com/captain-miao/OptionRoundCardview</string>
+    <string name="socket.io_url">https://github.com/socketio/socket.io-client-java</string>
     <string name="timeline_view_url">https://github.com/vipulasri/Timeline-View</string>
 </resources>

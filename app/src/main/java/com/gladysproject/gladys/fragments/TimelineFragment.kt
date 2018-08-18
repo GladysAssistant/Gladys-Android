@@ -1,5 +1,6 @@
 package com.gladysproject.gladys.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
@@ -9,10 +10,14 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.TimelineAdapter
 import com.gladysproject.gladys.models.Event
-import com.gladysproject.gladys.utils.Connectivity
+import com.gladysproject.gladys.utils.ConnectivityAPI
+import com.gladysproject.gladys.utils.DateTimeUtils.getCurrentDate
 import com.gladysproject.gladys.utils.RetrofitAPI
 import com.gladysproject.gladys.utils.SelfSigningClientBuilder
+import io.socket.client.Socket
+import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.fragment_timeline.*
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,9 +27,15 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class TimelineFragment : Fragment() {
 
     private var token : String = ""
-    private var house_id : String = "1"
-    private var user_id : String = "1"
+    private var houseId : String = "1"
+    private var userId : String = "1"
     private lateinit var retrofit: Retrofit
+    private lateinit var socket : Socket
+    private lateinit var events: MutableList<Event>
+    private lateinit var adapter: TimelineAdapter
+
+    /** Initialize new event variable */
+    private var newEvent : Event = object : Event("", "", "", 1){}
 
     companion object {
         fun newInstance() = TimelineFragment()
@@ -35,33 +46,41 @@ class TimelineFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_timeline, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onStart() {
         super.onStart()
 
         retrofit = Retrofit.Builder()
-                .baseUrl(getConnection()) // The function getConnection return string address
+                .baseUrl(ConnectivityAPI.getUrl(context!!)) /** The function getUrl return string address */
                 .addConverterFactory(MoshiConverterFactory.create())
                 .client(SelfSigningClientBuilder.unsafeOkHttpClient)
                 .build()
 
         token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "")!!
-        user_id = PreferenceManager.getDefaultSharedPreferences(context).getString("user_id", "1")!!
-        house_id = PreferenceManager.getDefaultSharedPreferences(context).getString("house_id", "1")!!
+        userId = PreferenceManager.getDefaultSharedPreferences(context).getString("user_id", "1")!!
+        houseId = PreferenceManager.getDefaultSharedPreferences(context).getString("house_id", "1")!!
+        user_name.text = PreferenceManager.getDefaultSharedPreferences(context).getString("user_firstname", "1")!! + " " + PreferenceManager.getDefaultSharedPreferences(context).getString("user_name", "1")!!
+        datetime.text = getCurrentDate()
 
         getEvents()
+
+        socket = ConnectivityAPI.Companion.WebSocket.getInstance(context!!)!!
+        socket.on("newEvent", onNewEvent)
     }
 
     private fun getEvents(){
         retrofit
                 .create(RetrofitAPI::class.java)
                 .getEvents(token)
-                .enqueue(object : Callback<List<Event>> {
+                .enqueue(object : Callback<MutableList<Event>> {
 
-                    override fun onResponse(call: Call<List<Event>>, response: Response<List<Event>>) {
-                        if(response.code() == 200) refreshView(response.body()!!)
+                    override fun onResponse(call: Call<MutableList<Event>>, response: Response<MutableList<Event>>) {
+                        if(response.code() == 200)
+                            events = response.body()!!
+                            refreshView(events)
                     }
 
-                    override fun onFailure(call: Call<List<Event>>, err: Throwable) {
+                    override fun onFailure(call: Call<MutableList<Event>>, err: Throwable) {
                         println(err.message)
                     }
                 })
@@ -70,10 +89,10 @@ class TimelineFragment : Fragment() {
     private fun createEvent(event : String){
         retrofit
                 .create(RetrofitAPI::class.java)
-                .createEvents(event, house_id, user_id, token)
+                .createEvents(event, houseId, userId, token)
                 .enqueue(object : Callback<Event> {
                     override fun onResponse(call: Call<Event>, response: Response<Event>) {
-                        if(response.code() == 201) getEvents()
+                        /** The new event is captured by onNewEvent function by websocket connection */
                     }
 
                     override fun onFailure(call: Call<Event>, err: Throwable) {
@@ -82,26 +101,24 @@ class TimelineFragment : Fragment() {
                 })
     }
 
-    fun refreshView(data : List<Event>){
-        if(timeline_rv != null){
-            timeline_rv.layoutManager = LinearLayoutManager(context)
-            timeline_rv.adapter = TimelineAdapter(data)
+    private val onNewEvent = Emitter.Listener { args ->
+        activity!!.runOnUiThread {
+            val data = args[0] as JSONObject
+
+            newEvent.datetime = data.getString("datetime")
+            newEvent.name = data.getString("name")
+
+            events.add(0, newEvent)
+            adapter.notifyItemInserted(0)
+            timeline_rv.scrollToPosition(0)
         }
     }
 
-    /*
-     Get type of connection
-     0 for no connection
-     1 for local connection
-     2 for external connection
-
-     See Connectivity file in utils folder for more info
-    */
-    private fun getConnection(): String {
-        return when(context?.let { Connectivity.getTypeOfConnection(it) }){
-            1 -> Connectivity.getLocalPreferences(context!!)
-            2 -> Connectivity.getNatPreferences(context!!)
-            else -> "http://fakeurl"
+    fun refreshView(data : List<Event>){
+        if(timeline_rv != null){
+            timeline_rv.layoutManager = LinearLayoutManager(context)
+            adapter = TimelineAdapter(data)
+            timeline_rv.adapter = adapter
         }
     }
 
@@ -131,6 +148,13 @@ class TimelineFragment : Fragment() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        /** Remove listener on message event*/
+        socket.off("newEvent", onNewEvent)
     }
 }
 

@@ -9,7 +9,7 @@ import com.gladysproject.gladys.models.Message
 import kotlinx.android.synthetic.main.card_message_gladys.view.*
 import kotlinx.android.synthetic.main.card_message_user.view.*
 
-class ChatAdapter(private val messages: List<Message>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MessageAdapter(private val messages: List<Message>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType) {

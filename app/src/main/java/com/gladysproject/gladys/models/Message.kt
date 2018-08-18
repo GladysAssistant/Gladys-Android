@@ -1,6 +1,6 @@
 package com.gladysproject.gladys.models
 
-class Message{
+open class Message{
 
     var text: String? = null
     var sender: Int? = null

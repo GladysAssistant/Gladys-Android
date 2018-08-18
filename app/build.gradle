@@ -47,6 +47,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
     implementation 'com.github.vipulasri:timelineview:1.0.6'
     implementation 'com.github.captain-miao:optroundcardview:1.0.0'
-    implementation('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar') { transitive = true }
+    implementation ('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar') { transitive = true }
     implementation 'com.afollestad.material-dialogs:core:0.9.4.5'
+    implementation ('io.socket:socket.io-client:1.0.0') { exclude group: 'org.json', module: 'json' }
 }

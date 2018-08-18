@@ -1,6 +1,6 @@
 package com.gladysproject.gladys.models
 
-class Event{
+open class Event{
 
     var name: String? = null
     var code: String? = null

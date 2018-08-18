@@ -17,7 +17,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import android.support.v7.widget.SimpleItemAnimator
 import android.view.*
 import com.gladysproject.gladys.utils.AdapterCallback
-import com.gladysproject.gladys.utils.Connectivity
+import com.gladysproject.gladys.utils.ConnectivityAPI
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -39,7 +39,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
         super.onStart()
 
         retrofit = Retrofit.Builder()
-                .baseUrl(getConnection()) // The function getConnection return string address
+                .baseUrl(ConnectivityAPI.getUrl(context!!)) /** The function getUrl return string address */
                 .addConverterFactory(MoshiConverterFactory.create())
                 .client(SelfSigningClientBuilder.unsafeOkHttpClient)
                 .build()
@@ -88,22 +88,6 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                         println(err.message)
                     }
                 })
-    }
-
-    /*
-     Get type of connection
-     0 for no connection
-     1 for local connection
-     2 for external connection
-
-     See Connectivity file in utils folder for more info
-    */
-    private fun getConnection(): String {
-       return when(context?.let { Connectivity.getTypeOfConnection(it) }){
-            1 -> Connectivity.getLocalPreferences(context!!)
-            2 -> Connectivity.getNatPreferences(context!!)
-            else -> "http://fakeurl"
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

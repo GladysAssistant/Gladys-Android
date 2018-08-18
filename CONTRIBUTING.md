@@ -7,7 +7,7 @@ Any contributions, large or small, major features, bug fixes, additional languag
 ## Guidelines
 
  - Use Kotlin
- - Use couroutines 
+ - Use coroutines 
  - Respect file architecture 
  - Use fragments 
  - Use vector assets for icons

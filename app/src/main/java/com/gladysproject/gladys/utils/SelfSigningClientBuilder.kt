@@ -11,10 +11,10 @@ import javax.net.ssl.X509TrustManager
 
 object SelfSigningClientBuilder {
 
-
-    // Create a trust manager that does not validate certificate chains
-    // Install the all-trusting trust manager
-    // Create an ssl socket factory with our all-trusting manager
+    /** Create a trust manager that does not validate certificate chains
+     * Install the all-trusting trust manager
+     * Create an ssl socket factory with our all-trusting manager
+    */
     val unsafeOkHttpClient: OkHttpClient
         get() {
             try {

@@ -153,7 +153,7 @@ class TimelineFragment : Fragment() {
     override fun onPause() {
         super.onPause()
 
-        /** Remove listener on message event*/
+        /** Remove listener on new event when the fragment is paused */
         socket.off("newEvent", onNewEvent)
     }
 }

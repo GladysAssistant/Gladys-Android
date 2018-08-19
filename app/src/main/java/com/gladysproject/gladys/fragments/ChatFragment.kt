@@ -135,7 +135,7 @@ class ChatFragment : Fragment() {
     override fun onPause() {
         super.onPause()
 
-        /** Remove listener on message event*/
+        /** Remove listener on message event when the fragment is paused */
         socket.off("message", onNewMessage)
     }
 }

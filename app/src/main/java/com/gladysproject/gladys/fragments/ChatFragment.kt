@@ -16,7 +16,7 @@ import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.MessageAdapter
 import com.gladysproject.gladys.models.Message
 import com.gladysproject.gladys.utils.ConnectivityAPI
-import com.gladysproject.gladys.utils.RetrofitAPI
+import com.gladysproject.gladys.utils.GladysAPI
 import com.gladysproject.gladys.utils.SelfSigningClientBuilder
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
@@ -91,7 +91,7 @@ class ChatFragment : Fragment() {
 
     private fun getMessages(){
         retrofit
-                .create(RetrofitAPI::class.java)
+                .create(GladysAPI::class.java)
                 .getMessages(token)
                 .enqueue(object : Callback<MutableList<Message>> {
 
@@ -109,7 +109,7 @@ class ChatFragment : Fragment() {
 
     private fun sendMessage(text : String){
         retrofit
-                .create(RetrofitAPI::class.java)
+                .create(GladysAPI::class.java)
                 .sendMessage(text,null ,token)
                 .enqueue(object : Callback<Message> {
                     override fun onResponse(call: Call<Message>, response: Response<Message>) {

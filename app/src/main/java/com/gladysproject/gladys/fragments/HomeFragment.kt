@@ -11,7 +11,7 @@ import com.gladysproject.gladys.adapters.DeviceTypeAdapter
 import com.gladysproject.gladys.models.DeviceTypeByRoom
 import com.gladysproject.gladys.utils.AdapterCallback
 import com.gladysproject.gladys.utils.ConnectivityAPI
-import com.gladysproject.gladys.utils.RetrofitAPI
+import com.gladysproject.gladys.utils.GladysAPI
 import com.gladysproject.gladys.utils.SelfSigningClientBuilder
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import io.socket.client.Socket
@@ -64,7 +64,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
     private fun getAllDeviceTypes(){
 
         retrofit
-                .create(RetrofitAPI::class.java)
+                .create(GladysAPI::class.java)
                 .getDeviceTypeByRoom(token)
                 .enqueue(object : Callback<List<DeviceTypeByRoom>> {
 
@@ -104,7 +104,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
 
     override fun onClickCallbackDeviceState(id: Long?, value: Float?) {
         retrofit
-                .create(RetrofitAPI::class.java)
+                .create(GladysAPI::class.java)
                 .changeDeviceState(id, value,token)
                 .enqueue(object : Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {

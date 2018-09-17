@@ -3,10 +3,10 @@
 
     <EditTextPreference
         android:dialogTitle="@string/ip_adress"
-        android:inputType="number|numberDecimal"
         android:digits="0123456789."
-        android:key="local_ip"
         android:hint="@string/ip_adresse_example"
+        android:inputType="text"
+        android:key="local_ip"
         android:negativeButtonText="@string/negative_button"
         android:positiveButtonText="@string/positve_button"
         android:title="@string/ip_adress" />

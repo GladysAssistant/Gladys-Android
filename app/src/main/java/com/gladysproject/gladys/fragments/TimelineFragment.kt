@@ -12,7 +12,7 @@ import com.gladysproject.gladys.adapters.TimelineAdapter
 import com.gladysproject.gladys.models.Event
 import com.gladysproject.gladys.utils.ConnectivityAPI
 import com.gladysproject.gladys.utils.DateTimeUtils.getCurrentDate
-import com.gladysproject.gladys.utils.RetrofitAPI
+import com.gladysproject.gladys.utils.GladysAPI
 import com.gladysproject.gladys.utils.SelfSigningClientBuilder
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
@@ -70,7 +70,7 @@ class TimelineFragment : Fragment() {
 
     private fun getEvents(){
         retrofit
-                .create(RetrofitAPI::class.java)
+                .create(GladysAPI::class.java)
                 .getEvents(token)
                 .enqueue(object : Callback<MutableList<Event>> {
 
@@ -88,7 +88,7 @@ class TimelineFragment : Fragment() {
 
     private fun createEvent(event : String){
         retrofit
-                .create(RetrofitAPI::class.java)
+                .create(GladysAPI::class.java)
                 .createEvents(event, houseId, userId, token)
                 .enqueue(object : Callback<Event> {
                     override fun onResponse(call: Call<Event>, response: Response<Event>) {

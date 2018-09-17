@@ -7,7 +7,7 @@ import retrofit2.Call
 import retrofit2.http.*
 
 
-interface RetrofitAPI {
+interface GladysAPI {
 
     @GET("/event?")
     fun getEvents(@Query("token") token: String): Call<MutableList<Event>>

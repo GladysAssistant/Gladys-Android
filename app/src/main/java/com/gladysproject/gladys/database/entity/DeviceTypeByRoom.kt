@@ -1,4 +1,4 @@
-package com.gladysproject.gladys.models
+package com.gladysproject.gladys.database.entity
 
 import com.squareup.moshi.Json
 import java.util.ArrayList

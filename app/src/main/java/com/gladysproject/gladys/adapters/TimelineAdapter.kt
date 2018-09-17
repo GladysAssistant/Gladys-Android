@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.github.vipulasri.timelineview.TimelineView
 import com.gladysproject.gladys.R
-import com.gladysproject.gladys.models.Event
+import com.gladysproject.gladys.database.entity.Event
 import com.gladysproject.gladys.utils.DateTimeUtils
 import kotlinx.android.synthetic.main.card_timeline_event.view.*
 

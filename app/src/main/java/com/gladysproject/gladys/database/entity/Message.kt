@@ -1,4 +1,4 @@
-package com.gladysproject.gladys.models
+package com.gladysproject.gladys.database.entity
 
 open class Message{
 

@@ -7,9 +7,10 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import com.afollestad.materialdialogs.MaterialDialog
+import com.gladysproject.gladys.MainActivity
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.TimelineAdapter
-import com.gladysproject.gladys.models.Event
+import com.gladysproject.gladys.database.entity.Event
 import com.gladysproject.gladys.utils.ConnectivityAPI
 import com.gladysproject.gladys.utils.DateTimeUtils.getCurrentDate
 import com.gladysproject.gladys.utils.GladysAPI
@@ -17,6 +18,8 @@ import com.gladysproject.gladys.utils.SelfSigningClientBuilder
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.fragment_timeline.*
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -74,13 +77,26 @@ class TimelineFragment : Fragment() {
                 .getEvents(token)
                 .enqueue(object : Callback<MutableList<Event>> {
 
-                    override fun onResponse(call: Call<MutableList<Event>>, response: Response<MutableList<Event>>) {
-                        if(response.code() == 200)
+                    override fun onResponse(call: Call<MutableList<Event>>, response: Response<MutableList<Event>>) = runBlocking {
+                        if(response.code() == 200) {
                             events = response.body()!!
+
+                            launch {
+                                MainActivity.database?.eventDao()?.deleteEvents()
+                                MainActivity.database?.eventDao()?.insertEvents(events)
+                            }.join()
+
                             refreshView(events)
+                        }
                     }
 
-                    override fun onFailure(call: Call<MutableList<Event>>, err: Throwable) {
+                    override fun onFailure(call: Call<MutableList<Event>>, err: Throwable) = runBlocking {
+
+                        launch {
+                            events = MainActivity.database?.eventDao()?.getAllEvents()!!
+                        }.join()
+
+                        if(events.isNotEmpty()) refreshView(events)
                         println(err.message)
                     }
                 })
@@ -102,16 +118,23 @@ class TimelineFragment : Fragment() {
     }
 
     private val onNewEvent = Emitter.Listener { args ->
+
+        val data = args[0] as JSONObject
+        newEvent.datetime = data.getString("datetime")
+        newEvent.name = data.getString("name")
+
+        /** Insert new event in database */
+        launch {
+            MainActivity.database?.eventDao()?.insertEvent(newEvent)
+        }
+
+        /** Insert new event in UI */
         activity!!.runOnUiThread {
-            val data = args[0] as JSONObject
-
-            newEvent.datetime = data.getString("datetime")
-            newEvent.name = data.getString("name")
-
             events.add(0, newEvent)
             adapter.notifyItemInserted(0)
             timeline_rv.scrollToPosition(0)
         }
+
     }
 
     fun refreshView(data : List<Event>){

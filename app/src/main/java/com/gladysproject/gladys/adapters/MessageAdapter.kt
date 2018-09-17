@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.gladysproject.gladys.R
-import com.gladysproject.gladys.models.Message
+import com.gladysproject.gladys.database.entity.Message
 import kotlinx.android.synthetic.main.card_message_gladys.view.*
 import kotlinx.android.synthetic.main.card_message_user.view.*
 

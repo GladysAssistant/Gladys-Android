@@ -8,7 +8,7 @@ import android.support.v7.widget.SimpleItemAnimator
 import android.view.*
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.DeviceTypeAdapter
-import com.gladysproject.gladys.models.DeviceTypeByRoom
+import com.gladysproject.gladys.database.entity.DeviceTypeByRoom
 import com.gladysproject.gladys.utils.AdapterCallback
 import com.gladysproject.gladys.utils.ConnectivityAPI
 import com.gladysproject.gladys.utils.GladysAPI
@@ -71,13 +71,12 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                     override fun onResponse(call: Call<List<DeviceTypeByRoom>>, response: Response<List<DeviceTypeByRoom>>) = runBlocking{
                         if(response.code() == 200){
 
-                            val filter = launch {
+                            launch {
                                 for(room in response.body()!!){
                                     room.deviceTypes = room.deviceTypes.filterIndexed{_, it -> it.display != 0.toLong() }.toMutableList()
                                 }
-                            }
+                            }.join()
 
-                            filter.join()
                             deviceTypeByRoom = response.body()!!
                             refreshView(deviceTypeByRoom)
 

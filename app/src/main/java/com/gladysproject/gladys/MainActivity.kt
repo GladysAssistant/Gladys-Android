@@ -1,5 +1,6 @@
 package com.gladysproject.gladys
 
+import android.arch.persistence.room.Room
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.gladysproject.gladys.database.GladysAppDatabase
 import com.gladysproject.gladys.fragments.ChatFragment
 import com.gladysproject.gladys.fragments.HomeFragment
 import com.gladysproject.gladys.fragments.TaskFragment
@@ -21,6 +23,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var socket: Socket
     private val startChat = "com.gladysproject.gladys.startChat"
+
+    companion object {
+        var database: GladysAppDatabase? = null
+    }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -48,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        MainActivity.database = Room.databaseBuilder(this, GladysAppDatabase::class.java, "gladys-app-db").build()
         connectSocket()
 
         if (startChat == intent.action){

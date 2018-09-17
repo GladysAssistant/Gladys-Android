@@ -14,7 +14,7 @@ import android.view.View.OnTouchListener
 import android.widget.TextView
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.MessageAdapter
-import com.gladysproject.gladys.models.Message
+import com.gladysproject.gladys.database.entity.Message
 import com.gladysproject.gladys.utils.ConnectivityAPI
 import com.gladysproject.gladys.utils.GladysAPI
 import com.gladysproject.gladys.utils.SelfSigningClientBuilder

@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.Switch
 import com.gladysproject.gladys.R
-import com.gladysproject.gladys.models.DeviceType
-import com.gladysproject.gladys.models.DeviceTypeByRoom
+import com.gladysproject.gladys.database.entity.DeviceType
+import com.gladysproject.gladys.database.entity.DeviceTypeByRoom
 import com.gladysproject.gladys.utils.AdapterCallback
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemAdapter
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemViewHolder

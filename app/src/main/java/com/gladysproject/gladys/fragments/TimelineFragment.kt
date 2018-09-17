@@ -7,9 +7,9 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import com.afollestad.materialdialogs.MaterialDialog
-import com.gladysproject.gladys.MainActivity
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.TimelineAdapter
+import com.gladysproject.gladys.database.GladysDb
 import com.gladysproject.gladys.database.entity.Event
 import com.gladysproject.gladys.utils.ConnectivityAPI
 import com.gladysproject.gladys.utils.DateTimeUtils.getCurrentDate
@@ -34,7 +34,7 @@ class TimelineFragment : Fragment() {
     private var userId : String = "1"
     private lateinit var retrofit: Retrofit
     private lateinit var socket : Socket
-    private lateinit var events: MutableList<Event>
+    private var events = mutableListOf<Event>()
     private lateinit var adapter: TimelineAdapter
 
     /** Initialize new event variable */
@@ -77,23 +77,24 @@ class TimelineFragment : Fragment() {
                 .getEvents(token)
                 .enqueue(object : Callback<MutableList<Event>> {
 
-                    override fun onResponse(call: Call<MutableList<Event>>, response: Response<MutableList<Event>>) = runBlocking {
+                    override fun onResponse(call: Call<MutableList<Event>>, response: Response<MutableList<Event>>) {
                         if(response.code() == 200) {
                             events = response.body()!!
-
-                            launch {
-                                MainActivity.database?.eventDao()?.deleteEvents()
-                                MainActivity.database?.eventDao()?.insertEvents(events)
-                            }.join()
-
                             refreshView(events)
+
+                            /** Insert events in database */
+                            launch {
+                                GladysDb.database?.eventDao()?.deleteEvents()
+                                GladysDb.database?.eventDao()?.insertEvents(events)
+                            }
+
                         }
                     }
 
                     override fun onFailure(call: Call<MutableList<Event>>, err: Throwable) = runBlocking {
 
                         launch {
-                            events = MainActivity.database?.eventDao()?.getAllEvents()!!
+                            events = GladysDb.database?.eventDao()?.getAllEvents()!!
                         }.join()
 
                         if(events.isNotEmpty()) refreshView(events)
@@ -125,7 +126,7 @@ class TimelineFragment : Fragment() {
 
         /** Insert new event in database */
         launch {
-            MainActivity.database?.eventDao()?.insertEvent(newEvent)
+            GladysDb.database?.eventDao()?.insertEvent(newEvent)
         }
 
         /** Insert new event in UI */

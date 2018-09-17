@@ -1,7 +1,13 @@
 package com.gladysproject.gladys.database.entity
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
+
+@Entity(tableName="message")
 open class Message{
 
+    @PrimaryKey(autoGenerate = true)
+    var id: Long = 0
     var text: String? = null
     var sender: Int? = null
     var senderName: String? = null

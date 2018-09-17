@@ -14,6 +14,7 @@ import android.view.View.OnTouchListener
 import android.widget.TextView
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.MessageAdapter
+import com.gladysproject.gladys.database.GladysDb
 import com.gladysproject.gladys.database.entity.Message
 import com.gladysproject.gladys.utils.ConnectivityAPI
 import com.gladysproject.gladys.utils.GladysAPI
@@ -21,6 +22,8 @@ import com.gladysproject.gladys.utils.SelfSigningClientBuilder
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,7 +36,7 @@ class ChatFragment : Fragment() {
     private var token : String = ""
     private lateinit var retrofit : Retrofit
     private lateinit var socket : Socket
-    private lateinit var messages : MutableList<Message>
+    private var messages = mutableListOf<Message>()
     private lateinit var adapter : MessageAdapter
 
     /** Initialize new message variable */
@@ -96,12 +99,26 @@ class ChatFragment : Fragment() {
                 .enqueue(object : Callback<MutableList<Message>> {
 
                     override fun onResponse(call: Call<MutableList<Message>>, response: Response<MutableList<Message>>) {
-                        if(response.code() == 200)
+                        if(response.code() == 200) {
                             messages = response.body()!!
                             refreshView(messages)
+
+                            /** Insert messages in database */
+                            launch {
+                                GladysDb.database?.messageDao()?.deleteMessages()
+                                GladysDb.database?.messageDao()?.insertMessages(messages)
+                            }
+                        }
                     }
 
-                    override fun onFailure(call: Call<MutableList<Message>>, err: Throwable) {
+                    override fun onFailure(call: Call<MutableList<Message>>, err: Throwable) = runBlocking {
+
+                        launch {
+                            messages = GladysDb.database?.messageDao()?.getAllMessages()!!
+                        }.join()
+
+                        if(messages.isNotEmpty()) refreshView(messages)
+
                         println(err.message)
                     }
                 })
@@ -114,10 +131,18 @@ class ChatFragment : Fragment() {
                 .enqueue(object : Callback<Message> {
                     override fun onResponse(call: Call<Message>, response: Response<Message>) {
                         if(response.code() == 200) {
+                            /** Reset fields */
                             message.setText("")
+
+                            /** Insert new message in UI */
                             messages.add(messages.size ,response.body()!!)
                             adapter.notifyItemInserted(messages.size)
                             chat_rv.scrollToPosition(adapter.itemCount - 1)
+
+                            /** Insert new message in database */
+                            launch {
+                                GladysDb.database?.messageDao()?.insertMessage(response.body()!!)
+                            }
                         }
                     }
                     override fun onFailure(call: Call<Message>, err: Throwable) {
@@ -127,12 +152,18 @@ class ChatFragment : Fragment() {
     }
 
     private val onNewMessage = Emitter.Listener { args ->
+
+        val data = args[0] as JSONObject
+        newMessage.text = data.getString("text")
+        newMessage.sender = null /** The null sender is Gladys */
+
+        /** Insert new message in database */
+        launch {
+            GladysDb.database?.messageDao()?.insertMessage(newMessage)
+        }
+
+        /** Insert new message in UI */
         activity!!.runOnUiThread {
-            val data = args[0] as JSONObject
-
-            newMessage.text = data.getString("text")
-            newMessage.sender = null /** The null sender is Gladys */
-
             messages.add(messages.size, newMessage)
             adapter.notifyItemInserted(messages.size)
             chat_rv.scrollToPosition(adapter.itemCount - 1)

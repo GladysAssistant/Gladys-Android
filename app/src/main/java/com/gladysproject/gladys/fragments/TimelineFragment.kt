@@ -59,7 +59,7 @@ class TimelineFragment : Fragment() {
         token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "")!!
         userId = PreferenceManager.getDefaultSharedPreferences(context).getString("user_id", "1")!!
         houseId = PreferenceManager.getDefaultSharedPreferences(context).getString("house_id", "1")!!
-        user_name.text = PreferenceManager.getDefaultSharedPreferences(context).getString("user_firstname", "1")!! + " " + PreferenceManager.getDefaultSharedPreferences(context).getString("user_name", "1")!!
+        user_name.text = PreferenceManager.getDefaultSharedPreferences(context).getString("user_firstname", "John")!! + " " + PreferenceManager.getDefaultSharedPreferences(context).getString("user_name", "Pepperwood")!!
         datetime.text = getCurrentDate()
 
         getEvents()

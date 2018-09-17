@@ -12,7 +12,7 @@
     <style name="Gladys_Splash" parent="Theme.MaterialComponents.Light">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:background">@color/primaryColor</item>
+        <item name="android:windowBackground">@drawable/background_splash</item>
         <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 

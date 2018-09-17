@@ -11,6 +11,7 @@
     <string name="app_description">Your home assistant</string>
     <string name="app_version">Gladys Android version 1.0</string>
     <string name="assistance">Assistance</string>
+    <string name="ask_him_something">Demandez lui quelque chose.. </string>
     <string name="auto_start">Démarrage automatique</string>
     <string name="auto_start_explanation">Démarrer automatiquement au démarrage de votre appareil</string>
     <string name="connection">Connexion</string>
@@ -35,6 +36,7 @@
     <string name="mqtt">Mqtt</string>
     <string name="name">Nom</string>
     <string name="negative_button">Annuler</string>
+    <string name="new_message">Nouveau message</string>
     <string name="news">Nouveau</string>
     <string name="no_tag">Aucun tag</string>
     <string name="notifications">Notifications</string>

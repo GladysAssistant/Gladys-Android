@@ -1,22 +1,16 @@
 package com.gladysproject.gladys
 
 import android.os.Bundle
-import android.app.Activity
 import android.content.Intent
-import android.os.Handler
+import android.support.v7.app.AppCompatActivity
 
-import kotlinx.android.synthetic.main.activity_splash.*
-
-class SplashActivity : Activity() {
+class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
-
-        Handler().postDelayed({
-            val intent = Intent(this@SplashActivity, MainActivity::class.java)
-            startActivity(intent)
-        }, 2000)
+        val intent = Intent(this@SplashActivity, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
 }

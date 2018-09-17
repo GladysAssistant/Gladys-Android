@@ -20,6 +20,7 @@ import org.json.JSONObject
 class MainActivity : AppCompatActivity() {
 
     private lateinit var socket: Socket
+    private val startChat = "com.gladysproject.gladys.startChat"
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -48,7 +49,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         connectSocket()
-        openFragment(HomeFragment.newInstance())
+
+        if (startChat == intent.action){
+            openFragment(ChatFragment.newInstance())
+            navigation.selectedItemId = R.id.message
+        }else{
+            openFragment(HomeFragment.newInstance())
+        }
+
     }
 
     private fun openFragment(fragment: Fragment) {

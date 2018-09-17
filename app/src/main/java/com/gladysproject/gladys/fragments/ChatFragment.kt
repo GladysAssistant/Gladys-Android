@@ -1,10 +1,17 @@
 package com.gladysproject.gladys.fragments
 
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat.getColor
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
+import android.view.View.OnTouchListener
+import android.widget.TextView
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.MessageAdapter
 import com.gladysproject.gladys.models.Message
@@ -54,9 +61,24 @@ class ChatFragment : Fragment() {
 
         getMessages()
 
-        send_button.setOnClickListener {
-            if (message.text.isNotEmpty() || message.text != null) sendMessage(message.text.toString())
-        }
+        message.setOnTouchListener(OnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                if (event.rawX >= message.right - message.compoundDrawables[2].bounds.width()) {
+                    if (message.text.isNotEmpty() || message.text != null) sendMessage(message.text.toString())
+                    return@OnTouchListener false
+                }
+            }
+            false
+        })
+
+        message.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p3 == 0) {setTextViewDrawableColor(message, R.color.secondaryDarkColor)}
+                else if (p3 == 1) {setTextViewDrawableColor(message, R.color.primaryColor)}
+            }
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
 
         /** Scrolling to bottom when the keyboard is opened */
         chat_rv.addOnLayoutChangeListener{_: View, _: Int, _: Int, _: Int, _: Int, _: Int, _: Int, _: Int, _: Int ->
@@ -123,6 +145,15 @@ class ChatFragment : Fragment() {
             adapter = MessageAdapter(data)
             chat_rv.adapter = adapter
             chat_rv.scrollToPosition(adapter.itemCount -1)
+        }
+    }
+
+    private fun setTextViewDrawableColor(textView: TextView, color: Int) {
+        for (drawable in textView.compoundDrawables) {
+            if (drawable != null){
+                drawable.clearColorFilter()
+                drawable.colorFilter = PorterDuffColorFilter(getColor(context!!, color), PorterDuff.Mode.SRC_IN)
+            }
         }
     }
 

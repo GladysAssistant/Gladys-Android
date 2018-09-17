@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:targetApi="25">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_message_24dp"
+        android:shortcutId="shortcut_write_a_message"
+        android:shortcutShortLabel="@string/new_message">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.gladysproject.gladys.SplashActivity"
+            android:targetPackage="com.gladysproject.gladys">
+        </intent>
+
+        <intent
+            android:action="com.gladysproject.gladys.startChat"
+            android:targetClass="com.gladysproject.gladys.MainActivity"
+            android:targetPackage="com.gladysproject.gladys">
+        </intent>
+    </shortcut>
+</shortcuts>

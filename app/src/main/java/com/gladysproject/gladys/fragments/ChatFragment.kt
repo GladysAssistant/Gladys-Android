@@ -104,8 +104,10 @@ class ChatFragment : Fragment() {
 
                     override fun onResponse(call: Call<MutableList<Message>>, response: Response<MutableList<Message>>) {
                         if(response.code() == 200) {
+
                             messages = response.body()!!
-                            refreshView(messages)
+                            if(messages.isNotEmpty()) refreshView(messages)
+                            else showEmptyView()
 
                             /** Insert messages in database */
                             launch {
@@ -124,6 +126,7 @@ class ChatFragment : Fragment() {
                         }.join()
 
                         if(messages.isNotEmpty()) refreshView(messages)
+                        else showEmptyView()
 
                         showSnackBar()
                     }
@@ -144,6 +147,12 @@ class ChatFragment : Fragment() {
                             messages.add(messages.size ,response.body()!!)
                             adapter.notifyItemInserted(messages.size)
                             chat_rv.scrollToPosition(adapter.itemCount - 1)
+
+                            if(messages.size == 1){
+                                refreshView(messages)
+                                chat_rv.visibility = View.VISIBLE
+                                empty_state_message_chat.visibility = View.INVISIBLE
+                            }
 
                             /** Insert new message in database */
                             launch {
@@ -175,6 +184,12 @@ class ChatFragment : Fragment() {
             messages.add(messages.size, newMessage)
             adapter.notifyItemInserted(messages.size)
             chat_rv.scrollToPosition(adapter.itemCount - 1)
+
+            if(messages.size == 1){
+                refreshView(messages)
+                chat_rv.visibility = View.VISIBLE
+                empty_state_message_chat.visibility = View.INVISIBLE
+            }
         }
     }
 
@@ -187,6 +202,12 @@ class ChatFragment : Fragment() {
 
             activity?.loadingCircle?.visibility = View.INVISIBLE
         }
+    }
+
+    fun showEmptyView(){
+        chat_rv.visibility = View.INVISIBLE
+        activity?.loadingCircle?.visibility = View.INVISIBLE
+        empty_state_message_chat.visibility = View.VISIBLE
     }
 
     private fun setTextViewDrawableColor(textView: TextView, color: Int) {

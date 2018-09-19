@@ -128,7 +128,9 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                                 }
                             }.join()
 
-                            refreshView(deviceTypeByRoom)
+                            if(deviceTypeByRoom.isNotEmpty())refreshView(deviceTypeByRoom)
+                            else showEmptyView()
+
                         } else {
                             showSnackBar()
                         }
@@ -143,7 +145,8 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                             deviceTypeByRoom = rooms
                         }.join()
 
-                        refreshView(deviceTypeByRoom)
+                        if(deviceTypeByRoom.isNotEmpty())refreshView(deviceTypeByRoom)
+                        else showEmptyView()
 
                         showSnackBar()
                     }
@@ -163,6 +166,12 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
 
             activity?.loadingCircle?.visibility = View.INVISIBLE
         }
+    }
+
+    fun showEmptyView(){
+        home_rv.visibility = View.INVISIBLE
+        activity?.loadingCircle?.visibility = View.INVISIBLE
+        empty_state_message_home.visibility = View.VISIBLE
     }
 
     override fun onClickCallbackDeviceState(id: Long?, value: Float?) {

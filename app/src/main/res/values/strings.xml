@@ -40,7 +40,11 @@
     <string name="new_message">Nouveau message</string>
     <string name="news">Nouveau</string>
     <string name="no_connection">Aucune connexion disponible</string>
+    <string name="no_device_displayed">Il n\'y a aucun périphérique affiché par ici..</string>
+    <string name="no_event_triggered">Aucun évènement n\'a été déclenché..</string>
+    <string name="no_message_sended">Envoyez-lui un message, elle est capable de parler..</string>
     <string name="no_tag">Aucun tag</string>
+    <string name="no_task_created">Vous n\'avez pas de tâche créée ? Créez en une !</string>
     <string name="notifications">Notifications</string>
     <string name="open_source_licence">Licences open source</string>
     <string name="password">Mot de passe</string>

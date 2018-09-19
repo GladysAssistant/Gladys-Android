@@ -83,7 +83,9 @@ class TimelineFragment : Fragment() {
                     override fun onResponse(call: Call<MutableList<Event>>, response: Response<MutableList<Event>>) {
                         if(response.code() == 200) {
                             events = response.body()!!
-                            refreshView(events)
+
+                            if(events.isNotEmpty()) refreshView(events)
+                            else showEmptyView()
 
                             /** Insert events in database */
                             launch {
@@ -103,6 +105,7 @@ class TimelineFragment : Fragment() {
                         }.join()
 
                         if(events.isNotEmpty()) refreshView(events)
+                        else showEmptyView()
 
                         showSnackBar()
 
@@ -142,6 +145,12 @@ class TimelineFragment : Fragment() {
             events.add(0, newEvent)
             adapter.notifyItemInserted(0)
             timeline_rv.scrollToPosition(0)
+
+            if(events.size == 1) {
+                refreshView(events)
+                timeline_rv.visibility = View.VISIBLE
+                empty_state_message_timeline.visibility = View.INVISIBLE
+            }
         }
 
     }
@@ -154,6 +163,12 @@ class TimelineFragment : Fragment() {
 
             activity?.loadingCircle?.visibility = View.INVISIBLE
         }
+    }
+
+    fun showEmptyView(){
+        timeline_rv.visibility = View.INVISIBLE
+        activity?.loadingCircle?.visibility = View.INVISIBLE
+        empty_state_message_timeline.visibility = View.VISIBLE
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

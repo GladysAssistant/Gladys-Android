@@ -23,6 +23,7 @@ import com.gladysproject.gladys.utils.GladysAPI
 import com.gladysproject.gladys.utils.SelfSigningClientBuilder
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
@@ -50,6 +51,7 @@ class ChatFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
+        activity?.loadingCircle?.visibility = View.VISIBLE
         return inflater.inflate(R.layout.fragment_chat, container, false)
     }
 
@@ -182,6 +184,8 @@ class ChatFragment : Fragment() {
             adapter = MessageAdapter(data)
             chat_rv.adapter = adapter
             chat_rv.scrollToPosition(adapter.itemCount -1)
+
+            activity?.loadingCircle?.visibility = View.INVISIBLE
         }
     }
 
@@ -208,16 +212,14 @@ class ChatFragment : Fragment() {
     }
 
     fun showSnackBar(){
-        val bottomMargin = resources.getDimension(R.dimen.bottom_navigation_height) + resources.getDimension(R.dimen.card_chat_height) + 50
-
         if(ConnectivityAPI.getUrl(this@ChatFragment.context!!) == "http://noconnection"){
             Snackbar.make(chat_cl, R.string.no_connection, Snackbar.LENGTH_LONG)
                     .apply {view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
-                            .apply {setMargins(leftMargin, topMargin, rightMargin, bottomMargin.toInt())}}.show()
+                            .apply {setMargins(leftMargin, topMargin, rightMargin, activity?.navigation?.height!! + 22)}}.show()
         } else {
             Snackbar.make(chat_cl, R.string.error, Snackbar.LENGTH_LONG)
                     .apply {view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
-                            .apply {setMargins(leftMargin, topMargin, rightMargin, bottomMargin.toInt())}}.show()
+                            .apply {setMargins(leftMargin, topMargin, rightMargin, activity?.navigation?.height!! + 22)}}.show()
         }
     }
 }

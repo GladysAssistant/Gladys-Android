@@ -1,7 +1,6 @@
 package com.gladysproject.gladys.fragments
 
 import android.os.Bundle
-import android.os.Handler
 import android.preference.PreferenceManager
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
@@ -21,6 +20,7 @@ import com.gladysproject.gladys.utils.SelfSigningClientBuilder
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
@@ -46,6 +46,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
+        activity?.loadingCircle?.visibility = View.VISIBLE
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -159,6 +160,8 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
             home_rv.adapter = expMgr.createWrappedAdapter(adapter)
             expMgr.attachRecyclerView(home_rv)
             DeviceTypeAdapter.setExpandedGroups(deviceTypeByRoom, expMgr)
+
+            activity?.loadingCircle?.visibility = View.INVISIBLE
         }
     }
 
@@ -225,16 +228,14 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
     }
 
     fun showSnackBar(){
-        val bottomMargin = resources.getDimension(R.dimen.bottom_navigation_height) + 22
-
         if(ConnectivityAPI.getUrl(this@HomeFragment.context!!) == "http://noconnection"){
             Snackbar.make(home_rv, R.string.no_connection, Snackbar.LENGTH_LONG)
                     .apply {view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
-                            .apply {setMargins(leftMargin, topMargin, rightMargin, bottomMargin.toInt())}}.show()
+                            .apply {setMargins(leftMargin, topMargin, rightMargin,activity?.navigation?.height!! + 22)}}.show()
         } else {
             Snackbar.make(home_rv, R.string.error, Snackbar.LENGTH_LONG)
                     .apply {view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
-                            .apply {setMargins(leftMargin, topMargin, rightMargin, bottomMargin.toInt())}}.show()
+                            .apply {setMargins(leftMargin, topMargin, rightMargin, activity?.navigation?.height!! + 22)}}.show()
         }
     }
 }

@@ -17,6 +17,13 @@
         android:background="@color/secondaryColor">
     </FrameLayout>
 
+    <ProgressBar
+        android:id="@+id/loadingCircle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminateOnly="true"
+        android:layout_gravity="center"/>
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"

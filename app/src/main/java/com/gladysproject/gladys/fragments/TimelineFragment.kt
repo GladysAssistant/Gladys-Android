@@ -18,6 +18,7 @@ import com.gladysproject.gladys.utils.GladysAPI
 import com.gladysproject.gladys.utils.SelfSigningClientBuilder
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
@@ -47,6 +48,7 @@ class TimelineFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
+        activity?.loadingCircle?.visibility = View.VISIBLE
         return inflater.inflate(R.layout.fragment_timeline, container, false)
     }
 
@@ -149,6 +151,8 @@ class TimelineFragment : Fragment() {
             timeline_rv.layoutManager = LinearLayoutManager(context)
             adapter = TimelineAdapter(data)
             timeline_rv.adapter = adapter
+
+            activity?.loadingCircle?.visibility = View.INVISIBLE
         }
     }
 

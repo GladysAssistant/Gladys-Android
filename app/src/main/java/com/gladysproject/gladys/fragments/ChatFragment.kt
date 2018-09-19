@@ -4,6 +4,8 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat.getColor
 import android.support.v7.widget.LinearLayoutManager
@@ -108,6 +110,8 @@ class ChatFragment : Fragment() {
                                 GladysDb.database?.messageDao()?.deleteMessages()
                                 GladysDb.database?.messageDao()?.insertMessages(messages)
                             }
+                        } else {
+                            showSnackBar()
                         }
                     }
 
@@ -119,7 +123,7 @@ class ChatFragment : Fragment() {
 
                         if(messages.isNotEmpty()) refreshView(messages)
 
-                        println(err.message)
+                        showSnackBar()
                     }
                 })
     }
@@ -143,10 +147,12 @@ class ChatFragment : Fragment() {
                             launch {
                                 GladysDb.database?.messageDao()?.insertMessage(response.body()!!)
                             }
+                        } else {
+                            showSnackBar()
                         }
                     }
                     override fun onFailure(call: Call<Message>, err: Throwable) {
-                        println(err.message)
+                        showSnackBar()
                     }
                 })
     }
@@ -199,5 +205,19 @@ class ChatFragment : Fragment() {
 
         /** Remove listener on message event when the fragment is paused */
         socket.off("message", onNewMessage)
+    }
+
+    fun showSnackBar(){
+        val bottomMargin = resources.getDimension(R.dimen.bottom_navigation_height) + resources.getDimension(R.dimen.card_chat_height) + 50
+
+        if(ConnectivityAPI.getUrl(this@ChatFragment.context!!) == "http://noconnection"){
+            Snackbar.make(chat_cl, R.string.no_connection, Snackbar.LENGTH_LONG)
+                    .apply {view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
+                            .apply {setMargins(leftMargin, topMargin, rightMargin, bottomMargin.toInt())}}.show()
+        } else {
+            Snackbar.make(chat_cl, R.string.error, Snackbar.LENGTH_LONG)
+                    .apply {view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
+                            .apply {setMargins(leftMargin, topMargin, rightMargin, bottomMargin.toInt())}}.show()
+        }
     }
 }

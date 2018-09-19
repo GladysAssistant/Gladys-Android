@@ -78,7 +78,7 @@ class ConnectivityAPI {
             return when(getTypeOfConnection(context)){
                 1 -> ConnectivityAPI.getLocalPreferences(context)
                 2 -> ConnectivityAPI.getNatPreferences(context)
-                else -> "http://fakeurl"
+                else -> "http://noconnection"
             }
         }
 

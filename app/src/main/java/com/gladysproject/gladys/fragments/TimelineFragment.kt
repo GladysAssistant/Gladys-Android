@@ -3,6 +3,7 @@ package com.gladysproject.gladys.fragments
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
@@ -88,6 +89,8 @@ class TimelineFragment : Fragment() {
                                 GladysDb.database?.eventDao()?.insertEvents(events)
                             }
 
+                        }else {
+                            showSnackBar()
                         }
                     }
 
@@ -98,7 +101,9 @@ class TimelineFragment : Fragment() {
                         }.join()
 
                         if(events.isNotEmpty()) refreshView(events)
-                        println(err.message)
+
+                        showSnackBar()
+
                     }
                 })
     }
@@ -110,10 +115,11 @@ class TimelineFragment : Fragment() {
                 .enqueue(object : Callback<Event> {
                     override fun onResponse(call: Call<Event>, response: Response<Event>) {
                         /** The new event is captured by onNewEvent function by websocket connection */
+                        if(response.code() != 200) showSnackBar()
                     }
 
                     override fun onFailure(call: Call<Event>, err: Throwable) {
-                        println(err.message)
+                        showSnackBar()
                     }
                 })
     }
@@ -179,6 +185,15 @@ class TimelineFragment : Fragment() {
 
         /** Remove listener on new event when the fragment is paused */
         socket.off("newEvent", onNewEvent)
+    }
+
+    fun showSnackBar(){
+
+        if(ConnectivityAPI.getUrl(this@TimelineFragment.context!!) == "http://noconnection"){
+            Snackbar.make(timeline_cl, R.string.no_connection, Snackbar.LENGTH_LONG).show()
+        } else {
+            Snackbar.make(timeline_cl, R.string.error, Snackbar.LENGTH_LONG).show()
+        }
     }
 }
 

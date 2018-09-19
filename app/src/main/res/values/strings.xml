@@ -18,6 +18,7 @@
     <string name="dns_adress">DNS / IP Publique</string>
     <string name="dns_adress_example">Exemple: monadresse.ddns.net</string>
     <string name="dns_port_example">Exemple: 443</string>
+    <string name="error">Une erreur est survenue</string>
     <string name="firstname">Prénom</string>
     <string name="forum">Forum</string>
     <string name="general">Général</string>
@@ -38,6 +39,7 @@
     <string name="negative_button">Annuler</string>
     <string name="new_message">Nouveau message</string>
     <string name="news">Nouveau</string>
+    <string name="no_connection">Aucune connexion disponible</string>
     <string name="no_tag">Aucun tag</string>
     <string name="notifications">Notifications</string>
     <string name="open_source_licence">Licences open source</string>

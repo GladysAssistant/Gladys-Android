@@ -1,7 +1,10 @@
 package com.gladysproject.gladys.fragments
 
 import android.os.Bundle
+import android.os.Handler
 import android.preference.PreferenceManager
+import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SimpleItemAnimator
@@ -56,8 +59,6 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                 .build()
 
         token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "")!!
-
-        getAllDeviceTypes()
 
         socket = ConnectivityAPI.Companion.WebSocket.getInstance(context!!)!!
         socket.on("newDeviceState", onNewDeviceState)
@@ -127,6 +128,8 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                             }.join()
 
                             refreshView(deviceTypeByRoom)
+                        } else {
+                            showSnackBar()
                         }
                     }
 
@@ -141,7 +144,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
 
                         refreshView(deviceTypeByRoom)
 
-                        println(err.message)
+                        showSnackBar()
                     }
                 })
     }
@@ -169,10 +172,11 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                          *  But we put the variable a true for can not create a loop between the cursor/switch listeners and event flicker by the socket
                          *  See the onNewDeviceState function for more comprehension
                          * */
-                        isNotGladysDeviceState = true
+                        if (response.code() == 200) isNotGladysDeviceState = true
+                        else showSnackBar()
                     }
                     override fun onFailure(call: Call<Void>, err: Throwable) {
-                        println(err.message)
+                        showSnackBar()
                     }
                 })
     }
@@ -210,6 +214,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
         menu.clear()
         inflater.inflate(R.menu.toolbar_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
+        getAllDeviceTypes()
     }
 
     override fun onPause() {
@@ -217,5 +222,19 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
 
         /** Remove listener on new device state when the fragment is paused */
         socket.off("newDeviceState", onNewDeviceState)
+    }
+
+    fun showSnackBar(){
+        val bottomMargin = resources.getDimension(R.dimen.bottom_navigation_height) + 22
+
+        if(ConnectivityAPI.getUrl(this@HomeFragment.context!!) == "http://noconnection"){
+            Snackbar.make(home_rv, R.string.no_connection, Snackbar.LENGTH_LONG)
+                    .apply {view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
+                            .apply {setMargins(leftMargin, topMargin, rightMargin, bottomMargin.toInt())}}.show()
+        } else {
+            Snackbar.make(home_rv, R.string.error, Snackbar.LENGTH_LONG)
+                    .apply {view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
+                            .apply {setMargins(leftMargin, topMargin, rightMargin, bottomMargin.toInt())}}.show()
+        }
     }
 }

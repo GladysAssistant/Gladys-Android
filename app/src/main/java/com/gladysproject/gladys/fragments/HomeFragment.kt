@@ -162,7 +162,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
     override fun onClickCallbackDeviceState(id: Long?, value: Float?) {
         retrofit
                 .create(GladysAPI::class.java)
-                .changeDeviceState(id, value,token)
+                .changeDeviceState(id, value, token)
                 .enqueue(object : Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         /** The new device state is captured by onNewDeviceState function by websocket connection

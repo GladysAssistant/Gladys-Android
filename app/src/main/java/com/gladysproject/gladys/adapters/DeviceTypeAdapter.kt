@@ -2,6 +2,7 @@ package com.gladysproject.gladys.adapters
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -171,13 +172,13 @@ class DeviceTypeAdapter(
             if(deviceType.lastValue != null) itemView.device_multilevel_value.progress = deviceType.lastValue!!.toInt()
 
             itemView.findViewById<SeekBar>(R.id.device_multilevel_value).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-
-                override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                    callbacks.onClickCallbackDeviceState(deviceType.id, i.toFloat())
+                override fun onProgressChanged(seekBar: SeekBar, i: Int, fromUser: Boolean) {
+                    if(fromUser) callbacks.onClickCallbackDeviceState(deviceType.id, i.toFloat())
                 }
-
                 override fun onStartTrackingTouch(seekBar: SeekBar) {}
-                override fun onStopTrackingTouch(seekBar: SeekBar) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar) {
+
+                }
             })
         }
     }

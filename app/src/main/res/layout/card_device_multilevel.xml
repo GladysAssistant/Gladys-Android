@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.card.MaterialCardView
+<com.github.captain_miao.optroundcardview.OptRoundCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_device_multilevel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/card_spacing"
     android:layout_marginRight="@dimen/card_spacing"
     app:cardElevation="@dimen/card_elevation"
-    app:cardCornerRadius="@dimen/card_no_radius">
+    app:optRoundCardCornerRadius="@dimen/card_radius"
+    app:optRoundCardBackgroundColor="@color/secondaryColor">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -43,4 +45,4 @@
 
     </RelativeLayout>
 
-</android.support.design.card.MaterialCardView>
+</com.github.captain_miao.optroundcardview.OptRoundCardView>

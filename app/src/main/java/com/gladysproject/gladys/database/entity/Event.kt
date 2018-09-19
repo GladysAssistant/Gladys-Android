@@ -13,7 +13,7 @@ open class Event{
     var datetime: String? = null
     var user: Int? = null
 
-    constructor() {}
+    constructor()
 
     constructor(name: String, code: String, datetime: String, user: Int?) {
         this.name = name

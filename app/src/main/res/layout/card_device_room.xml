@@ -30,14 +30,29 @@
             android:text=""
             android:textSize="@dimen/card_title_size" />
 
-        <ImageView
+        <ViewFlipper
             android:id="@+id/arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            app:srcCompat="@drawable/ic_arrow_down_24dp"
-            tools:ignore="ContentDescription" />
+            android:inAnimation="@android:anim/slide_in_left"
+            android:outAnimation="@android:anim/slide_out_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_arrow_up_24dp"
+                tools:ignore="ContentDescription"  />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_arrow_down_24dp"
+                tools:ignore="ContentDescription" />
+        </ViewFlipper>
 
         <View
             android:id="@+id/divider"

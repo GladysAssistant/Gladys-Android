@@ -8,23 +8,24 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.Switch
 import com.gladysproject.gladys.R
+import com.gladysproject.gladys.database.GladysDb
 import com.gladysproject.gladys.database.entity.DeviceType
-import com.gladysproject.gladys.database.entity.DeviceTypeByRoom
+import com.gladysproject.gladys.database.entity.Rooms
 import com.gladysproject.gladys.utils.AdapterCallback
+import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemAdapter
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemViewHolder
 import kotlinx.android.synthetic.main.card_device_binary.view.*
 import kotlinx.android.synthetic.main.card_device_multilevel.view.*
 import kotlinx.android.synthetic.main.card_device_room.view.*
 import kotlinx.android.synthetic.main.card_device_sensor.view.*
+import kotlinx.coroutines.experimental.launch
 
 class DeviceTypeAdapter(
-        private var deviceTypeByRoom: List<DeviceTypeByRoom>,
+        private var deviceTypeByRoom: MutableList<Rooms>,
         private var context : Context,
         private var callbacks: AdapterCallback.AdapterCallbackDeviceState) :
         AbstractExpandableItemAdapter<DeviceTypeAdapter.RoomVH, RecyclerView.ViewHolder>() {
-
-    private var rotationAngle = 0
 
     init {
         setHasStableIds(true) // this is required for expandable feature.
@@ -39,26 +40,23 @@ class DeviceTypeAdapter(
     }
 
     override fun getGroupId(groupPosition: Int): Long {
-        return deviceTypeByRoom[groupPosition].roomId
+        return deviceTypeByRoom[groupPosition].id
     }
 
     override fun getChildId(groupPosition: Int, childPosition: Int): Long {
-        return deviceTypeByRoom[groupPosition].deviceTypes[childPosition].deviceTypeId
+        return deviceTypeByRoom[groupPosition].deviceTypes[childPosition].id
     }
 
     override fun onCheckCanExpandOrCollapseGroup(holder: RoomVH, groupPosition: Int, x: Int, y: Int, expand: Boolean): Boolean {
-        if(expand){
-            holder.itemView.card_room.showCorner(true, true, false, false)
-            holder.itemView.divider.visibility = View.VISIBLE
-            rotationAngle = if (rotationAngle == 0) 180 else 0
-            holder.itemView.arrow.animate().rotation(rotationAngle.toFloat()).setDuration(500).start()
+
+        /** Update state in list for onBind  function */
+        deviceTypeByRoom[groupPosition].isExpanded = expand
+
+        /** Save state in database */
+        launch {
+            GladysDb.database?.roomsDao()?.updateRoomExpand(expand, deviceTypeByRoom[groupPosition].id)
         }
-        else{
-            holder.itemView.card_room.showCorner(true, true, true, true)
-            holder.itemView.divider.visibility = View.INVISIBLE
-            rotationAngle = if (rotationAngle == 180) 0 else 180
-            holder.itemView.arrow.animate().rotation(rotationAngle.toFloat()).setDuration(500).start()
-        }
+
         return true
     }
 
@@ -105,21 +103,44 @@ class DeviceTypeAdapter(
     override fun onBindGroupViewHolder(holder: RoomVH, groupPosition: Int, viewType: Int) {
         holder.itemView.isClickable
         holder.bind(deviceTypeByRoom[groupPosition])
+
+        if(deviceTypeByRoom[groupPosition].isExpanded){
+            holder.itemView.card_room.showCorner(true, true, false, false)
+            holder.itemView.divider.visibility = View.VISIBLE
+            holder.itemView.arrow.displayedChild = 0
+        }else{
+            holder.itemView.card_room.showCorner(true, true, true, true)
+            holder.itemView.divider.visibility = View.INVISIBLE
+            holder.itemView.arrow.displayedChild = 1
+        }
     }
 
     override fun onBindChildViewHolder(holder: RecyclerView.ViewHolder, groupPosition: Int, childPosition: Int, viewType: Int) {
 
+        /** Bind view compared to view type and set the corner of card if the child is a last ghild of the group*/
+
         when(viewType) {
-            1 -> (holder as BinaryVH).bind(deviceTypeByRoom[groupPosition].deviceTypes[childPosition], context, callbacks)
-            2 -> (holder as MultilevelVH).bind(deviceTypeByRoom[groupPosition].deviceTypes[childPosition], context, callbacks)
-            3 -> (holder as SensorVH).bind(deviceTypeByRoom[groupPosition].deviceTypes[childPosition], context)
+            1 -> {
+                (holder as BinaryVH).bind(deviceTypeByRoom[groupPosition].deviceTypes[childPosition], context, callbacks)
+                if (childPosition + 1 == deviceTypeByRoom[groupPosition].deviceTypes.size) holder.itemView.card_device_binary.showCorner(false, false, true, true)
+                else holder.itemView.card_device_binary.showCorner(false, false, false, false)
+            } 2 -> {
+                (holder as MultilevelVH).bind(deviceTypeByRoom[groupPosition].deviceTypes[childPosition], context, callbacks)
+                if (childPosition + 1 == deviceTypeByRoom[groupPosition].deviceTypes.size) holder.itemView.card_device_multilevel.showCorner(false, false, true, true)
+                else holder.itemView.card_device_multilevel.showCorner(false, false, false, false)
+            } 3 -> {
+                (holder as SensorVH).bind(deviceTypeByRoom[groupPosition].deviceTypes[childPosition], context)
+                if (childPosition + 1 == deviceTypeByRoom[groupPosition].deviceTypes.size) holder.itemView.card_device_sensor.showCorner(false, false, true, true)
+                else holder.itemView.card_device_sensor.showCorner(false, false, false, false)
+            }
+
         }
 
     }
 
     class RoomVH(itemView: View) : AbstractExpandableItemViewHolder(itemView){
-        fun bind(room: DeviceTypeByRoom) {
-            itemView.roomName.text = room.roomName
+        fun bind(room: Rooms) {
+            itemView.roomName.text = room.name
         }
     }
 
@@ -133,8 +154,8 @@ class DeviceTypeAdapter(
             if(deviceType.lastValue != null) itemView.device_binary_value.isChecked = deviceType.lastValue == 1.toFloat()
 
             itemView.findViewById<Switch>(R.id.device_binary_value).setOnCheckedChangeListener { _, isChecked ->
-                if(isChecked) callbacks.onClickCallbackDeviceState(deviceType.deviceTypeId, 1f)
-                else callbacks.onClickCallbackDeviceState(deviceType.deviceTypeId, 0f)
+                if(isChecked) callbacks.onClickCallbackDeviceState(deviceType.id, 1f)
+                else callbacks.onClickCallbackDeviceState(deviceType.id, 0f)
             }
         }
     }
@@ -152,7 +173,7 @@ class DeviceTypeAdapter(
             itemView.findViewById<SeekBar>(R.id.device_multilevel_value).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
                 override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                    callbacks.onClickCallbackDeviceState(deviceType.deviceTypeId, i.toFloat())
+                    callbacks.onClickCallbackDeviceState(deviceType.id, i.toFloat())
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -172,7 +193,16 @@ class DeviceTypeAdapter(
                     if (deviceType.lastValue != null && deviceType.unit != null) "${deviceType.lastValue} ${deviceType.unit}"
                     else if (deviceType.lastValue != null) "${deviceType.lastValue}"
                     else "null"
+        }
+    }
 
+    companion object {
+        fun setExpandedGroups(deviceTypeByRoom: MutableList<Rooms>, expandableItemManager: RecyclerViewExpandableItemManager) {
+            for ((index, room) in deviceTypeByRoom.withIndex()) {
+                if (room.isExpanded) {
+                    expandableItemManager.expandGroup(index)
+                }
+            }
         }
     }
 }

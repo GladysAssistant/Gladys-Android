@@ -8,7 +8,9 @@ import android.support.v7.widget.SimpleItemAnimator
 import android.view.*
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.DeviceTypeAdapter
-import com.gladysproject.gladys.database.entity.DeviceTypeByRoom
+import com.gladysproject.gladys.database.GladysDb
+import com.gladysproject.gladys.database.entity.DeviceType
+import com.gladysproject.gladys.database.entity.Rooms
 import com.gladysproject.gladys.utils.AdapterCallback
 import com.gladysproject.gladys.utils.ConnectivityAPI
 import com.gladysproject.gladys.utils.GladysAPI
@@ -31,7 +33,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
     private var token : String = ""
     private lateinit var retrofit: Retrofit
     private lateinit var socket : Socket
-    private lateinit var deviceTypeByRoom: List<DeviceTypeByRoom>
+    private lateinit var deviceTypeByRoom: MutableList<Rooms>
     private lateinit var adapter : DeviceTypeAdapter
     private var isNotGladysDeviceState : Boolean = false
 
@@ -66,38 +68,94 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
         retrofit
                 .create(GladysAPI::class.java)
                 .getDeviceTypeByRoom(token)
-                .enqueue(object : Callback<List<DeviceTypeByRoom>> {
+                .enqueue(object : Callback<MutableList<Rooms>> {
 
-                    override fun onResponse(call: Call<List<DeviceTypeByRoom>>, response: Response<List<DeviceTypeByRoom>>) = runBlocking{
+                    override fun onResponse(call: Call<MutableList<Rooms>>, response: Response<MutableList<Rooms>>) = runBlocking{
                         if(response.code() == 200){
 
+                            deviceTypeByRoom = response.body()!!
+
+                            /** Remove devicetype not displayed */
                             launch {
-                                for(room in response.body()!!){
-                                    room.deviceTypes = room.deviceTypes.filterIndexed{_, it -> it.display != 0.toLong() }.toMutableList()
+                                for(room in deviceTypeByRoom){
+                                    room.deviceTypes = room.deviceTypes.asSequence().filterIndexed{ _, it -> it.display != 0.toLong() }.toMutableList()
                                 }
                             }.join()
 
-                            deviceTypeByRoom = response.body()!!
-                            refreshView(deviceTypeByRoom)
+                            /** Remove room if after removing devicetypes not displayed her is empty */
+                            launch {
+                                for(room in deviceTypeByRoom){
+                                    if(room.deviceTypes.isEmpty()){
+                                        deviceTypeByRoom.toMutableList().remove(room)
+                                    }
+                                }
+                            }.join()
 
+                            /** Save data in database */
+                            launch{
+
+                                GladysDb.database?.deviceTypeDao()?.deleteDeviceTypes()
+
+                                for(room in deviceTypeByRoom){
+                                    val newRoom : Rooms = object : Rooms("", 0, false, mutableListOf()){}
+                                    newRoom.id = room.id
+                                    newRoom.name = room.name
+
+                                    /** If room exist update all attributs except isExpanded attribut*/
+                                    val existingRoom = GladysDb.database?.roomsDao()?.getRoomsById(newRoom.id)
+                                    if(existingRoom != null) {
+                                        GladysDb.database?.roomsDao()?.updateRoomWithoutExpand(newRoom.name, newRoom.id)
+                                        room.isExpanded = existingRoom.isExpanded
+                                    }else GladysDb.database?.roomsDao()?.insertRoom(newRoom)
+
+                                    for (devicetype in room.deviceTypes){
+                                        val newDevicetype : DeviceType = object : DeviceType("", 0, "", "", "", 0, 0, 1, 0, 0.toFloat(), 0){}
+                                        newDevicetype.deviceTypeName = devicetype.deviceTypeName
+                                        newDevicetype.id = devicetype.id
+                                        newDevicetype.type = devicetype.type
+                                        newDevicetype.tag = devicetype.tag
+                                        newDevicetype.unit = devicetype.unit
+                                        newDevicetype.min = devicetype.min
+                                        newDevicetype.max = devicetype.max
+                                        newDevicetype.sensor = devicetype.sensor
+                                        newDevicetype.lastValue = devicetype.lastValue
+                                        newDevicetype.roomId = room.id
+
+                                        GladysDb.database?.deviceTypeDao()?.insertDeviceType(newDevicetype)
+                                    }
+                                }
+                            }.join()
+
+                            refreshView(deviceTypeByRoom)
                         }
                     }
 
-                    override fun onFailure(call: Call<List<DeviceTypeByRoom>>, err: Throwable) {
+                    override fun onFailure(call: Call<MutableList<Rooms>>, err: Throwable) = runBlocking {
+                        launch {
+                            val rooms : MutableList<Rooms> = GladysDb.database?.roomsDao()?.getAllRooms()!!
+                            for (room in rooms){
+                                room.deviceTypes = GladysDb.database?.deviceTypeDao()?.getDeviceTypeByRoom(room.id)!!
+                            }
+                            deviceTypeByRoom = rooms
+                        }.join()
+
+                        refreshView(deviceTypeByRoom)
+
                         println(err.message)
                     }
                 })
     }
 
-    fun refreshView(data : List<DeviceTypeByRoom>){
+    fun refreshView(data : MutableList<Rooms>){
         if(home_rv != null){
             home_rv.layoutManager = LinearLayoutManager(context)
             (home_rv.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-            adapter = DeviceTypeAdapter(data, context!!, this)
             val expMgr = RecyclerViewExpandableItemManager(null)
+            adapter = DeviceTypeAdapter(data, context!!, this)
             home_rv.adapter = expMgr.createWrappedAdapter(adapter)
             expMgr.attachRecyclerView(home_rv)
+            DeviceTypeAdapter.setExpandedGroups(deviceTypeByRoom, expMgr)
         }
     }
 
@@ -120,16 +178,17 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
     }
 
     private val onNewDeviceState = Emitter.Listener { args ->
-        activity!!.runOnUiThread {
-            val data = args[0] as JSONObject
 
+        val data = args[0] as JSONObject
+
+        activity!!.runOnUiThread {
             /** If the variable is true then it means that the device state was triggered by the app
              *  So the view is already up to date
              * */
             if (!isNotGladysDeviceState) {
                 for (room in deviceTypeByRoom) {
                     for (deviceType in room.deviceTypes) {
-                        if (data.getLong("devicetype") == deviceType.deviceTypeId) {
+                        if (data.getLong("devicetype") == deviceType.id) {
                             deviceType.lastValue = data.getInt("value").toFloat()
                             adapter.notifyDataSetChanged()
                             break
@@ -139,6 +198,11 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
             }else {
                 isNotGladysDeviceState = false
             }
+        }
+
+        /** Upadte value in database */
+        launch {
+            GladysDb.database?.deviceTypeDao()?.updateDeviceTypeLastValue( data.getInt("value").toFloat(), data.getLong("devicetype"))
         }
     }
 

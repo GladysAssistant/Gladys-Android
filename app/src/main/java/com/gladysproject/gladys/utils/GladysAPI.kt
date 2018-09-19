@@ -1,11 +1,10 @@
 package com.gladysproject.gladys.utils
 
-import com.gladysproject.gladys.database.entity.DeviceTypeByRoom
 import com.gladysproject.gladys.database.entity.Event
 import com.gladysproject.gladys.database.entity.Message
+import com.gladysproject.gladys.database.entity.Rooms
 import retrofit2.Call
 import retrofit2.http.*
-
 
 interface GladysAPI {
 
@@ -20,7 +19,7 @@ interface GladysAPI {
     /** Devicetypes */
 
     @GET("/devicetype/room")
-    fun getDeviceTypeByRoom(@Query("token") token: String): Call<List<DeviceTypeByRoom>>
+    fun getDeviceTypeByRoom(@Query("token") token: String): Call<MutableList<Rooms>>
 
     @FormUrlEncoded
     @POST("/devicetype/{id}/exec")

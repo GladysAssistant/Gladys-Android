@@ -14,7 +14,7 @@ open class Message{
     var datetime: String? = null
     var receiver: Int? = null
 
-    constructor() {}
+    constructor()
 
     constructor(text: String, sender: Int, senderName: String, datetime: String, receiver: Int?) {
         this.text = text

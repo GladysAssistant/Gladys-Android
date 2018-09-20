@@ -169,9 +169,11 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
     }
 
     fun showEmptyView(){
-        home_rv.visibility = View.INVISIBLE
-        activity?.loadingCircle?.visibility = View.INVISIBLE
-        empty_state_message_home.visibility = View.VISIBLE
+        if(home_rv != null) {
+            home_rv.visibility = View.INVISIBLE
+            activity?.loadingCircle?.visibility = View.INVISIBLE
+            empty_state_message_home.visibility = View.VISIBLE
+        }
     }
 
     override fun onClickCallbackDeviceState(id: Long?, value: Float?) {

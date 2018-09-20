@@ -1,9 +1,13 @@
 package com.gladysproject.gladys.fragments
 
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.provider.Settings
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -205,9 +209,11 @@ class ChatFragment : Fragment() {
     }
 
     fun showEmptyView(){
-        chat_rv.visibility = View.INVISIBLE
-        activity?.loadingCircle?.visibility = View.INVISIBLE
-        empty_state_message_chat.visibility = View.VISIBLE
+        if(chat_rv != null) {
+            chat_rv.visibility = View.INVISIBLE
+            activity?.loadingCircle?.visibility = View.INVISIBLE
+            empty_state_message_chat.visibility = View.VISIBLE
+        }
     }
 
     private fun setTextViewDrawableColor(textView: TextView, color: Int) {
@@ -222,14 +228,40 @@ class ChatFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.toolbar_menu, menu)
+        //menu.findItem(R.id.minimize_button).isVisible = true
         super.onCreateOptionsMenu(menu, inflater)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val id = item!!.itemId
+        if (id == R.id.minimize_button) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context)){
+                val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + "com.gladysproject.gladys"))
+                startActivityForResult(intent, 2084)
+            } else {
+                startChatHeadService()
+            }
+
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
 
     override fun onPause() {
         super.onPause()
 
         /** Remove listener on message event when the fragment is paused */
         socket.off("message", onNewMessage)
+    }
+
+    private fun startChatHeadService(){
+        //val intent = Intent(context, ChatHeadService::class.java)
+        //if (context != null) {
+        //    context!!.startService(intent)
+        //}
     }
 
     fun showSnackBar(){

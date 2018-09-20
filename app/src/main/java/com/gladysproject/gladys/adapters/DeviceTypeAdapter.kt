@@ -1,8 +1,8 @@
 package com.gladysproject.gladys.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -146,8 +146,10 @@ class DeviceTypeAdapter(
     }
 
     class BinaryVH(itemView: View) : RecyclerView.ViewHolder(itemView){
+        @SuppressLint("SetTextI18n")
         fun bind(deviceType: DeviceType, context: Context, callbacks: AdapterCallback.AdapterCallbackDeviceState){
-            itemView.device_binary_name.text = deviceType.deviceTypeName
+            if(deviceType.deviceTypeName != null && deviceType.deviceTypeName != "")itemView.device_binary_name.text = deviceType.deviceTypeName
+            else itemView.device_binary_name.text = "${context.getString(R.string.devicetype)} : ${deviceType.id}"
 
             if(deviceType.tag != null)itemView.device_binary_tag.text = deviceType.tag
             else itemView.device_binary_tag.text = context.getString(R.string.no_tag)
@@ -162,8 +164,10 @@ class DeviceTypeAdapter(
     }
 
     class MultilevelVH(itemView: View) : RecyclerView.ViewHolder(itemView){
+        @SuppressLint("SetTextI18n")
         fun bind(deviceType: DeviceType, context: Context, callbacks: AdapterCallback.AdapterCallbackDeviceState){
-            itemView.device_multilevel_name.text = deviceType.deviceTypeName
+            if(deviceType.deviceTypeName != null && deviceType.deviceTypeName != "")itemView.device_multilevel_name.text = deviceType.deviceTypeName
+            else itemView.device_multilevel_name.text = "${context.getString(R.string.devicetype)} : ${deviceType.id}"
 
             if(deviceType.tag != null)itemView.device_multilevel_tag.text = deviceType.tag
             else itemView.device_multilevel_tag.text = context.getString(R.string.no_tag)
@@ -184,8 +188,10 @@ class DeviceTypeAdapter(
     }
 
     class SensorVH(itemView: View) : RecyclerView.ViewHolder(itemView){
+        @SuppressLint("SetTextI18n")
         fun bind(deviceType: DeviceType, context: Context) {
-            itemView.device_sensor_name.text = deviceType.deviceTypeName
+            if(deviceType.deviceTypeName != null && deviceType.deviceTypeName != "")itemView.device_sensor_name.text = deviceType.deviceTypeName
+            else itemView.device_sensor_name.text = "${context.getString(R.string.devicetype)} : ${deviceType.id}"
 
             if(deviceType.tag != null)itemView.device_sensor_tag.text = deviceType.tag
             else itemView.device_sensor_tag.text = context.getString(R.string.no_tag)

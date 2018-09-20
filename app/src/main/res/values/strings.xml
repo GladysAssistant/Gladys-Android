@@ -15,6 +15,7 @@
     <string name="auto_start">Démarrage automatique</string>
     <string name="auto_start_explanation">Démarrer automatiquement au démarrage de votre appareil</string>
     <string name="connection">Connexion</string>
+    <string name="devicetype">Périphérique</string>
     <string name="dns_adress">DNS / IP Publique</string>
     <string name="dns_adress_example">Exemple: monadresse.ddns.net</string>
     <string name="dns_port_example">Exemple: 443</string>
@@ -35,6 +36,7 @@
     <string name="ip_adresse_example">Exemple: 192.168.1.12</string>
     <string name="message">Message</string>
     <string name="mqtt">Mqtt</string>
+    <string name="minimize">Minimiser</string>
     <string name="name">Nom</string>
     <string name="negative_button">Annuler</string>
     <string name="new_message">Nouveau message</string>

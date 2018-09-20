@@ -166,9 +166,11 @@ class TimelineFragment : Fragment() {
     }
 
     fun showEmptyView(){
-        timeline_rv.visibility = View.INVISIBLE
-        activity?.loadingCircle?.visibility = View.INVISIBLE
-        empty_state_message_timeline.visibility = View.VISIBLE
+        if(timeline_rv != null) {
+            timeline_rv.visibility = View.INVISIBLE
+            activity?.loadingCircle?.visibility = View.INVISIBLE
+            empty_state_message_timeline.visibility = View.VISIBLE
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

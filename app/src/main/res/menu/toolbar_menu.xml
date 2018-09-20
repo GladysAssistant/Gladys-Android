@@ -17,4 +17,12 @@
         android:visible="false"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/minimize_button"
+        android:icon="@drawable/ic_minimize_24dp"
+        android:title="@string/minimize"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
+
 </menu>

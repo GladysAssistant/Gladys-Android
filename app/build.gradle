@@ -38,6 +38,19 @@ kotlin {
     }
 }
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://repo.eclipse.org/content/repositories/paho-releases/"
+    }
+}
+
 dependencies {
     configurations { all*.exclude group: 'com.android.support', module: 'support-v13' }
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -61,4 +74,6 @@ dependencies {
     implementation ('io.socket:socket.io-client:1.0.0') { exclude group: 'org.json', module: 'json' }
     implementation "android.arch.persistence.room:runtime:1.1.1"
     kapt "android.arch.persistence.room:compiler:1.1.1"
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }

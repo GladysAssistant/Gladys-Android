@@ -13,6 +13,7 @@ import com.gladysproject.gladys.fragments.ChatFragment
 import com.gladysproject.gladys.fragments.HomeFragment
 import com.gladysproject.gladys.fragments.TaskFragment
 import com.gladysproject.gladys.fragments.TimelineFragment
+import com.gladysproject.gladys.services.MqttService
 import com.gladysproject.gladys.utils.ConnectivityAPI
 import io.socket.client.Socket
 import kotlinx.android.synthetic.main.activity_main.*
@@ -52,11 +53,12 @@ class MainActivity : AppCompatActivity() {
 
         GladysDb.initializeDatabase(this)
         connectSocket()
+        startMqttService()
 
         if (startChat == intent.action){
             openFragment(ChatFragment.newInstance())
             navigation.selectedItemId = R.id.message
-        }else{
+        } else {
             openFragment(HomeFragment.newInstance())
         }
 
@@ -88,4 +90,10 @@ class MainActivity : AppCompatActivity() {
         socket.emit("post", JSONObject().put("url", "/socket/subscribe?token=${PreferenceManager.getDefaultSharedPreferences(this).getString("token", "")!!}"))
         socket.connect()
     }
+
+    private fun startMqttService() {
+        val intent = Intent(application, MqttService::class.java)
+        startService(intent)
+    }
+
 }

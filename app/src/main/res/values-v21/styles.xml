@@ -5,9 +5,8 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/primaryColor</item>
-        <item name="android:textColorPrimary">@color/primaryTextColor</item>
         <item name="android:navigationBarColor">@color/primaryColor</item>
-        <item name="md_dark_theme">false</item>
+        <item name="md_corner_radius">@dimen/card_radius</item>
     </style>
 
     <style name="Gladys_Splash" parent="Theme.MaterialComponents.Light">

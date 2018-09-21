@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.TimelineAdapter
 import com.gladysproject.gladys.database.GladysDb
@@ -121,7 +122,7 @@ class TimelineFragment : Fragment() {
                 .enqueue(object : Callback<Event> {
                     override fun onResponse(call: Call<Event>, response: Response<Event>) {
                         /** The new event is captured by onNewEvent function by websocket connection */
-                        if(response.code() != 200) showSnackBar()
+                        if(response.code() != 201) showSnackBar()
                     }
 
                     override fun onFailure(call: Call<Event>, err: Throwable) {
@@ -184,18 +185,14 @@ class TimelineFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val id = item!!.itemId
         if (id == R.id.add_button) {
-
-            MaterialDialog.Builder(activity!!)
-                    .title(getString(R.string.trigger_an_event))
-                    .items(R.array.events)
-                    .itemsCallbackSingleChoice(0) { _, _, which, _ ->
-                        createEvent(resources.getStringArray(R.array.events_code)[which])
-                        true
+            MaterialDialog(context!!)
+                    .title(text = getString(R.string.trigger_an_event))
+                    .listItemsSingleChoice(R.array.events) { _, index, _ ->
+                        createEvent(resources.getStringArray(R.array.events_code)[index])
                     }
-                    .positiveText(R.string.positve_button)
-                    .negativeText(R.string.negative_button)
+                    .positiveButton(R.string.positve_button)
+                    .negativeButton(R.string.negative_button)
                     .show()
-
             return true
         }
 

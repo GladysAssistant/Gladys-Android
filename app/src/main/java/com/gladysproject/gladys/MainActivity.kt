@@ -6,6 +6,7 @@ import android.preference.PreferenceManager
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.app.AppCompatDelegate
 import android.view.Menu
 import android.view.MenuItem
 import com.gladysproject.gladys.database.GladysDb
@@ -18,6 +19,7 @@ import com.gladysproject.gladys.utils.ConnectivityAPI
 import io.socket.client.Socket
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                 openFragment(TimelineFragment.newInstance())
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.message -> {
+            R.id.chat -> {
                 openFragment(ChatFragment.newInstance())
                 return@OnNavigationItemSelectedListener true
             }
@@ -49,7 +51,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+        bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         GladysDb.initializeDatabase(this)
         connectSocket()
@@ -57,17 +60,30 @@ class MainActivity : AppCompatActivity() {
 
         if (startChat == intent.action){
             openFragment(ChatFragment.newInstance())
-            navigation.selectedItemId = R.id.message
+            bottom_navigation.selectedItemId = R.id.chat
         } else {
             openFragment(HomeFragment.newInstance())
         }
 
     }
 
+    override fun onBackPressed() {
+        val fragments = supportFragmentManager.backStackEntryCount
+        if (fragments == 1) {
+            finish()
+        } else {
+            if (fragmentManager.backStackEntryCount > 1) {
+                fragmentManager.popBackStack()
+            } else {
+                super.onBackPressed()
+            }
+        }
+    }
+
     private fun openFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, fragment)
-        transaction.addToBackStack(null)
+        transaction.addToBackStack("$fragment")
         transaction.commit()
     }
 
@@ -86,14 +102,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun connectSocket(){
-        socket = ConnectivityAPI.Companion.WebSocket.getInstance(this)!!
-        socket.emit("post", JSONObject().put("url", "/socket/subscribe?token=${PreferenceManager.getDefaultSharedPreferences(this).getString("token", "")!!}"))
-        socket.connect()
+        try {
+            socket = ConnectivityAPI.Companion.WebSocket.getInstance(this)!!
+            socket.emit("post", JSONObject().put("url", "/socket/subscribe?token=${PreferenceManager.getDefaultSharedPreferences(this).getString("token", "")!!}"))
+            socket.connect()
+        } catch (er: Exception){}
     }
 
     private fun startMqttService() {
-        val intent = Intent(application, MqttService::class.java)
-        startService(intent)
+        try {
+            val intent = Intent(application, MqttService::class.java)
+            startService(intent)
+        } catch (er: Exception){}
     }
-
 }

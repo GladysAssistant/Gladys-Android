@@ -130,7 +130,7 @@ class ConnectivityAPI {
                     0 -> MqttAndroidClient(context, "noconnection", "")
                     else -> {
                         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-                        MqttAndroidClient(context, "tcp://${prefs.getString("mqtt_host", "")}:${prefs.getString("mqtt_port", "")}", MqttClient.generateClientId())
+                        MqttAndroidClient(context, "tcp://${prefs.getString("mqtt_host", "m49.cloudmqtt.com")}:${prefs.getString("mqtt_port", "168634")}", MqttClient.generateClientId())
                     }
                 }
                 return mqttAndroidClient
@@ -143,8 +143,8 @@ class ConnectivityAPI {
 
                 val prefs = PreferenceManager.getDefaultSharedPreferences(context)
                 if (prefs.getBoolean("activate_auth", false)) {
-                    mqttConnectOptions.userName = prefs.getString("mqtt_user", "")
-                    mqttConnectOptions.password = prefs.getString("mqtt_user_password", "")?.toCharArray()
+                    mqttConnectOptions.userName = prefs.getString("mqtt_user", "John")
+                    mqttConnectOptions.password = prefs.getString("mqtt_user_password", "fifj6Hkdp")?.toCharArray()
                 }
 
                 return mqttConnectOptions

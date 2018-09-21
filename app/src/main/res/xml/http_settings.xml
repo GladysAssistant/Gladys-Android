@@ -25,6 +25,7 @@
         android:key="token"
         android:hint="@string/token_example"
         android:negativeButtonText="@string/negative_button"
+        android:password="true"
         android:positiveButtonText="@string/positve_button"
         android:title="@string/token" />
 

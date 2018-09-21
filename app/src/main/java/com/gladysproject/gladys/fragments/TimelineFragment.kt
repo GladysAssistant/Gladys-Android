@@ -28,6 +28,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.lang.Exception
 
 class TimelineFragment : Fragment() {
 
@@ -62,7 +63,7 @@ class TimelineFragment : Fragment() {
                 .client(SelfSigningClientBuilder.unsafeOkHttpClient)
                 .build()
 
-        token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "")!!
+        token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "rgdffg")!!
         userId = PreferenceManager.getDefaultSharedPreferences(context).getString("user_id", "1")!!
         houseId = PreferenceManager.getDefaultSharedPreferences(context).getString("house_id", "1")!!
         user_name.text = PreferenceManager.getDefaultSharedPreferences(context).getString("user_firstname", "John")!! + " " + PreferenceManager.getDefaultSharedPreferences(context).getString("user_name", "Pepperwood")!!
@@ -208,13 +209,19 @@ class TimelineFragment : Fragment() {
         socket.off("newEvent", onNewEvent)
     }
 
-    fun showSnackBar(){
+    override fun onResume() {
+        super.onResume()
+        if(activity?.bottom_navigation?.selectedItemId != R.id.timeline)activity?.bottom_navigation?.selectedItemId = R.id.timeline
+    }
 
-        if(ConnectivityAPI.getUrl(this@TimelineFragment.context!!) == "http://noconnection"){
-            Snackbar.make(timeline_cl, R.string.no_connection, Snackbar.LENGTH_LONG).show()
-        } else {
-            Snackbar.make(timeline_cl, R.string.error, Snackbar.LENGTH_LONG).show()
-        }
+    fun showSnackBar(){
+        try {
+            if (ConnectivityAPI.getUrl(this@TimelineFragment.context!!) == "http://noconnection") {
+                Snackbar.make(timeline_cl, R.string.no_connection, Snackbar.LENGTH_LONG).show()
+            } else {
+                Snackbar.make(timeline_cl, R.string.error, Snackbar.LENGTH_LONG).show()
+            }
+        } catch (er: Exception){}
     }
 }
 

@@ -12,9 +12,11 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat.getColor
+import android.support.v7.content.res.AppCompatResources
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.view.View.OnTouchListener
 import android.widget.TextView
@@ -37,6 +39,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.lang.Exception
 
 class ChatFragment : Fragment() {
 
@@ -68,9 +71,12 @@ class ChatFragment : Fragment() {
                 .client(SelfSigningClientBuilder.unsafeOkHttpClient)
                 .build()
 
-        token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "")!!
+        token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "dgdfg")!!
 
         getMessages()
+
+        /** Set drawable manually because API 21 and lower not support les vector drawable */
+        message.setCompoundDrawablesWithIntrinsicBounds(null, null, AppCompatResources.getDrawable(context!!, R.drawable.ic_send_24dp), null)
 
         message.setOnTouchListener(OnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
@@ -84,7 +90,7 @@ class ChatFragment : Fragment() {
 
         message.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p3 == 0) {setTextViewDrawableColor(message, R.color.secondaryDarkColor)}
+                if (p3 == 0 && p1 == 0) {setTextViewDrawableColor(message, R.color.secondaryDarkColor)}
                 else if (p3 == 1) {setTextViewDrawableColor(message, R.color.primaryColor)}
             }
             override fun afterTextChanged(p0: Editable?) {}
@@ -257,6 +263,11 @@ class ChatFragment : Fragment() {
         socket.off("message", onNewMessage)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(activity?.bottom_navigation?.selectedItemId != R.id.chat)activity?.bottom_navigation?.selectedItemId = R.id.chat
+    }
+
     private fun startChatHeadService(){
         //val intent = Intent(context, ChatHeadService::class.java)
         //if (context != null) {
@@ -265,14 +276,20 @@ class ChatFragment : Fragment() {
     }
 
     fun showSnackBar(){
-        if(ConnectivityAPI.getUrl(this@ChatFragment.context!!) == "http://noconnection"){
-            Snackbar.make(chat_cl, R.string.no_connection, Snackbar.LENGTH_LONG)
-                    .apply {view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
-                            .apply {setMargins(leftMargin, topMargin, rightMargin, activity?.navigation?.height!! + 22)}}.show()
-        } else {
-            Snackbar.make(chat_cl, R.string.error, Snackbar.LENGTH_LONG)
-                    .apply {view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
-                            .apply {setMargins(leftMargin, topMargin, rightMargin, activity?.navigation?.height!! + 22)}}.show()
-        }
+        try {
+            if (ConnectivityAPI.getUrl(this@ChatFragment.context!!) == "http://noconnection") {
+                Snackbar.make(chat_cl, R.string.no_connection, Snackbar.LENGTH_LONG)
+                        .apply {
+                            view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
+                                    .apply { setMargins(leftMargin, topMargin, rightMargin, activity?.bottom_navigation?.height!! + 22) }
+                        }.show()
+            } else {
+                Snackbar.make(chat_cl, R.string.error, Snackbar.LENGTH_LONG)
+                        .apply {
+                            view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
+                                    .apply { setMargins(leftMargin, topMargin, rightMargin, activity?.bottom_navigation?.height!! + 22) }
+                        }.show()
+            }
+        } catch (er: Exception){}
     }
 }

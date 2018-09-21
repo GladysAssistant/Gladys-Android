@@ -24,4 +24,9 @@ class TaskFragment : Fragment() {
         menu.findItem(R.id.add_button).isVisible = true
         super.onCreateOptionsMenu(menu, inflater)
     }
+
+    override fun onResume() {
+        super.onResume()
+        if(activity?.bottom_navigation?.selectedItemId != R.id.task)activity?.bottom_navigation?.selectedItemId = R.id.task
+    }
 }

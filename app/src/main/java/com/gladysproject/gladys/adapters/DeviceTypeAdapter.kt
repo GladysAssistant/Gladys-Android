@@ -62,28 +62,12 @@ class DeviceTypeAdapter(
     }
 
     override fun getChildItemViewType(groupPosition: Int, childPosition: Int): Int {
-        val viewType: Int
-
-        when (deviceTypeByRoom[groupPosition].deviceTypes[childPosition].sensor?.toInt()) {
-            1 -> viewType = 3
-
-            else -> viewType = when (deviceTypeByRoom[groupPosition].deviceTypes[childPosition].type) {
-
+        return if (deviceTypeByRoom[groupPosition].deviceTypes[childPosition].sensor?.toInt() == 1) 3
+            else { when (deviceTypeByRoom[groupPosition].deviceTypes[childPosition].type) {
                 "binary" -> 1
-
-                "multilevel" -> 2
-
-                "byte" -> 2
-
-                "brightness" -> 2
-
-                "saturation" -> 2
-
-                else -> 3
+                else -> 2
             }
         }
-
-        return viewType
     }
 
     override fun onCreateGroupViewHolder(parent: ViewGroup, viewType: Int): RoomVH? {

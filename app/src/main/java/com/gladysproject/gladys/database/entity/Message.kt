@@ -1,6 +1,7 @@
 package com.gladysproject.gladys.database.entity
 
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName="message")
@@ -16,6 +17,7 @@ open class Message{
 
     constructor()
 
+    @Ignore
     constructor(text: String, sender: Int, senderName: String, datetime: String, receiver: Int?) {
         this.text = text
         this.sender = sender

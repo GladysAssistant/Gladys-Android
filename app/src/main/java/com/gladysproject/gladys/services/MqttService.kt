@@ -20,21 +20,21 @@ class MqttService : Service(){
     override fun onCreate() {
         super.onCreate()
 
-        mqttClient = ConnectivityAPI.Companion.Mqtt(applicationContext)
-        mqttClient!!.setCallback(object : MqttCallbackExtended {
-            override fun connectComplete(b: Boolean, s: String) {
-                Log.e("connectComplete", b.toString())
-            }
+        try {
+            mqttClient = ConnectivityAPI.Companion.Mqtt(applicationContext)
+            mqttClient!!.setCallback(object : MqttCallbackExtended {
+                override fun connectComplete(b: Boolean, s: String) {}
 
-            override fun connectionLost(throwable: Throwable) {}
+                override fun connectionLost(throwable: Throwable) {}
 
-            @Throws(Exception::class)
-            override fun messageArrived(topic: String, mqttMessage: MqttMessage) {
-                Log.e("Debug", mqttMessage.toString())
-            }
+                @Throws(Exception::class)
+                override fun messageArrived(topic: String, mqttMessage: MqttMessage) {
+                    Log.e("Debug", mqttMessage.toString())
+                }
 
-            override fun deliveryComplete(iMqttDeliveryToken: IMqttDeliveryToken) {}
-        })
+                override fun deliveryComplete(iMqttDeliveryToken: IMqttDeliveryToken) {}
+            })
+        } catch (er: java.lang.Exception){}
     }
 
 }

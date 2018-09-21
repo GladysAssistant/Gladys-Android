@@ -12,7 +12,8 @@
         android:title="@string/host"
         android:negativeButtonText="@string/negative_button"
         android:positiveButtonText="@string/positve_button"
-        android:dependency="activate_mqtt"/>
+        android:dependency="activate_mqtt"
+        android:hint="@string/mqtt_host_exemple"/>
     <EditTextPreference
         android:inputType="number"
         android:key="mqtt_port"
@@ -20,6 +21,7 @@
         android:positiveButtonText="@string/positve_button"
         android:singleLine="true"
         android:title="@string/port"
+        android:hint="@string/mqtt_port_exemple"
         android:dependency="activate_mqtt"/>
     <SwitchPreference
         android:defaultValue="false"
@@ -30,13 +32,16 @@
         android:key="mqtt_user"
         android:singleLine="true"
         android:title="@string/user_name"
+        android:hint="@string/mqtt_user_example"
         android:negativeButtonText="@string/negative_button"
         android:positiveButtonText="@string/positve_button"
         android:dependency="activate_auth"/>
     <EditTextPreference
         android:key="mqtt_user_password"
         android:title="@string/password"
+        android:hint="@string/mqtt_user_password_example"
         android:negativeButtonText="@string/negative_button"
         android:positiveButtonText="@string/positve_button"
-        android:dependency="activate_auth"/>
+        android:dependency="activate_auth"
+        android:password="true"/>
 </PreferenceScreen>

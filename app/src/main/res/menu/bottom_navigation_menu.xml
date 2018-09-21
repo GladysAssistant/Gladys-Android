@@ -12,7 +12,7 @@
         android:title="timeline" />
 
     <item
-        android:id="@+id/message"
+        android:id="@+id/chat"
         android:icon="@drawable/ic_message_24dp"
         android:title="message" />
 

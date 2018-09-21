@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.preference.Preference.OnPreferenceClickListener
 import android.app.Fragment
 import android.preference.*
+import android.support.v7.content.res.AppCompatResources
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -36,11 +37,7 @@ class SettingsActivity : AppCompatActivity() {
             val stringValue = value.toString()
 
             if (preference is ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
                 val index = preference.findIndexOfValue(stringValue)
-
-                // Set the summary to reflect the new value.
                 preference.setSummary(
                         if (index >= 0)
                             preference.entries[index]
@@ -48,23 +45,23 @@ class SettingsActivity : AppCompatActivity() {
                             null)
 
             } else {
-                // For all other preferences, set the summary to the value's
-                // simple string representation.
-                preference.summary = stringValue
+                if(preference.key == "token" || preference.key == "mqtt_user_password") preference.summary = replaceSumary(stringValue)
+                else preference.summary = stringValue
             }
             true
         }
 
         private fun bindPreferenceSummaryToValue(preference: Preference) {
-            // Set the listener to watch for value changes.
             preference.onPreferenceChangeListener = sBindPreferenceSummaryToValueListener
-
-            // Trigger the listener immediately with the preference's
-            // current value.
             sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
                     PreferenceManager
                             .getDefaultSharedPreferences(preference.context)
                             .getString(preference.key, ""))
+        }
+
+        private fun replaceSumary(value: String) : String {
+            val re = Regex("[A-Za-z0-9!@#\$%^&*(),.?:{}|<> ]")
+            return re.replace(value,"*")
         }
     }
 

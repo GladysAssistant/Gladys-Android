@@ -60,7 +60,6 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:background="@null"
-                android:drawableEnd="@drawable/ic_send_24dp"
                 android:ems="10"
                 android:hint="@string/ask_him_something"
                 android:inputType="text"

@@ -30,6 +30,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.lang.Exception
 
 class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
 
@@ -52,14 +53,14 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
 
     override fun onStart() {
         super.onStart()
-
+        bottom_navigation?.selectedItemId = R.id.task
         retrofit = Retrofit.Builder()
                 .baseUrl(ConnectivityAPI.getUrl(context!!)) /** The function getUrl return string address */
                 .addConverterFactory(MoshiConverterFactory.create())
                 .client(SelfSigningClientBuilder.unsafeOkHttpClient)
                 .build()
 
-        token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "")!!
+        token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "dfhdfh")!!
 
         socket = ConnectivityAPI.Companion.WebSocket.getInstance(context!!)!!
         socket.on("newDeviceState", onNewDeviceState)
@@ -238,15 +239,26 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
         socket.off("newDeviceState", onNewDeviceState)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(activity?.bottom_navigation?.selectedItemId != R.id.home)activity?.bottom_navigation?.selectedItemId = R.id.home
+    }
+
     fun showSnackBar(){
-        if(ConnectivityAPI.getUrl(this@HomeFragment.context!!) == "http://noconnection"){
-            Snackbar.make(home_rv, R.string.no_connection, Snackbar.LENGTH_LONG)
-                    .apply {view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
-                            .apply {setMargins(leftMargin, topMargin, rightMargin,activity?.navigation?.height!! + 22)}}.show()
-        } else {
-            Snackbar.make(home_rv, R.string.error, Snackbar.LENGTH_LONG)
-                    .apply {view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
-                            .apply {setMargins(leftMargin, topMargin, rightMargin, activity?.navigation?.height!! + 22)}}.show()
-        }
+        try {
+            if (ConnectivityAPI.getUrl(this@HomeFragment.context!!) == "http://noconnection") {
+                Snackbar.make(home_rv, R.string.no_connection, Snackbar.LENGTH_LONG)
+                        .apply {
+                            view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
+                                    .apply { setMargins(leftMargin, topMargin, rightMargin, activity?.bottom_navigation?.height!! + 22) }
+                        }.show()
+            } else {
+                Snackbar.make(home_rv, R.string.error, Snackbar.LENGTH_LONG)
+                        .apply {
+                            view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
+                                    .apply { setMargins(leftMargin, topMargin, rightMargin, activity?.bottom_navigation?.height!! + 22) }
+                        }.show()
+            }
+        } catch (er: Exception){}
     }
 }

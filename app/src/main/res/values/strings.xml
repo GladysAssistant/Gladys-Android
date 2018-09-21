@@ -36,6 +36,10 @@
     <string name="ip_adresse_example">Exemple: 192.168.1.12</string>
     <string name="message">Message</string>
     <string name="mqtt">Mqtt</string>
+    <string name="mqtt_host_exemple">Exemple: m49.cloudmqtt.com</string>
+    <string name="mqtt_port_exemple">Exemple: 16523</string>
+    <string name="mqtt_user_example">Exemple: John</string>
+    <string name="mqtt_user_password_example">Exemple: ufkH50dkdi</string>
     <string name="minimize">Minimiser</string>
     <string name="name">Nom</string>
     <string name="negative_button">Annuler</string>

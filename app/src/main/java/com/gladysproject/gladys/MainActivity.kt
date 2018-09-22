@@ -7,7 +7,6 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
-import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
 import com.gladysproject.gladys.database.GladysDb
@@ -65,37 +64,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             openFragment(HomeFragment.newInstance())
         }
-
-        /**
-         * Dirty method sorry: /
-         * It is necessary to have a white title and not to propagate the color of the theme
-         * to the text of the dialogs
-         * This problem has been fixed in alpha11 =>
-         *
-         * https://github.com/afollestad/material-dialogs/issues/1603
-         *
-         * Unfortunately it is impossible to use this version because it generates an error
-         * on Windows =>
-         *
-         * https://github.com/afollestad/material-dialogs/issues/1611
-         *
-         * If you go through it and you see that the library has been updated
-         * And that the error is no longer present create an issue for me to correct it
-         * Thank you ! :)
-         *
-         * ////////////////////////////////////////////////////////////////////////////////////////
-         * To have the white title it will then be necessary to put the
-         *
-         * <item name="android:textColorPrimary">@color/primaryTextColor</item>
-         *
-         * in the theme and add the attributes
-         *
-         * <item name="md_color_title">@color/secondaryTextColor</item>
-         * <item name="md_color_content">@color/secondaryTextColor</item>
-         *
-         * to have the text of the good flow in the dialogs.
-         */
-        supportActionBar!!.title = (Html.fromHtml("<font color=\"#ffffff\">" + getString(R.string.app_name) + "</font>"))
     }
 
     override fun onBackPressed() {

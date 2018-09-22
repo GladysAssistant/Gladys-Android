@@ -3,6 +3,7 @@ package com.gladysproject.gladys.utils
 import com.gladysproject.gladys.database.entity.Event
 import com.gladysproject.gladys.database.entity.Message
 import com.gladysproject.gladys.database.entity.Rooms
+import com.gladysproject.gladys.models.Mode
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -34,5 +35,13 @@ interface GladysAPI {
     @POST("/message")
     fun sendMessage(@Field("text") text: String?, @Field("receiver") receiver: Int?, @Field("token") token: String): Call<Message>
 
+    /** Modes */
+
+    @GET("/mode")
+    fun getModes(@Query("token") token: String): Call<MutableList<Mode>>
+
+    @FormUrlEncoded
+    @POST("/house/{id}/mode")
+    fun changeMode(@Path("id") house_id: Long?, @Field("mode") mode: String?, @Field("token") token: String): Call<Void>
 }
 

@@ -5,7 +5,11 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/primaryColor</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
         <item name="md_corner_radius">@dimen/card_radius</item>
+        <item name="md_color_content">@color/secondaryTextColor</item>
+        <item name="md_color_title">@color/secondaryTextColor</item>
+        <item name="android:editTextColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Gladys_Splash" parent="Theme.MaterialComponents.Light">

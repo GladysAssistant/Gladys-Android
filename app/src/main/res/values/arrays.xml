@@ -37,4 +37,30 @@
         <item>going-to-sleep</item>
     </string-array>
 
+    <string-array
+        name="triggers">
+        <item>MQTT</item>
+        <item>NFC</item>
+    </string-array>
+
+    <string-array
+        name="triggers_code">
+        <item>mqtt</item>
+        <item>nfc</item>
+    </string-array>
+
+    <string-array
+        name="actions">
+        <item>Déclencher un événement</item>
+        <item>Changer le mode de la maison</item>
+        <item>Ouvrir une url</item>
+    </string-array>
+
+    <string-array
+        name="actions_code">
+        <item>create_event</item>
+        <item>change_house_mode</item>
+        <item>open_url</item>
+    </string-array>
+
 </resources>

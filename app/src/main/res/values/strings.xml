@@ -44,6 +44,14 @@
     <string name="name">Nom</string>
     <string name="negative_button">Annuler</string>
     <string name="new_message">Nouveau message</string>
+    <string name="new_task_action">Nouvelle tache: Action</string>
+    <string name="new_task_event">Nouvelle tache: Événement</string>
+    <string name="new_task_mqtt">Nouvelle tache: MQTT</string>
+    <string name="new_task_mode">Nouvelle tache: Mode</string>
+    <string name="new_task_name">Nouvelle tache: Nom</string>
+    <string name="new_task_trigger">Nouvelle tache: Déclencheur</string>
+    <string name="new_task_url">Nouvelle tache: URL</string>
+    <string name="next">Suivant</string>
     <string name="news">Nouveau</string>
     <string name="no_connection">Aucune connexion disponible</string>
     <string name="no_device_displayed">Il n\'y a aucun périphérique affiché par ici..</string>
@@ -65,8 +73,11 @@
     <string name="timeline">Timeline</string>
     <string name="token">Token</string>
     <string name="token_example">Exemple: 95g6s2d5g3e5s1fg5d7g46d</string>
+    <string name="topic">topic</string>
     <string name="trigger_an_event">Déclencher un évènement</string>
     <string name="use_dns_adress">Utiliser un DNS / IP publique</string>
     <string name="user_id">Identifiant utilisateur</string>
     <string name="user_name">Nom d\'utilisateur</string>
+    <string name="url">Url</string>
+    <string name="writing_nfc_tag">Écriture du tag NFC</string>
 </resources>

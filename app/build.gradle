@@ -78,7 +78,7 @@ dependencies {
     implementation 'com.github.vipulasri:timelineview:1.0.6'
     implementation 'com.github.captain-miao:optroundcardview:1.0.0'
     implementation ('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar') { transitive = true }
-    implementation 'com.afollestad.material-dialogs:core:2.0.0-alpha09'
+    implementation 'com.afollestad.material-dialogs:core:2.0.0-alpha12'
     implementation ('io.socket:socket.io-client:1.0.0') { exclude group: 'org.json', module: 'json' }
     implementation "android.arch.persistence.room:runtime:1.1.1"
     kapt "android.arch.persistence.room:compiler:1.1.1"

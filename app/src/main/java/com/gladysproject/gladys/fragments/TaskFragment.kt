@@ -96,6 +96,14 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
     }
 
     private fun createTaskName(){
+
+        /** Reset fields of new task if the user has create other task before */
+        newTask.name = ""
+        newTask.triggerType = ""
+        newTask.triggerParam = ""
+        newTask.actionType = ""
+        newTask.actionParam = ""
+
         getModes()
         taskDialog = MaterialDialog(context!!)
 
@@ -269,7 +277,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
         }
     }
 
-    private fun saveTask(){
+    private fun saveTask() {
         launch {
             GladysDb.database?.taskDao()?.insertTask(newTask)
         }
@@ -282,13 +290,6 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
             task_rv.visibility = View.VISIBLE
             empty_state_message_task.visibility = View.INVISIBLE
         }
-
-        /** Reset fields of new task */
-        newTask.name = ""
-        newTask.triggerType = ""
-        newTask.triggerParam = ""
-        newTask.actionType = ""
-        newTask.actionParam = ""
     }
 
     private fun deleteTask(task: Task){

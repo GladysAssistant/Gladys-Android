@@ -63,7 +63,10 @@
                 android:ems="10"
                 android:hint="@string/ask_him_something"
                 android:inputType="text"
-                android:textColor="@color/secondaryTextColor" />
+                android:textColor="@color/secondaryTextColor"
+                android:gravity="bottom"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"/>
 
         </RelativeLayout>
 

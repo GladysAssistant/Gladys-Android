@@ -9,7 +9,6 @@ import com.gladysproject.gladys.R
 import com.gladysproject.gladys.database.entity.Task
 import com.gladysproject.gladys.utils.AdapterCallback
 import kotlinx.android.synthetic.main.card_task.view.*
-import java.util.*
 
 class TaskAdapter(private val tasks: List<Task>,  private var callbacks: AdapterCallback.AdapterCallbackTask, private var context: Context) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 

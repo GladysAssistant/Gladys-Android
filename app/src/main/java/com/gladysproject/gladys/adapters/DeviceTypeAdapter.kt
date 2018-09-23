@@ -106,7 +106,7 @@ class DeviceTypeAdapter(
 
         when(viewType) {
             1 -> {
-                (holder as BinaryVH).bind(deviceTypeByRoom[groupPosition].deviceTypes[childPosition], context, callbacks)
+                (holder as BinaryVH).bind(deviceTypeByRoom[groupPosition].deviceTypes[childPosition], deviceTypeByRoom, groupPosition, context, callbacks)
                 if (childPosition + 1 == deviceTypeByRoom[groupPosition].deviceTypes.size) holder.itemView.card_device_binary.showCorner(false, false, true, true)
                 else holder.itemView.card_device_binary.showCorner(false, false, false, false)
             } 2 -> {
@@ -131,7 +131,7 @@ class DeviceTypeAdapter(
 
     class BinaryVH(itemView: View) : RecyclerView.ViewHolder(itemView){
         @SuppressLint("SetTextI18n")
-        fun bind(deviceType: DeviceType, context: Context, callbacks: AdapterCallback.AdapterCallbackDeviceState){
+        fun bind(deviceType: DeviceType, deviceTypeByRoom: MutableList<Rooms>, groupPosition: Int, context: Context, callbacks: AdapterCallback.AdapterCallbackDeviceState){
             if(deviceType.deviceTypeName != null && deviceType.deviceTypeName != "")itemView.device_binary_name.text = deviceType.deviceTypeName
             else itemView.device_binary_name.text = "${context.getString(R.string.devicetype)} : ${deviceType.id}"
 
@@ -141,8 +141,10 @@ class DeviceTypeAdapter(
             if(deviceType.lastValue != null) itemView.device_binary_value.isChecked = deviceType.lastValue == 1.toFloat()
 
             itemView.findViewById<Switch>(R.id.device_binary_value).setOnCheckedChangeListener { _, isChecked ->
-                if(isChecked) callbacks.onClickCallbackDeviceState(deviceType.id, 1f)
-                else callbacks.onClickCallbackDeviceState(deviceType.id, 0f)
+                if (deviceTypeByRoom[groupPosition].isExpanded) {
+                    if (isChecked) callbacks.onClickCallbackDeviceState(deviceType.id, 1f)
+                    else callbacks.onClickCallbackDeviceState(deviceType.id, 0f)
+                }
             }
         }
     }

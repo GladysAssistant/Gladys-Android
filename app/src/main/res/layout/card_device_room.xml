@@ -22,16 +22,16 @@
         android:paddingTop="@dimen/card_padding_lg">
 
         <TextView
-            android:id="@+id/roomName"
+            android:id="@+id/room_name"
             android:layout_width="292dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="50dp"
-            android:layout_toStartOf="@+id/arrow"
+            android:layout_toStartOf="@+id/room_arrow"
             android:text=""
             android:textSize="@dimen/card_title_size" />
 
         <ViewFlipper
-            android:id="@+id/arrow"
+            android:id="@+id/room_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -58,7 +58,7 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/roomName"
+            android:layout_below="@+id/room_name"
             android:layout_marginTop="@dimen/card_padding_lg"
             android:background="?android:attr/listDivider"
             android:visibility="invisible" />

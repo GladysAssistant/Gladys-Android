@@ -92,11 +92,11 @@ class DeviceTypeAdapter(
         if(deviceTypeByRoom[groupPosition].isExpanded){
             holder.itemView.card_room.showCorner(true, true, false, false)
             holder.itemView.divider.visibility = View.VISIBLE
-            holder.itemView.arrow.displayedChild = 0
+            holder.itemView.room_arrow.displayedChild = 0
         }else{
             holder.itemView.card_room.showCorner(true, true, true, true)
             holder.itemView.divider.visibility = View.INVISIBLE
-            holder.itemView.arrow.displayedChild = 1
+            holder.itemView.room_arrow.displayedChild = 1
         }
     }
 
@@ -125,7 +125,7 @@ class DeviceTypeAdapter(
 
     class RoomVH(itemView: View) : AbstractExpandableItemViewHolder(itemView){
         fun bind(room: Rooms) {
-            itemView.roomName.text = room.name
+            itemView.room_name.text = room.name
         }
     }
 

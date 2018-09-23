@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.ViewFlipper
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.WhichButton
@@ -17,32 +18,38 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.gladysproject.gladys.R
+import com.gladysproject.gladys.adapters.TaskAdapter
+import com.gladysproject.gladys.database.GladysDb
+import com.gladysproject.gladys.database.entity.Task
 import com.gladysproject.gladys.models.Mode
+import com.gladysproject.gladys.utils.AdapterCallback
 import com.gladysproject.gladys.utils.ConnectivityAPI
 import com.gladysproject.gladys.utils.GladysAPI
 import com.gladysproject.gladys.utils.SelfSigningClientBuilder
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_task.*
 import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class TaskFragment : Fragment() {
+class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
 
     private var taskDialog: MaterialDialog? = null
-    private var taskName: String = ""
-    private var taskTrigger : String = ""
-    private var taskTriggerParams : String = ""
-    private var taskAction : String = ""
-    private var taskActionParams : String = ""
     private var isNfcTask: Boolean = false
     private var modesName = listOf<String>()
     private var modesCode = listOf<String>()
     private lateinit var modes: MutableList<Mode>
     private lateinit var retrofit: Retrofit
     private var token : String = ""
+    private var tasks = mutableListOf<Task>()
+    private lateinit var adapter: TaskAdapter
+
+    /** Initialize new event variable */
+    private var newTask : Task = object : Task("", "", "", "",""){}
 
     companion object {
         fun newInstance() = TaskFragment()
@@ -64,6 +71,7 @@ class TaskFragment : Fragment() {
 
         token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "rgdffg")!!
 
+        getTasks()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -97,7 +105,7 @@ class TaskFragment : Fragment() {
                 .positiveButton(R.string.next){ _ ->
                     createTaskTriggers()
                 }
-                .negativeButton(R.string.negative_button)
+                .negativeButton(R.string.cancel)
                 .show()
 
         var isValidName = false
@@ -113,7 +121,7 @@ class TaskFragment : Fragment() {
             override fun afterTextChanged(p0: Editable?) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 taskDialog!!.setActionButtonEnabled(WhichButton.POSITIVE, isValidName)
-                taskName = name.text.toString()
+                newTask.name = name.text.toString()
             }
         })
     }
@@ -123,20 +131,20 @@ class TaskFragment : Fragment() {
         taskDialog!!
                 .title(text = getString(R.string.new_task_trigger))
                 .listItemsSingleChoice(R.array.triggers, waitForPositiveButton = false) { dialog, index, _ ->
-                    taskTrigger = resources.getStringArray(R.array.triggers_code)[index]
+                    newTask.triggerType = resources.getStringArray(R.array.triggers_code)[index]
                     dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
                 }
                 .positiveButton(R.string.next){ _ ->
                     createTaskTriggersFilter()
                 }
-                .negativeButton(R.string.negative_button)
+                .negativeButton(R.string.cancel)
                 .show()
 
     }
 
     private fun createTaskTriggersFilter(){
         taskDialog = MaterialDialog(context!!)
-        when (taskTrigger){
+        when (newTask.triggerType){
             "mqtt" -> {
                 taskDialog!!
                         .title(text = getString(R.string.new_task_mqtt))
@@ -144,7 +152,7 @@ class TaskFragment : Fragment() {
                         .positiveButton(R.string.next){ _ ->
                             createTaskActions()
                         }
-                        .negativeButton(R.string.negative_button)
+                        .negativeButton(R.string.cancel)
                         .show()
 
                 var isValidTopic = false
@@ -162,7 +170,7 @@ class TaskFragment : Fragment() {
                     override fun afterTextChanged(p0: Editable?) {}
                     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                         taskDialog!!.setActionButtonEnabled(WhichButton.POSITIVE, isValidMessage && isValidTopic)
-                        taskTriggerParams = "${mqttTopic.text};${mqttMessage!!.text}"
+                        newTask.triggerParam = "${mqttTopic.text};${mqttMessage!!.text}"
                     }
                 })
 
@@ -174,7 +182,7 @@ class TaskFragment : Fragment() {
                     override fun afterTextChanged(p0: Editable?) {}
                     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                         taskDialog!!.setActionButtonEnabled(WhichButton.POSITIVE, isValidMessage && isValidTopic)
-                        taskTriggerParams = "${mqttTopic!!.text};${mqttMessage.text}"
+                        newTask.triggerParam = "${mqttTopic!!.text};${mqttMessage.text}"
                     }
                 })
 
@@ -191,45 +199,44 @@ class TaskFragment : Fragment() {
         taskDialog!!
                 .title(text = getString(R.string.new_task_action))
                 .listItemsSingleChoice(R.array.actions, waitForPositiveButton = false) { dialog, index, _ ->
-                    taskAction = resources.getStringArray(R.array.actions_code)[index]
+                    newTask.actionType = resources.getStringArray(R.array.actions_code)[index]
                     dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
                 }
                 .positiveButton(R.string.next){ _ ->
                     createTaskActionsFilter()
                 }
-                .negativeButton(R.string.negative_button)
+                .negativeButton(R.string.cancel)
                 .show()
     }
 
     private fun createTaskActionsFilter(){
-        val positiveButton : Int = if(isNfcTask) R.string.next else R.string.positve_button
+        val positiveButton : Int = if(isNfcTask) R.string.next else R.string.validate
         taskDialog = MaterialDialog(context!!)
-        when (taskAction){
+        when (newTask.actionType){
             "create_event" -> {
                 taskDialog!!
                         .title(text = getString(R.string.new_task_event))
                         .listItemsSingleChoice(R.array.events, waitForPositiveButton = false) { dialog, index, _ ->
-                            taskActionParams = resources.getStringArray(R.array.events_code)[index]
+                            newTask.actionParam = resources.getStringArray(R.array.events_code)[index]
                             dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
                         }
                         .positiveButton(positiveButton){ _ ->
-                            saveTask()
+                            if(isNfcTask) writeNfcTag() else saveTask()
                         }
-                        .negativeButton(R.string.negative_button)
+                        .negativeButton(R.string.cancel)
                         .show()
             }
             "change_house_mode" -> {
                 taskDialog!!
                         .title(text = getString(R.string.new_task_mode))
                         .listItemsSingleChoice(items = modesName, waitForPositiveButton = false) { dialog, index, _ ->
-                            taskActionParams = modesCode[index]
-                            Log.e("Url", taskActionParams)
+                            newTask.actionParam = modesCode[index]
                             dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
                         }
                         .positiveButton(positiveButton){ _ ->
-                            saveTask()
+                            if(isNfcTask) writeNfcTag() else saveTask()
                         }
-                        .negativeButton(R.string.negative_button)
+                        .negativeButton(R.string.cancel)
                         .show()
             }
             else -> {
@@ -237,9 +244,9 @@ class TaskFragment : Fragment() {
                         .title(text = getString(R.string.new_task_url))
                         .customView(R.layout.dialog_url)
                         .positiveButton(R.string.next){ _ ->
-                            saveTask()
+                            if(isNfcTask) writeNfcTag() else saveTask()
                         }
-                        .negativeButton(R.string.negative_button)
+                        .negativeButton(R.string.cancel)
                         .show()
 
                 var isValidUrl = false
@@ -255,7 +262,7 @@ class TaskFragment : Fragment() {
                     override fun afterTextChanged(p0: Editable?) {}
                     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                         taskDialog!!.setActionButtonEnabled(WhichButton.POSITIVE, isValidUrl)
-                        taskActionParams = url.text.toString()
+                        newTask.actionParam = url.text.toString()
                     }
                 })
             }
@@ -263,7 +270,42 @@ class TaskFragment : Fragment() {
     }
 
     private fun saveTask(){
-        if(isNfcTask)writeNfcTag()
+        launch {
+            GladysDb.database?.taskDao()?.insertTask(newTask)
+        }
+
+        tasks.add(tasks.size, newTask)
+        adapter.notifyItemInserted(tasks.size)
+
+        if(tasks.size == 1) {
+            refreshView(tasks)
+            task_rv.visibility = View.VISIBLE
+            empty_state_message_task.visibility = View.INVISIBLE
+        }
+
+        /** Reset fields of new task */
+        newTask.name = ""
+        newTask.triggerType = ""
+        newTask.triggerParam = ""
+        newTask.actionType = ""
+        newTask.actionParam = ""
+    }
+
+    private fun deleteTask(task: Task){
+        launch {
+            GladysDb.database?.taskDao()?.deleteTask(task.id)
+        }
+        tasks.remove(task)
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun getTasks() = runBlocking {
+        launch {
+            tasks = GladysDb.database?.taskDao()?.getAllTasks()!!
+        }.join()
+
+        if(tasks.isNotEmpty()) refreshView(tasks)
+        else showEmptyView()
     }
 
     private fun writeNfcTag(){
@@ -272,10 +314,10 @@ class TaskFragment : Fragment() {
         taskDialog!!
                 .title(text = getString(R.string.writing_nfc_tag))
                 .customView(R.layout.dialog_nfc)
-                .positiveButton(R.string.positve_button){ _ ->
+                .positiveButton(R.string.validate){ _ ->
                     saveTask()
                 }
-                .negativeButton(R.string.negative_button)
+                .negativeButton(R.string.cancel)
                 .show()
 
         taskDialog!!.setActionButtonEnabled(WhichButton.POSITIVE, false)
@@ -304,6 +346,40 @@ class TaskFragment : Fragment() {
                     }
                     override fun onFailure(call: Call<MutableList<Mode>>, err: Throwable) {}
                 })
+    }
+
+    private fun refreshView(data : List<Task>){
+        if(task_rv != null){
+            task_rv.layoutManager = LinearLayoutManager(context)
+            adapter = TaskAdapter(data, this, context!!)
+            task_rv.adapter = adapter
+
+            activity?.loadingCircle?.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun showEmptyView(){
+        if(task_rv != null) {
+            task_rv.visibility = View.INVISIBLE
+            activity?.loadingCircle?.visibility = View.INVISIBLE
+            empty_state_message_task.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onClickCallbackTask(task: Task) {
+        taskDialog = MaterialDialog(context!!)
+        taskDialog!!
+                .title(text = task.name)
+                .customView(R.layout.dialog_task)
+                .positiveButton(R.string.delete){ _ ->
+                    deleteTask(task)
+                }
+                .show()
+
+        taskDialog!!.getCustomView()!!.findViewById<TextView>(R.id.dialog_trigger_type).text = task.triggerType
+        taskDialog!!.getCustomView()!!.findViewById<TextView>(R.id.dialog_trigger_param).text = task.triggerParam
+        taskDialog!!.getCustomView()!!.findViewById<TextView>(R.id.dialog_action_type).text = task.actionType
+        taskDialog!!.getCustomView()!!.findViewById<TextView>(R.id.dialog_action_param).text = task.actionParam
     }
 }
 

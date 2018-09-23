@@ -1,6 +1,7 @@
 <resources
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="Typos">
+    <string name="action">Action</string>
     <string name="activate_authentication">Activer l\'authenfication</string>
     <string name="activate_mqtt">Activer la connexion mqtt</string>
     <string name="activate_mqtt_explanation">Vous permet de vous connecter à un broker MQTT</string>
@@ -14,11 +15,14 @@
     <string name="ask_him_something">Demandez lui quelque chose.. </string>
     <string name="auto_start">Démarrage automatique</string>
     <string name="auto_start_explanation">Démarrer automatiquement au démarrage de votre appareil</string>
+    <string name="cancel">Annuler</string>
     <string name="connection">Connexion</string>
+    <string name="delete">Supprimer</string>
     <string name="devicetype">Périphérique</string>
     <string name="dns_adress">DNS / IP Publique</string>
     <string name="dns_adress_example">Exemple: monadresse.ddns.net</string>
     <string name="dns_port_example">Exemple: 443</string>
+    <string name="edit">Modifier</string>
     <string name="error">Une erreur est survenue</string>
     <string name="firstname">Prénom</string>
     <string name="forum">Forum</string>
@@ -42,7 +46,6 @@
     <string name="mqtt_user_password_example">Exemple: ufkH50dkdi</string>
     <string name="minimize">Minimiser</string>
     <string name="name">Nom</string>
-    <string name="negative_button">Annuler</string>
     <string name="new_message">Nouveau message</string>
     <string name="new_task_action">Nouvelle tache: Action</string>
     <string name="new_task_event">Nouvelle tache: Événement</string>
@@ -64,7 +67,6 @@
     <string name="password">Mot de passe</string>
     <string name="port">Port</string>
     <string name="port_example">Exemple: 8080</string>
-    <string name="positve_button">Valider</string>
     <string name="report_bug">Signaler un bug</string>
     <string name="select_ringtone">Sélection du son</string>
     <string name="select_ringtone_explanation">Choisir la sonnerie utilisée par les notifications</string>
@@ -75,9 +77,11 @@
     <string name="token_example">Exemple: 95g6s2d5g3e5s1fg5d7g46d</string>
     <string name="topic">topic</string>
     <string name="trigger_an_event">Déclencher un évènement</string>
+    <string name="trigger">Déclencheur</string>
     <string name="use_dns_adress">Utiliser un DNS / IP publique</string>
     <string name="user_id">Identifiant utilisateur</string>
     <string name="user_name">Nom d\'utilisateur</string>
     <string name="url">Url</string>
+    <string name="validate">Valider</string>
     <string name="writing_nfc_tag">Écriture du tag NFC</string>
 </resources>

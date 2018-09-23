@@ -10,32 +10,32 @@
             android:key="user_name"
             android:singleLine="true"
             android:title="@string/name"
-            android:negativeButtonText="@string/negative_button"
-            android:positiveButtonText="@string/positve_button"/>
+            android:negativeButtonText="@string/cancel"
+            android:positiveButtonText="@string/validate"/>
 
         <EditTextPreference
             android:hint="John"
             android:key="user_firstname"
             android:singleLine="true"
             android:title="@string/firstname"
-            android:negativeButtonText="@string/negative_button"
-            android:positiveButtonText="@string/positve_button" />
+            android:negativeButtonText="@string/cancel"
+            android:positiveButtonText="@string/validate" />
 
         <EditTextPreference
             android:hint="1"
             android:key="user_id"
             android:singleLine="true"
             android:title="@string/user_id"
-            android:negativeButtonText="@string/negative_button"
-            android:positiveButtonText="@string/positve_button"/>
+            android:negativeButtonText="@string/cancel"
+            android:positiveButtonText="@string/validate"/>
 
         <EditTextPreference
             android:hint="1"
             android:key="house_id"
             android:singleLine="true"
             android:title="@string/house_id"
-            android:negativeButtonText="@string/negative_button"
-            android:positiveButtonText="@string/positve_button"/>
+            android:negativeButtonText="@string/cancel"
+            android:positiveButtonText="@string/validate"/>
 
     </PreferenceCategory>
 

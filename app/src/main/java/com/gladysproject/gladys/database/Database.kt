@@ -6,22 +6,17 @@ import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
 import com.gladysproject.gladys.database.converter.DateConverter
-import com.gladysproject.gladys.database.dao.DeviceTypeDao
-import com.gladysproject.gladys.database.dao.EventDao
-import com.gladysproject.gladys.database.dao.MessageDao
-import com.gladysproject.gladys.database.dao.RoomsDao
-import com.gladysproject.gladys.database.entity.DeviceType
-import com.gladysproject.gladys.database.entity.Event
-import com.gladysproject.gladys.database.entity.Message
-import com.gladysproject.gladys.database.entity.Rooms
+import com.gladysproject.gladys.database.dao.*
+import com.gladysproject.gladys.database.entity.*
 
-@Database(entities = [Event::class, Message::class, Rooms::class, DeviceType::class], version = 1)
+@Database(entities = [Event::class, Message::class, Rooms::class, DeviceType::class, Task::class], version = 1)
 @TypeConverters(DateConverter::class)
 abstract class GladysAppDatabase : RoomDatabase() {
     abstract fun eventDao(): EventDao
     abstract fun messageDao(): MessageDao
     abstract fun roomsDao(): RoomsDao
     abstract fun deviceTypeDao(): DeviceTypeDao
+    abstract fun taskDao(): TaskDao
 }
 
 abstract class GladysDb {

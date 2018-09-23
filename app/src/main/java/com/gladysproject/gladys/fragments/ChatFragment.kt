@@ -75,7 +75,7 @@ class ChatFragment : Fragment() {
 
         getMessages()
 
-        /** Set drawable manually because API 21 and lower not support les vector drawable */
+        /** Set drawable manually because API 21 and lower not support the vector drawable */
         message.setCompoundDrawablesWithIntrinsicBounds(null, null, AppCompatResources.getDrawable(context!!, R.drawable.ic_send_24dp), null)
 
         message.setOnTouchListener(OnTouchListener { _, event ->

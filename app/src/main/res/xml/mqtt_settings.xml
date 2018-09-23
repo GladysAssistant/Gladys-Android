@@ -10,15 +10,15 @@
         android:key="mqtt_host"
         android:singleLine="true"
         android:title="@string/host"
-        android:negativeButtonText="@string/negative_button"
-        android:positiveButtonText="@string/positve_button"
+        android:negativeButtonText="@string/cancel"
+        android:positiveButtonText="@string/validate"
         android:dependency="activate_mqtt"
         android:hint="@string/mqtt_host_exemple"/>
     <EditTextPreference
         android:inputType="number"
         android:key="mqtt_port"
-        android:negativeButtonText="@string/negative_button"
-        android:positiveButtonText="@string/positve_button"
+        android:negativeButtonText="@string/cancel"
+        android:positiveButtonText="@string/validate"
         android:singleLine="true"
         android:title="@string/port"
         android:hint="@string/mqtt_port_exemple"
@@ -33,15 +33,15 @@
         android:singleLine="true"
         android:title="@string/user_name"
         android:hint="@string/mqtt_user_example"
-        android:negativeButtonText="@string/negative_button"
-        android:positiveButtonText="@string/positve_button"
+        android:negativeButtonText="@string/cancel"
+        android:positiveButtonText="@string/validate"
         android:dependency="activate_auth"/>
     <EditTextPreference
         android:key="mqtt_user_password"
         android:title="@string/password"
         android:hint="@string/mqtt_user_password_example"
-        android:negativeButtonText="@string/negative_button"
-        android:positiveButtonText="@string/positve_button"
+        android:negativeButtonText="@string/cancel"
+        android:positiveButtonText="@string/validate"
         android:dependency="activate_auth"
         android:password="true"/>
 </PreferenceScreen>

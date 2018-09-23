@@ -190,8 +190,8 @@ class TimelineFragment : Fragment() {
                     .listItemsSingleChoice(R.array.events) { _, index, _ ->
                         createEvent(resources.getStringArray(R.array.events_code)[index])
                     }
-                    .positiveButton(R.string.positve_button)
-                    .negativeButton(R.string.negative_button)
+                    .positiveButton(R.string.validate)
+                    .negativeButton(R.string.cancel)
                     .show()
             return true
         }

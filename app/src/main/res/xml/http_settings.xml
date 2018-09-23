@@ -7,8 +7,8 @@
         android:hint="@string/ip_adresse_example"
         android:inputType="text"
         android:key="local_ip"
-        android:negativeButtonText="@string/negative_button"
-        android:positiveButtonText="@string/positve_button"
+        android:negativeButtonText="@string/cancel"
+        android:positiveButtonText="@string/validate"
         android:title="@string/ip_adress" />
 
     <EditTextPreference
@@ -16,17 +16,17 @@
         android:inputType="number"
         android:key="local_port"
         android:hint="@string/port_example"
-        android:negativeButtonText="@string/negative_button"
-        android:positiveButtonText="@string/positve_button"
+        android:negativeButtonText="@string/cancel"
+        android:positiveButtonText="@string/validate"
         android:title="@string/port" />
 
     <EditTextPreference
         android:dialogTitle="@string/token"
         android:key="token"
         android:hint="@string/token_example"
-        android:negativeButtonText="@string/negative_button"
+        android:negativeButtonText="@string/cancel"
         android:password="true"
-        android:positiveButtonText="@string/positve_button"
+        android:positiveButtonText="@string/validate"
         android:title="@string/token" />
 
     <SwitchPreference
@@ -39,8 +39,8 @@
         android:dialogTitle="@string/dns_adress"
         android:key="dns"
         android:hint="@string/dns_adress_example"
-        android:negativeButtonText="@string/negative_button"
-        android:positiveButtonText="@string/positve_button"
+        android:negativeButtonText="@string/cancel"
+        android:positiveButtonText="@string/validate"
         android:title="@string/dns_adress" />
 
     <SwitchPreference
@@ -58,8 +58,8 @@
         android:inputType="number"
         android:key="nat_port"
         android:hint="@string/dns_port_example"
-        android:negativeButtonText="@string/negative_button"
-        android:positiveButtonText="@string/positve_button"
+        android:negativeButtonText="@string/cancel"
+        android:positiveButtonText="@string/validate"
         android:title="@string/port" />
 
 </PreferenceScreen>

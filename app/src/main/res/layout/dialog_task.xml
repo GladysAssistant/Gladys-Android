@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/card_padding_lg">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/card_padding_xs"
+        android:text="@string/trigger"
+        android:textColor="@color/secondaryTextColor"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/dialog_trigger_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginBottom="@dimen/card_padding_xs"
+        android:layout_marginStart="@dimen/card_radius_lg"/>
+
+    <TextView
+        android:id="@+id/dialog_trigger_param"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginBottom="@dimen/card_padding_xs"
+        android:layout_marginStart="40dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/card_padding_xs"
+        android:text="@string/action"
+        android:textColor="@color/secondaryTextColor"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/dialog_action_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginBottom="@dimen/card_padding_xs"
+        android:layout_marginStart="@dimen/card_radius_lg" />
+
+    <TextView
+        android:id="@+id/dialog_action_param"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginBottom="@dimen/card_padding_xs"
+        android:layout_marginStart="40dp" />
+</LinearLayout>

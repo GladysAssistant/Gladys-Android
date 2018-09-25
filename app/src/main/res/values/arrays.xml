@@ -3,20 +3,21 @@
 
     <string-array
         name="events">
-        <item>Alarme</item>
-        <item>Changement de mode</item>
-        <item>Coucher de soleil</item>
-        <item>Départ de la maison</item>
-        <item>Départ d\'une zone</item>
-        <item>Entrée dans une zone</item>
-        <item>Gladys installée</item>
-        <item>Gladys mise à jour</item>
-        <item>Lever de soleil</item>
-        <item>Nouvelle valeur deviceType</item>
-        <item>Retour à la maison</item>
-        <item>Réveil</item>
-        <item>Utilisateur vu à la maison</item>
-        <item>Va se coucher</item>
+        <item>Alarm</item>
+        <item>House Mode changed</item>
+        <item>Sunset</item>
+        <item>Left Home</item>
+        <item>Left Area</item>
+        <item>Enter Area</item>
+        <item>Gladys Installed</item>
+        <item>Gladys updated</item>
+        <item>Sunrise</item>
+        <item>DeviceType new value</item>
+        <item>Back at Home</item>
+        <item>Wake Up</item>
+        <item>User seen at home</item>
+        <item>Going to Sleep</item>
+        <item>User need to wake up</item>
     </string-array>
 
     <string-array
@@ -51,9 +52,9 @@
 
     <string-array
         name="actions">
-        <item>Déclencher un événement</item>
-        <item>Changer le mode de la maison</item>
-        <item>Ouvrir une url</item>
+        <item>Trigger an event</item>
+        <item>Change the mode of the house</item>
+        <item>Open an URL</item>
     </string-array>
 
     <string-array

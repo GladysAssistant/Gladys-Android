@@ -21,9 +21,9 @@
 
 <table align="center">
     <tr>
-        <td align="center"><img src="https://raw.githubusercontent.com/GladysProject/Gladys-Android/master/art/Home.png" alt="some text"></td>
-        <td align="center"><img src="https://raw.githubusercontent.com/GladysProject/Gladys-Android/master/art/Timeline.png" alt="some text"</td>
-        <td align="center"><img src="https://raw.githubusercontent.com/GladysProject/Gladys-Android/master/art/Chat.png" alt="some text"</td>
+        <td align="center"><img src="https://raw.githubusercontent.com/GladysProject/Gladys-Android/master/art/Img/EN/Home-EN.png" alt="some text"></td>
+        <td align="center"><img src="https://raw.githubusercontent.com/GladysProject/Gladys-Android/master/art/Img/EN/Timeline-EN.png" alt="some text"</td>
+        <td align="center"><img src="https://raw.githubusercontent.com/GladysProject/Gladys-Android/master/art/Img/EN/Chat-EN.png" alt="some text"</td>
     </tr>
 </table>
 

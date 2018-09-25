@@ -53,7 +53,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
 
     override fun onStart() {
         super.onStart()
-        bottom_navigation?.selectedItemId = R.id.task
+        bottom_navigation?.selectedItemId = R.id.home
         retrofit = Retrofit.Builder()
                 .baseUrl(ConnectivityAPI.getUrl(context!!)) /** The function getUrl return string address */
                 .addConverterFactory(MoshiConverterFactory.create())

@@ -3,7 +3,6 @@
 
     <EditTextPreference
         android:dialogTitle="@string/ip_adress"
-        android:digits="0123456789."
         android:hint="@string/ip_adresse_example"
         android:inputType="text"
         android:key="local_ip"

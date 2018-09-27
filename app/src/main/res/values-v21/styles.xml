@@ -28,4 +28,13 @@
         <item name="android:navigationBarColor">@color/primaryColor</item>
     </style>
 
+    <style name="Gladys.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextAppearance">@style/TextAppearance.Gladys.TextInputLayout.HintText</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="TextAppearance.Gladys.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textColor">?android:attr/colorPrimary</item>
+    </style>
+
 </resources>

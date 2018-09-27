@@ -8,29 +8,29 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        style="@style/Widget.Gladys.TextInputLayout">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/mqtt_topic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/topic"
-            android:inputType="text"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
+            android:inputType="text"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        style="@style/Widget.Gladys.TextInputLayout">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/mqtt_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/message"
-            android:inputType="text"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
+            android:inputType="text"/>
     </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>

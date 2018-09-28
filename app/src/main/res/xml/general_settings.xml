@@ -51,10 +51,10 @@
             android:key="http_settings">
         </Preference>
 
-        <Preference
+        <!--<Preference
             android:title="@string/mqtt"
             android:key="mqtt_settings">
-        </Preference>
+        </Preference>-->
 
     </PreferenceCategory>
 

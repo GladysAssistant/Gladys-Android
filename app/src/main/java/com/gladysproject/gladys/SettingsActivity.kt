@@ -76,7 +76,7 @@ class SettingsActivity : AppCompatActivity() {
             bindPreferenceSummaryToValue(findPreference("house_id"))
 
             val http = findPreference("http_settings") as Preference
-            val mqtt = findPreference("mqtt_settings") as Preference
+            //val mqtt = findPreference("mqtt_settings") as Preference
             //val notification = findPreference("notification_settings") as Preference
             //val geolocation = findPreference("geolocation_settings") as Preference
             val openSourceLicence = findPreference("open_source_licence_list") as Preference
@@ -86,10 +86,10 @@ class SettingsActivity : AppCompatActivity() {
                 true
             }
 
-            mqtt.onPreferenceClickListener = OnPreferenceClickListener {
-                openFragment(MqttSettingsFragment())
-                true
-            }
+            //mqtt.onPreferenceClickListener = OnPreferenceClickListener {
+            //    openFragment(MqttSettingsFragment())
+            //    true
+            //}
 
             //notification.onPreferenceClickListener = OnPreferenceClickListener {
             //    openFragment(NotificationSettingsFragment())

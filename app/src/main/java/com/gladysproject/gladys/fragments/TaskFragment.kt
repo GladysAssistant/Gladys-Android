@@ -92,7 +92,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
 
     override fun onResume() {
         super.onResume()
-        if(activity?.bottom_navigation?.selectedItemId != R.id.task)activity?.bottom_navigation?.selectedItemId = R.id.task
+        //if(activity?.bottom_navigation?.selectedItemId != R.id.task)activity?.bottom_navigation?.selectedItemId = R.id.task
     }
 
     private fun createTaskName(){

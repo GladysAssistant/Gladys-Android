@@ -40,10 +40,10 @@ class MainActivity : AppCompatActivity() {
                 openFragment(ChatFragment.newInstance())
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.task -> {
-                openFragment(TaskFragment.newInstance())
-                return@OnNavigationItemSelectedListener true
-            }
+            //R.id.task -> {
+            //    openFragment(TaskFragment.newInstance())
+            //    return@OnNavigationItemSelectedListener true
+            //}
         }
         false
     }
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
         GladysDb.initializeDatabase(this)
         connectSocket()
-        startMqttService()
+        //startMqttService()
 
         if (startChat == intent.action){
             openFragment(ChatFragment.newInstance())

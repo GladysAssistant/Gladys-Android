@@ -16,9 +16,9 @@
         android:icon="@drawable/ic_message_24dp"
         android:title="message" />
 
-    <item
+    <!--<item
         android:id="@+id/task"
         android:icon="@drawable/ic_task_24dp"
-        android:title="task" />
+        android:title="task" />-->
 
 </menu>

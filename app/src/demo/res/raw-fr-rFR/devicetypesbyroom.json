@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "name": "Salle à manger",
+    "house": 1,
+    "isExpanded": true,
+    "deviceTypes": [
+      {
+        "id": 1,
+        "type": "byte",
+        "tag": "lumière principale",
+        "unit": "",
+        "min": 0,
+        "max": 100,
+        "display": 1,
+        "sensor": 0,
+        "lastValue": 60,
+        "roomHouse": 1,
+        "deviceTypeName": "Lumière"
+      },
+      {
+        "id": 2,
+        "type": "temperature",
+        "tag": null,
+        "unit": "°C",
+        "min": -100,
+        "max": 100,
+        "display": 1,
+        "sensor": 1,
+        "lastValue": 23.13,
+        "roomHouse": 1,
+        "deviceTypeName": "Température"
+      },
+      {
+        "id": 3,
+        "type": "humidity",
+        "tag": null,
+        "unit": "%",
+        "min": 0,
+        "max": 100,
+        "display": 1,
+        "sensor": 1,
+        "lastValue": 63.14,
+        "roomHouse": 1,
+        "deviceTypeName": "Humidité"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Chambre",
+    "house": 1,
+    "isExpanded": true,
+    "deviceTypes": [
+      {
+        "id": 4,
+        "type": "byte",
+        "tag": "lumière principale",
+        "unit": "",
+        "min": 0,
+        "max": 100,
+        "display": 1,
+        "sensor": 0,
+        "lastValue": 0,
+        "roomHouse": 1,
+        "deviceTypeName": "Lumière"
+      },
+      {
+        "id": 5,
+        "type": "binary",
+        "tag": "télé",
+        "unit": null,
+        "min": 0,
+        "max": 1,
+        "display": 1,
+        "sensor": 0,
+        "lastValue": 1,
+        "roomHouse": 1,
+        "deviceTypeName": "Télévision"
+      },
+      {
+        "id": 6,
+        "type": "binary",
+        "tag": null,
+        "unit": null,
+        "min": 0,
+        "max": 1,
+        "display": 1,
+        "sensor": 1,
+        "lastValue": 0,
+        "roomHouse": 1,
+        "deviceTypeName": "Fenêtre"
+      },
+      {
+        "id": 7,
+        "type": "temperature",
+        "tag": null,
+        "unit": "%",
+        "min": -100,
+        "max": 100,
+        "display": 1,
+        "sensor": 1,
+        "lastValue": 23.13,
+        "roomHouse": 1,
+        "deviceTypeName": "Température"
+      },
+      {
+        "id": 8,
+        "type": "humidity",
+        "tag": null,
+        "unit": "%",
+        "min": 0,
+        "max": 100,
+        "display": 1,
+        "sensor": 1,
+        "lastValue": 63.14,
+        "roomHouse": 1,
+        "deviceTypeName": "Humidité"
+      }
+    ]
+  }
+]

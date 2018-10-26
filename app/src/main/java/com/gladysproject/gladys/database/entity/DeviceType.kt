@@ -18,13 +18,14 @@ open class DeviceType {
     var sensor: Long? = null
     var lastValue: Float? = null
     var roomId: Long? = null
+    var roomHouse: Long? = null
 
     @Ignore
     var display: Long? = 1
 
     constructor()
 
-    constructor(deviceTypeName: String, id: Long, type: String, tag: String, unit: String, min: Int?, max: Int?, display: Long?, sensor: Long?, lastValue: Float?, roomId: Long?) : super() {
+    constructor(deviceTypeName: String, id: Long, type: String, tag: String, unit: String, min: Int?, max: Int?, display: Long?, sensor: Long?, lastValue: Float?, roomId: Long?, roomHouse: Long?) : super() {
         this.deviceTypeName = deviceTypeName
         this.id = id
         this.type = type
@@ -36,6 +37,7 @@ open class DeviceType {
         this.sensor = sensor
         this.lastValue = lastValue
         this.roomId = roomId
+        this.roomHouse = roomHouse
     }
 }
 

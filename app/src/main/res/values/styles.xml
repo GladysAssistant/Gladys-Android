@@ -12,11 +12,11 @@
         <item name="android:editTextColor">@color/secondaryTextColor</item>
     </style>
 
-    <style name="Gladys_Splash" parent="Theme.MaterialComponents.Light">
+    <style name="Gladys_Splash" parent="Gladys">
+        <item name="colorPrimaryDark">@color/secondaryColor</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/background_splash</item>
-        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Gladys_Settings" parent="Theme.AppCompat.Light.DarkActionBar">

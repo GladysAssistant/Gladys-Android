@@ -8,6 +8,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
+    flavorDimensions "default"
     defaultConfig {
         applicationId "com.gladysproject.gladys"
         minSdkVersion 19
@@ -24,7 +25,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -34,6 +35,28 @@ android {
             force 'com.android.support:support-media-compat:28.0.0-rc01'
             force 'com.android.support:customtabs:28.0.0-rc01'
         }
+    }
+    productFlavors {
+        full {
+            minSdkVersion 19
+            applicationId 'com.gladysproject.gladys'
+            targetSdkVersion 28
+            testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+            versionCode 1
+            versionName '1.0'
+        }
+        demo {
+            minSdkVersion 19
+            applicationId 'com.gladysproject.gladys.demo'
+            targetSdkVersion 28
+            testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+            versionCode 1
+            versionName '1.0'
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 }
 
@@ -59,7 +82,7 @@ repositories {
 
 dependencies {
     configurations { all*.exclude group: 'com.android.support', module: 'support-v13' }
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //noinspection GradleCompatible
     api 'com.android.support:design:28.0.0'
@@ -73,12 +96,15 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
     implementation 'com.github.vipulasri:timelineview:1.0.6'
-    implementation 'com.github.captain-miao:optroundcardview:1.0.0'
-    implementation ('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar') { transitive = true }
+    implementation 'com.github.captain-miao:optroundcardview:1.1.0'
+    implementation('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar') {
+        transitive = true
+    }
     implementation 'com.afollestad.material-dialogs:core:2.0.0-alpha12'
-    implementation ('io.socket:socket.io-client:1.0.0') { exclude group: 'org.json', module: 'json' }
-    implementation "android.arch.persistence.room:runtime:1.1.1"
+    implementation('io.socket:socket.io-client:1.0.0') { exclude group: 'org.json', module: 'json' }
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
     kapt "android.arch.persistence.room:compiler:1.1.1"
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'org.adw.library:discrete-seekbar:1.0.1'
 }

@@ -11,6 +11,7 @@ open class Rooms{
     @PrimaryKey(autoGenerate = false)
     var id: Long = 0
     var name: String? = null
+    var house: String? = null
     var isExpanded: Boolean = false
 
     @Ignore
@@ -18,8 +19,9 @@ open class Rooms{
 
     constructor()
 
-    constructor(name: String, id: Long, isExpanded: Boolean, deviceTypes: MutableList<DeviceType>) {
+    constructor(name: String, house:String, id: Long, isExpanded: Boolean, deviceTypes: MutableList<DeviceType>) {
         this.name = name
+        this.house = house
         this.id = id
         this.isExpanded = isExpanded
         this.deviceTypes = deviceTypes

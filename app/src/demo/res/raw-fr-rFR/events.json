@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "Retour à la maison",
+    "code": "back-at-home",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 2,
+    "name": "Entrée dans une zone",
+    "code": "enter-area",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 3,
+    "name": "Changement de mode",
+    "code": "house-mode-changed",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 4,
+    "name": "Départ d'une zone",
+    "code": "left-area",
+    "datetime": "",
+    "user": 2
+  },
+  {
+    "id": 5,
+    "name": "Départ de la maison",
+    "code": "left-home",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 6,
+    "name": "Réveil",
+    "code": "wake-up",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 7,
+    "name": "Lever de soleil",
+    "code": "sunrise",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 8,
+    "name": "Va se coucher",
+    "code": "going-to-sleep",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 9,
+    "name": "Coucher de soleil",
+    "code": "sunset",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 10,
+    "name": "Retour à la maison",
+    "code": "back-at-home",
+    "datetime": "",
+    "user": 1
+  }
+]

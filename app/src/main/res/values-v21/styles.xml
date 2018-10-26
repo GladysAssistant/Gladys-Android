@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Gladys" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/primaryColor</item>
@@ -13,12 +13,14 @@
         <item name="android:editTextColor">@color/secondaryTextColor</item>
     </style>
 
-    <style name="Gladys_Splash" parent="Theme.MaterialComponents.Light">
+    <style name="Gladys_Splash" parent="Gladys">
+        <item name="colorPrimaryDark">@color/secondaryColor</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/background_splash</item>
-        <item name="android:textColor">@color/primaryTextColor</item>
-        <item name="android:navigationBarColor">@color/primaryColor</item>
+        <item name="android:navigationBarColor">@color/secondaryColor</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
     </style>
 
     <style name="Gladys_Settings" parent="Theme.AppCompat.Light.DarkActionBar">

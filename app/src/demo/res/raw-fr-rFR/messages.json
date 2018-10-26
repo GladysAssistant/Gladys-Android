@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "sender": 1,
+    "senderName": "Mathieu",
+    "receiver": null,
+    "text": "Comment ça va ?",
+    "datetime": ""
+  },
+  {
+    "id": 2,
+    "sender": null,
+    "senderName": "Gladys",
+    "receiver": 1,
+    "text": "Ça va bien !",
+    "datetime": ""
+  },
+  {
+    "id": 3,
+    "sender": 1,
+    "senderName": "Mathieu",
+    "receiver": null,
+    "text": "Allume la lumière de la salle à manger",
+    "datetime": ""
+  },
+  {
+    "id": 4,
+    "sender": null,
+    "senderName": "Gladys",
+    "receiver": 1,
+    "text": "C'est fait !",
+    "datetime": ""
+  },
+  {
+    "id": 5,
+    "sender": 1,
+    "senderName": "Mathieu",
+    "receiver": null,
+    "text": "Donne moi la température",
+    "datetime": ""
+  },
+  {
+    "id": 6,
+    "sender": null,
+    "senderName": "Gladys",
+    "receiver": 1,
+    "text": "Le ciel est couvert, la température est de 23.88 degrés.",
+    "datetime": ""
+  },
+  {
+    "id": 7,
+    "sender": 1,
+    "senderName": "Mathieu",
+    "receiver": null,
+    "text": "Je pars de la maison",
+    "datetime": ""
+  },
+  {
+    "id": 8,
+    "sender": null,
+    "senderName": "Gladys",
+    "receiver": 1,
+    "text": "Pas de soucis :) La maison est en sécurité.",
+    "datetime": ""
+  },
+  {
+    "id": 9,
+    "sender": 1,
+    "senderName": "Mathieu",
+    "receiver": null,
+    "text": "Papa est rentré",
+    "datetime": ""
+  },
+  {
+    "id": 10,
+    "sender": null,
+    "senderName": "Gladys",
+    "receiver": 1,
+    "text": "Je suis content que vous soyez de retour :)",
+    "datetime": ""
+  },
+  {
+    "id": 11,
+    "sender": 1,
+    "senderName": "Mathieu",
+    "receiver": null,
+    "text": "Je vais me coucher",
+    "datetime": ""
+  },
+  {
+    "id": 12,
+    "sender": null,
+    "senderName": "Gladys",
+    "receiver": 1,
+    "text": "Passez une bonne nuit !",
+    "datetime": ""
+  }
+]

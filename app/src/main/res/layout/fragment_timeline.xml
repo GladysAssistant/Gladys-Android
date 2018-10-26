@@ -8,9 +8,10 @@
     android:id="@+id/timeline_cl">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/timeline.appbar"
+        android:id="@+id/timeline_appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="invisible">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/timeline.collapsing"
@@ -20,11 +21,10 @@
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
             app:scrimAnimationDuration="0">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:android="http://schemas.android.com/apk/res/android">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -41,9 +41,9 @@
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
+                    android:layout_marginEnd="8dp"
                     android:textColor="@color/primaryColor"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -69,8 +69,7 @@
         android:id="@+id/timeline_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </android.support.v7.widget.RecyclerView>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -78,21 +77,37 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
+        <ImageView
+            android:id="@+id/empty_state_img_timeline"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/empty_state_message_timeline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/img_empty_timeline"
+            tools:ignore="ContentDescription" />
+
         <TextView
             android:id="@+id/empty_state_message_timeline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/no_event_triggered"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.411" />
+            app:layout_constraintVertical_bias="0.628" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -57,7 +57,11 @@ class TimelineFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onStart() {
         super.onStart()
+        init()
+    }
 
+    @SuppressLint("SetTextI18n")
+    fun init(){
         retrofit = Retrofit.Builder()
                 .baseUrl(ConnectivityAPI.getUrl(context!!)) /** The function getUrl return string address */
                 .addConverterFactory(MoshiConverterFactory.create())
@@ -150,7 +154,9 @@ class TimelineFragment : Fragment() {
 
             if(events.size == 1) {
                 refreshView(events)
+                timeline_appbar.visibility = View.VISIBLE
                 timeline_rv.visibility = View.VISIBLE
+                empty_state_img_timeline.visibility = View.INVISIBLE
                 empty_state_message_timeline.visibility = View.INVISIBLE
             }
         }
@@ -159,6 +165,7 @@ class TimelineFragment : Fragment() {
 
     fun refreshView(data : List<Event>){
         if(timeline_rv != null){
+            timeline_appbar.visibility = View.VISIBLE
             timeline_rv.layoutManager = LinearLayoutManager(context)
             adapter = TimelineAdapter(data)
             timeline_rv.adapter = adapter
@@ -169,8 +176,10 @@ class TimelineFragment : Fragment() {
 
     fun showEmptyView(){
         if(timeline_rv != null) {
+            timeline_appbar.visibility = View.INVISIBLE
             timeline_rv.visibility = View.INVISIBLE
             activity?.loadingCircle?.visibility = View.INVISIBLE
+            empty_state_img_timeline.visibility = View.VISIBLE
             empty_state_message_timeline.visibility = View.VISIBLE
         }
     }

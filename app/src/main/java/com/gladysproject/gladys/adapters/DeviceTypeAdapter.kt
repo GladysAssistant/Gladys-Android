@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.card_device_multilevel.view.*
 import kotlinx.android.synthetic.main.card_device_room.view.*
 import kotlinx.android.synthetic.main.card_device_sensor.view.*
 import kotlinx.coroutines.experimental.launch
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
 
 class DeviceTypeAdapter(
         private var deviceTypeByRoom: MutableList<Rooms>,
@@ -138,6 +139,7 @@ class DeviceTypeAdapter(
             if(deviceType.tag != null)itemView.device_binary_tag.text = deviceType.tag
             else itemView.device_binary_tag.text = context.getString(R.string.no_tag)
 
+            itemView.device_binary_value.setOnCheckedChangeListener(null)
             if(deviceType.lastValue != null) itemView.device_binary_value.isChecked = deviceType.lastValue == 1.toFloat()
 
             itemView.findViewById<Switch>(R.id.device_binary_value).setOnCheckedChangeListener { _, isChecked ->
@@ -161,15 +163,14 @@ class DeviceTypeAdapter(
             itemView.device_multilevel_value.max = deviceType.max!!
             if(deviceType.lastValue != null) itemView.device_multilevel_value.progress = deviceType.lastValue!!.toInt()
 
-            itemView.findViewById<SeekBar>(R.id.device_multilevel_value).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(seekBar: SeekBar, i: Int, fromUser: Boolean) {
-                    if(fromUser) callbacks.onClickCallbackDeviceState(deviceType.id, i.toFloat())
-                }
-                override fun onStartTrackingTouch(seekBar: SeekBar) {}
-                override fun onStopTrackingTouch(seekBar: SeekBar) {
-
+            itemView.findViewById<DiscreteSeekBar>(R.id.device_multilevel_value).setOnProgressChangeListener(object : DiscreteSeekBar.OnProgressChangeListener {
+                override fun onProgressChanged(seekBar: DiscreteSeekBar, value: Int, fromUser: Boolean) {}
+                override fun onStartTrackingTouch(seekBar: DiscreteSeekBar) {}
+                override fun onStopTrackingTouch(seekBar: DiscreteSeekBar) {
+                    callbacks.onClickCallbackDeviceState(deviceType.id, seekBar.progress.toFloat())
                 }
             })
+
         }
     }
 

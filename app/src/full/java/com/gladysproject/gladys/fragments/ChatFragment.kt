@@ -16,7 +16,6 @@ import android.support.v7.content.res.AppCompatResources
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.View.OnTouchListener
 import android.widget.TextView
@@ -64,7 +63,10 @@ class ChatFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        init()
+    }
 
+    fun init(){
         retrofit = Retrofit.Builder()
                 .baseUrl(ConnectivityAPI.getUrl(context!!)) /** The function getUrl return string address */
                 .addConverterFactory(MoshiConverterFactory.create())
@@ -198,6 +200,7 @@ class ChatFragment : Fragment() {
             if(messages.size == 1){
                 refreshView(messages)
                 chat_rv.visibility = View.VISIBLE
+                empty_state_img_chat.visibility = View.INVISIBLE
                 empty_state_message_chat.visibility = View.INVISIBLE
             }
         }
@@ -218,6 +221,7 @@ class ChatFragment : Fragment() {
         if(chat_rv != null) {
             chat_rv.visibility = View.INVISIBLE
             activity?.loadingCircle?.visibility = View.INVISIBLE
+            empty_state_img_chat.visibility = View.VISIBLE
             empty_state_message_chat.visibility = View.VISIBLE
         }
     }

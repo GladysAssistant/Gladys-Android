@@ -288,6 +288,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
         if(tasks.size == 1) {
             refreshView(tasks)
             task_rv.visibility = View.VISIBLE
+            empty_state_img_task.visibility = View.INVISIBLE
             empty_state_message_task.visibility = View.INVISIBLE
         }
     }
@@ -363,6 +364,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
         if(task_rv != null) {
             task_rv.visibility = View.INVISIBLE
             activity?.loadingCircle?.visibility = View.INVISIBLE
+            empty_state_img_task.visibility = View.VISIBLE
             empty_state_message_task.visibility = View.VISIBLE
         }
     }

@@ -54,6 +54,10 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
     override fun onStart() {
         super.onStart()
         bottom_navigation?.selectedItemId = R.id.home
+        init()
+    }
+
+    fun init(){
         retrofit = Retrofit.Builder()
                 .baseUrl(ConnectivityAPI.getUrl(context!!)) /** The function getUrl return string address */
                 .addConverterFactory(MoshiConverterFactory.create())
@@ -100,9 +104,10 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                                 GladysDb.database?.deviceTypeDao()?.deleteDeviceTypes()
 
                                 for(room in deviceTypeByRoom){
-                                    val newRoom : Rooms = object : Rooms("", 0, false, mutableListOf()){}
+                                    val newRoom : Rooms = object : Rooms("", "", 0, false, mutableListOf()){}
                                     newRoom.id = room.id
                                     newRoom.name = room.name
+                                    newRoom.house = room.house
 
                                     /** If room exist update all attributs except isExpanded attribut*/
                                     val existingRoom = GladysDb.database?.roomsDao()?.getRoomsById(newRoom.id)
@@ -112,7 +117,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                                     }else GladysDb.database?.roomsDao()?.insertRoom(newRoom)
 
                                     for (devicetype in room.deviceTypes){
-                                        val newDevicetype : DeviceType = object : DeviceType("", 0, "", "", "", 0, 0, 1, 0, 0.toFloat(), 0){}
+                                        val newDevicetype : DeviceType = object : DeviceType("", 0, "", "", "", 0, 0, 1, 0, 0.toFloat(), 0, 0){}
                                         newDevicetype.deviceTypeName = devicetype.deviceTypeName
                                         newDevicetype.id = devicetype.id
                                         newDevicetype.type = devicetype.type
@@ -123,6 +128,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                                         newDevicetype.sensor = devicetype.sensor
                                         newDevicetype.lastValue = devicetype.lastValue
                                         newDevicetype.roomId = room.id
+                                        newDevicetype.roomHouse = devicetype.roomHouse
 
                                         GladysDb.database?.deviceTypeDao()?.insertDeviceType(newDevicetype)
                                     }
@@ -173,6 +179,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
         if(home_rv != null) {
             home_rv.visibility = View.INVISIBLE
             activity?.loadingCircle?.visibility = View.INVISIBLE
+            empty_state_img_home.visibility = View.VISIBLE
             empty_state_message_home.visibility = View.VISIBLE
         }
     }
@@ -219,7 +226,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
             }
         }
 
-        /** Upadte value in database */
+        /** Update value in database */
         launch {
             GladysDb.database?.deviceTypeDao()?.updateDeviceTypeLastValue( data.getInt("value").toFloat(), data.getLong("devicetype"))
         }

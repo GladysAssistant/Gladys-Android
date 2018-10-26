@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "Back at home",
+    "code": "back-at-home",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 2,
+    "name": "Enter Area",
+    "code": "enter-area",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 3,
+    "name": "House Mode changed",
+    "code": "house-mode-changed",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 4,
+    "name": "Left Area",
+    "code": "left-area",
+    "datetime": "",
+    "user": 2
+  },
+  {
+    "id": 5,
+    "name": "Left Home",
+    "code": "left-home",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 6,
+    "name": "Wake up",
+    "code": "wake-up",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 7,
+    "name": "Sunrise",
+    "code": "sunrise",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 8,
+    "name": "Going to Sleep",
+    "code": "going-to-sleep",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 9,
+    "name": "Sunset",
+    "code": "sunset",
+    "datetime": "",
+    "user": 1
+  },
+  {
+    "id": 10,
+    "name": "Back at home",
+    "code": "back-at-home",
+    "datetime": "",
+    "user": 1
+  }
+]

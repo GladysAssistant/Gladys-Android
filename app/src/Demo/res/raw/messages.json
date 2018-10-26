@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "sender": 1,
+    "senderName": "Mathieu",
+    "receiver": null,
+    "text": "What's up ?",
+    "datetime": ""
+  },
+  {
+    "id": 2,
+    "sender": null,
+    "senderName": "Gladys",
+    "receiver": 1,
+    "text": "I'm fine !",
+    "datetime": ""
+  },
+  {
+    "id": 3,
+    "sender": 1,
+    "senderName": "Mathieu",
+    "receiver": null,
+    "text": "Turn on the light of the dining room",
+    "datetime": ""
+  },
+  {
+    "id": 4,
+    "sender": null,
+    "senderName": "Gladys",
+    "receiver": 1,
+    "text": "Done !",
+    "datetime": ""
+  },
+  {
+    "id": 5,
+    "sender": 1,
+    "senderName": "Mathieu",
+    "receiver": null,
+    "text": "Give me the temperature",
+    "datetime": ""
+  },
+  {
+    "id": 6,
+    "sender": null,
+    "senderName": "Gladys",
+    "receiver": 1,
+    "text": "The sky is cloudy, the temperature is 23.88 degrees.",
+    "datetime": ""
+  },
+  {
+    "id": 7,
+    "sender": 1,
+    "senderName": "Mathieu",
+    "receiver": null,
+    "text": "I'm going out",
+    "datetime": ""
+  },
+  {
+    "id": 8,
+    "sender": null,
+    "senderName": "Gladys",
+    "receiver": 1,
+    "text": "Ok sir ! Protecting the house.",
+    "datetime": ""
+  },
+  {
+    "id": 9,
+    "sender": 1,
+    "senderName": "Mathieu",
+    "receiver": null,
+    "text": "I'm back !",
+    "datetime": ""
+  },
+  {
+    "id": 10,
+    "sender": null,
+    "senderName": "Gladys",
+    "receiver": 1,
+    "text": "I'm happy you are back home :)",
+    "datetime": ""
+  },
+  {
+    "id": 11,
+    "sender": 1,
+    "senderName": "Mathieu",
+    "receiver": null,
+    "text": "Good night !",
+    "datetime": ""
+  },
+  {
+    "id": 12,
+    "sender": null,
+    "senderName": "Gladys",
+    "receiver": 1,
+    "text": "Ok, switching to sleep mode. Sleep well ;)",
+    "datetime": ""
+  }
+]

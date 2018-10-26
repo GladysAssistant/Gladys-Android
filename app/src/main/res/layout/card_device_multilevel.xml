@@ -36,12 +36,14 @@
             android:singleLine="true"
             android:ellipsize="end" />
 
-        <SeekBar
+        <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
             android:id="@+id/device_multilevel_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/device_multilevel_tag"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            app:dsb_indicatorColor="@color/primaryColor"
+            app:dsb_progressColor="@color/primaryColor"/>
 
     </RelativeLayout>
 

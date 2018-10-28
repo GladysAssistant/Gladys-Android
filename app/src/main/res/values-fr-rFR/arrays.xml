@@ -16,8 +16,8 @@
         <item>Retour à la maison</item>
         <item>Réveil</item>
         <item>Utilisateur doit se réveiller</item>
-        <item>Utilisateur vu à la maison</item>
         <item>Va se coucher</item>
+        <item>Utilisateur vu à la maison</item>
     </string-array>
 
     <string-array

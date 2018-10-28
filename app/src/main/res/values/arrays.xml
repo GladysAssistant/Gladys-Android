@@ -36,6 +36,7 @@
         <item>wake-up</item>
         <item>user-seen-at-home</item>
         <item>going-to-sleep</item>
+        <item>user-need-to-wake-up</item>
     </string-array>
 
     <string-array

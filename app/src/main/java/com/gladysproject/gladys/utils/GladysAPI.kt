@@ -10,8 +10,10 @@ import retrofit2.http.*
 interface GladysAPI {
 
     /** Events */
+    @GET("/eventtype")
+    fun getEventsType(@Query("token") token: String): Call<MutableList<Event>>
 
-    @GET("/event?")
+    @GET("/event")
     fun getEvents(@Query("token") token: String): Call<MutableList<Event>>
 
     @GET("/event/create")

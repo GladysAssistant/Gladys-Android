@@ -93,7 +93,7 @@ class ChatFragment : Fragment() {
         message.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p3 == 0 && p1 == 0) {setTextViewDrawableColor(message, R.color.secondaryDarkColor)}
-                else if (p3 == 1) {setTextViewDrawableColor(message, R.color.primaryColor)}
+                else if (p3 == 1 || p3 >= 1) {setTextViewDrawableColor(message, R.color.primaryColor)}
             }
             override fun afterTextChanged(p0: Editable?) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}

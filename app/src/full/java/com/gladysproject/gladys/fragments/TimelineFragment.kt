@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.WhichButton
+import com.afollestad.materialdialogs.actions.setActionButtonEnabled
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.TimelineAdapter
@@ -40,6 +42,9 @@ class TimelineFragment : Fragment() {
     private lateinit var socket : Socket
     private var events = mutableListOf<Event>()
     private lateinit var adapter: TimelineAdapter
+    private var eventsTypeName = listOf<String>()
+    private var eventsTypeCode = listOf<String>()
+    private lateinit var eventsType: MutableList<Event>
 
     /** Initialize new event variable */
     private var newEvent : Event = object : Event("", "", "", 1){}
@@ -75,6 +80,7 @@ class TimelineFragment : Fragment() {
         datetime.text = getCurrentDate()
 
         getEvents()
+        getEventsType()
 
         socket = ConnectivityAPI.Companion.WebSocket.getInstance(context!!)!!
         socket.on("newEvent", onNewEvent)
@@ -163,6 +169,26 @@ class TimelineFragment : Fragment() {
 
     }
 
+    private fun getEventsType(){
+        retrofit
+                .create(GladysAPI::class.java)
+                .getEventsType(token)
+                .enqueue(object : Callback<MutableList<Event>> {
+                    override fun onResponse(call: Call<MutableList<Event>>, response: Response<MutableList<Event>>) {
+                        if(response.code() == 200) {
+                            eventsType = response.body()!!
+                            launch {
+                                for (eventType in eventsType){
+                                    eventsTypeCode += eventType.code!!
+                                    eventsTypeName += eventType.name!!
+                                }
+                            }
+                        }
+                    }
+                    override fun onFailure(call: Call<MutableList<Event>>, err: Throwable) {}
+                })
+    }
+
     fun refreshView(data : List<Event>){
         if(timeline_rv != null){
             timeline_appbar.visibility = View.VISIBLE
@@ -192,14 +218,18 @@ class TimelineFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        var eventTypeIndex = 0
         val id = item!!.itemId
         if (id == R.id.add_button) {
             MaterialDialog(context!!)
                     .title(text = getString(R.string.trigger_an_event))
-                    .listItemsSingleChoice(R.array.events) { _, index, _ ->
-                        createEvent(resources.getStringArray(R.array.events_code)[index])
+                    .listItemsSingleChoice(items = eventsTypeName, waitForPositiveButton = false) { dialog, index, _ ->
+                        eventTypeIndex = index
+                        dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
                     }
-                    .positiveButton(R.string.validate)
+                    .positiveButton(R.string.validate){ _ ->
+                        createEvent(eventsTypeCode[eventTypeIndex])
+                    }
                     .negativeButton(R.string.cancel)
                     .show()
             return true

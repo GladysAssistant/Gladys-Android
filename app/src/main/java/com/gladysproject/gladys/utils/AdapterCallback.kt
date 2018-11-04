@@ -8,6 +8,10 @@ interface AdapterCallback {
         fun onClickCallbackDeviceState(id: Long?, value: Float?)
     }
 
+    interface AdapterCallbackMessage {
+        fun onClickCallbackMessage(text: String, isSend: Boolean)
+    }
+
     interface AdapterCallbackTask {
         fun onClickCallbackTask(task: Task)
     }

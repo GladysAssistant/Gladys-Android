@@ -1,22 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/card_padding_lg">
 
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/user_date_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/card_padding_lg"
+            android:layout_marginEnd="@dimen/card_padding_lg"
+            android:layout_toStartOf="@+id/user_date"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/user_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/card_padding_lg"
+            android:layout_marginEnd="@dimen/card_padding_lg"
+            android:layout_toEndOf="@+id/user_date"
+            android:background="?android:attr/listDivider" />
+
+    </RelativeLayout>
+
+    <ViewFlipper
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/check_message_user"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_alignBottom="@+id/card_message_user"
+        android:layout_marginEnd="-95dp"
+        android:layout_toStartOf="@+id/card_message_user">
+
+        <ProgressBar
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:indeterminateOnly="true" />
+
+        <TextView
+            android:id="@+id/time_message_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_error_24dp"
+            tools:ignore="ContentDescription" />
+    </ViewFlipper>
+
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_message_user"
+        android:layout_marginTop="@dimen/card_padding_lg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/user_date_indicator"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="@dimen/card_spacing"
-        android:layout_marginBottom="@dimen/card_spacing"
         android:layout_marginEnd="@dimen/card_spacing"
+        android:layout_marginBottom="@dimen/card_spacing"
         app:cardBackgroundColor="@color/primaryColorLight"
         app:cardCornerRadius="@dimen/card_radius_lg"
-        app:cardElevation="@dimen/card_no_radius">
+        app:cardElevation="@dimen/card_no_radius"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -24,7 +98,7 @@
             android:padding="@dimen/card_padding_xs_lg">
 
             <TextView
-                android:id="@+id/userText"
+                android:id="@+id/user_message_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primaryDarkColor" />

@@ -28,8 +28,9 @@ import com.gladysproject.gladys.utils.GladysAPI
 import com.gladysproject.gladys.utils.SelfSigningClientBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_task.*
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -110,7 +111,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
         taskDialog!!
                 .title(text = getString(R.string.new_task_name))
                 .customView(R.layout.dialog_name)
-                .positiveButton(R.string.next){ _ ->
+                .positiveButton(R.string.next){
                     createTaskTriggers()
                 }
                 .negativeButton(R.string.cancel)
@@ -142,7 +143,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
                     newTask.triggerType = resources.getStringArray(R.array.triggers_code)[index]
                     dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
                 }
-                .positiveButton(R.string.next){ _ ->
+                .positiveButton(R.string.next){
                     createTaskTriggersFilter()
                 }
                 .negativeButton(R.string.cancel)
@@ -157,7 +158,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
                 taskDialog!!
                         .title(text = getString(R.string.new_task_mqtt))
                         .customView(R.layout.dialog_mqtt)
-                        .positiveButton(R.string.next){ _ ->
+                        .positiveButton(R.string.next){
                             createTaskActions()
                         }
                         .negativeButton(R.string.cancel)
@@ -210,7 +211,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
                     newTask.actionType = resources.getStringArray(R.array.actions_code)[index]
                     dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
                 }
-                .positiveButton(R.string.next){ _ ->
+                .positiveButton(R.string.next){
                     createTaskActionsFilter()
                 }
                 .negativeButton(R.string.cancel)
@@ -228,7 +229,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
                             newTask.actionParam = resources.getStringArray(R.array.events_code)[index]
                             dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
                         }
-                        .positiveButton(positiveButton){ _ ->
+                        .positiveButton(positiveButton){
                             if(isNfcTask) writeNfcTag() else saveTask()
                         }
                         .negativeButton(R.string.cancel)
@@ -241,7 +242,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
                             newTask.actionParam = modesCode[index]
                             dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
                         }
-                        .positiveButton(positiveButton){ _ ->
+                        .positiveButton(positiveButton){
                             if(isNfcTask) writeNfcTag() else saveTask()
                         }
                         .negativeButton(R.string.cancel)
@@ -251,7 +252,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
                 taskDialog!!
                         .title(text = getString(R.string.new_task_url))
                         .customView(R.layout.dialog_url)
-                        .positiveButton(R.string.next){ _ ->
+                        .positiveButton(R.string.next){
                             if(isNfcTask) writeNfcTag() else saveTask()
                         }
                         .negativeButton(R.string.cancel)
@@ -278,7 +279,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
     }
 
     private fun saveTask() {
-        launch {
+        GlobalScope.launch {
             GladysDb.database?.taskDao()?.insertTask(newTask)
         }
 
@@ -294,7 +295,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
     }
 
     private fun deleteTask(task: Task){
-        launch {
+        GlobalScope.launch {
             GladysDb.database?.taskDao()?.deleteTask(task.id)
         }
         tasks.remove(task)
@@ -302,7 +303,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
     }
 
     private fun getTasks() = runBlocking {
-        launch {
+        GlobalScope.launch {
             tasks = GladysDb.database?.taskDao()?.getAllTasks()!!
         }.join()
 
@@ -316,7 +317,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
         taskDialog!!
                 .title(text = getString(R.string.writing_nfc_tag))
                 .customView(R.layout.dialog_nfc)
-                .positiveButton(R.string.validate){ _ ->
+                .positiveButton(R.string.validate){
                     saveTask()
                 }
                 .negativeButton(R.string.cancel)
@@ -338,7 +339,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
                     override fun onResponse(call: Call<MutableList<Mode>>, response: Response<MutableList<Mode>>) {
                         if(response.code() == 200) {
                             modes = response.body()!!
-                            launch {
+                            GlobalScope.launch {
                                 for (mode in modes){
                                     modesCode += mode.code
                                     modesName += mode.name
@@ -374,7 +375,7 @@ class TaskFragment : Fragment(), AdapterCallback.AdapterCallbackTask {
         taskDialog!!
                 .title(text = task.name)
                 .customView(R.layout.dialog_task)
-                .positiveButton(R.string.delete){ _ ->
+                .positiveButton(R.string.delete){
                     deleteTask(task)
                 }
                 .show()

@@ -43,9 +43,9 @@ class ConnectivityAPI {
          getLocalPreferences
          return string address
         */
-        fun getLocalPreferences(context: Context) : String {
+        private fun getLocalPreferences(context: Context) : String {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            return if(prefs.getString("local_ip", "fakeurl") != "") "http://${prefs.getString("local_ip", "fakeurl")}:${prefs.getString("local_port", "8080")}" else "http://fakeurl"
+            return if(prefs.getString("local_ip", "fakeurl") != "") "http://${prefs.getString("local_ip", "fakeurl")}:${prefs.getString("local_port", "8080")}/" else "http://fakeurl"
         }
 
         /**
@@ -55,21 +55,33 @@ class ConnectivityAPI {
          https address if https is active
          http address if not
         */
-        fun getNatPreferences(context: Context) : String {
+        private fun getNatPreferences(context: Context) : String {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             return if (prefs.getBoolean("nat", false)){
                 // Test if the string is not empty
                 if(prefs.getString("dns", "fakeurl") != ""){
-                    if (prefs.getBoolean("https", false)){
-                        "https://${prefs.getString("dns", "fakeurl")}"
-                    }else{
-                        "http://${prefs.getString("dns", "fakeurl")}:${prefs.getString("nat_port", "80")}"
-                    }
+                    buildNatAddress(prefs.getString("dns", "fakeurl")!!, prefs.getString("nat_port", "80")!!, prefs.getBoolean("https", false))
                 }else {
                     "http://fakeurl"
                 }
             }else{
                 "http://fakeurl"
+            }
+        }
+
+        private fun buildNatAddress(address : String, nat_port: String, https: Boolean): String{
+            return if("https://" in address || "http://" in address){
+                if (https){
+                    "$address/"
+                }else{
+                    "$address/:$nat_port/"
+                }
+            } else {
+                if (https){
+                    "https://$address/"
+                }else{
+                    "http://$address:$nat_port/"
+                }
             }
         }
 
@@ -89,11 +101,14 @@ class ConnectivityAPI {
          */
         object WebSocket {
             private var instance: Socket? = null
+            private var url: String = ""
 
             fun getInstance(context: Context): Socket? {
-                if (instance == null) {
+
+                if (instance == null || url != getUrl(context)) {
                     try {
-                        instance = IO.socket("${getUrl(context)}?__sails_io_sdk_version=0.13.7")
+                        url = getUrl(context)
+                        instance = IO.socket("$url?__sails_io_sdk_version=0.13.7")
                     } catch (e: URISyntaxException) {
                         Log.e("Error", e.toString())
                     }

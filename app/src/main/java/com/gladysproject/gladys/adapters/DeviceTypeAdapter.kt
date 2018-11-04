@@ -20,7 +20,8 @@ import kotlinx.android.synthetic.main.card_device_binary.view.*
 import kotlinx.android.synthetic.main.card_device_multilevel.view.*
 import kotlinx.android.synthetic.main.card_device_room.view.*
 import kotlinx.android.synthetic.main.card_device_sensor.view.*
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
 
 class DeviceTypeAdapter(
@@ -55,7 +56,7 @@ class DeviceTypeAdapter(
         deviceTypeByRoom[groupPosition].isExpanded = expand
 
         /** Save state in database */
-        launch {
+        GlobalScope.launch {
             GladysDb.database?.roomsDao()?.updateRoomExpand(expand, deviceTypeByRoom[groupPosition].id)
         }
 

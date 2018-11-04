@@ -17,6 +17,8 @@
     <string name="auto_start_explanation">Démarrer automatiquement au démarrage de votre appareil</string>
     <string name="cancel">Annuler</string>
     <string name="connection">Connexion</string>
+    <string name="copied_text">Texte copié dans la presse papier</string>
+    <string name="copy_text">Copier le texte</string>
     <string name="delete">Supprimer</string>
     <string name="devicetype">Périphérique</string>
     <string name="dns_adress">DNS / IP Publique</string>
@@ -68,6 +70,7 @@
     <string name="port">Port</string>
     <string name="port_example">Exemple: 8080</string>
     <string name="report_bug">Signaler un bug</string>
+    <string name="retry">Réessayer</string>
     <string name="select_ringtone">Sélection du son</string>
     <string name="select_ringtone_explanation">Choisir la sonnerie utilisée par les notifications</string>
     <string name="settings">Paramètres</string>

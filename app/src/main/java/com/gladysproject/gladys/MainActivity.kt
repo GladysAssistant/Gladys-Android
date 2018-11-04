@@ -12,7 +12,6 @@ import android.view.MenuItem
 import com.gladysproject.gladys.database.GladysDb
 import com.gladysproject.gladys.fragments.ChatFragment
 import com.gladysproject.gladys.fragments.HomeFragment
-import com.gladysproject.gladys.fragments.TaskFragment
 import com.gladysproject.gladys.fragments.TimelineFragment
 import com.gladysproject.gladys.services.MqttService
 import com.gladysproject.gladys.utils.ConnectivityAPI
@@ -55,8 +54,6 @@ class MainActivity : AppCompatActivity() {
         bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         GladysDb.initializeDatabase(this)
-        connectSocket()
-        //startMqttService()
 
         if (startChat == intent.action){
             openFragment(ChatFragment.newInstance())
@@ -64,6 +61,17 @@ class MainActivity : AppCompatActivity() {
         } else {
             openFragment(HomeFragment.newInstance())
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        connectSocket()
+        //startMqttService()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        socket.disconnect()
     }
 
     override fun onBackPressed() {
@@ -105,7 +113,9 @@ class MainActivity : AppCompatActivity() {
             socket = ConnectivityAPI.Companion.WebSocket.getInstance(this)!!
             socket.emit("post", JSONObject().put("url", "/socket/subscribe?token=${PreferenceManager.getDefaultSharedPreferences(this).getString("token", "")!!}"))
             socket.connect()
-        } catch (er: Exception){}
+
+        } catch (er: Exception){ }
+
     }
 
     private fun startMqttService() {

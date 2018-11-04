@@ -22,8 +22,9 @@ import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -53,11 +54,10 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
 
     override fun onStart() {
         super.onStart()
-        bottom_navigation?.selectedItemId = R.id.home
         init()
     }
 
-    fun init(){
+    private fun init(){
         retrofit = Retrofit.Builder()
                 .baseUrl(ConnectivityAPI.getUrl(context!!)) /** The function getUrl return string address */
                 .addConverterFactory(MoshiConverterFactory.create())
@@ -65,6 +65,8 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                 .build()
 
         token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", "dfhdfh")!!
+
+        getAllDeviceTypes()
 
         socket = ConnectivityAPI.Companion.WebSocket.getInstance(context!!)!!
         socket.on("newDeviceState", onNewDeviceState)
@@ -83,14 +85,14 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                             deviceTypeByRoom = response.body()!!
 
                             /** Remove devicetype not displayed */
-                            launch {
+                            GlobalScope.launch {
                                 for(room in deviceTypeByRoom){
                                     room.deviceTypes = room.deviceTypes.asSequence().filterIndexed{ _, it -> it.display != 0.toLong() }.toMutableList()
                                 }
                             }.join()
 
                             /** Remove room if after removing devicetypes not displayed her is empty */
-                            launch {
+                            GlobalScope.launch {
                                 for(room in deviceTypeByRoom){
                                     if(room.deviceTypes.isEmpty()){
                                         deviceTypeByRoom.toMutableList().remove(room)
@@ -99,7 +101,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                             }.join()
 
                             /** Save data in database */
-                            launch{
+                            GlobalScope.launch{
 
                                 GladysDb.database?.deviceTypeDao()?.deleteDeviceTypes()
 
@@ -144,7 +146,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                     }
 
                     override fun onFailure(call: Call<MutableList<Rooms>>, err: Throwable) = runBlocking {
-                        launch {
+                        GlobalScope.launch {
                             val rooms : MutableList<Rooms> = GladysDb.database?.roomsDao()?.getAllRooms()!!
                             for (room in rooms){
                                 room.deviceTypes = GladysDb.database?.deviceTypeDao()?.getDeviceTypeByRoom(room.id)!!
@@ -227,7 +229,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
         }
 
         /** Update value in database */
-        launch {
+        GlobalScope.launch {
             GladysDb.database?.deviceTypeDao()?.updateDeviceTypeLastValue( data.getInt("value").toFloat(), data.getLong("devicetype"))
         }
     }
@@ -236,7 +238,6 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
         menu.clear()
         inflater.inflate(R.menu.toolbar_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
-        getAllDeviceTypes()
     }
 
     override fun onPause() {

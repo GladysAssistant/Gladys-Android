@@ -8,6 +8,7 @@
     <dimen name="card_padding">12dp</dimen>
     <dimen name="card_padding_lg">16dp</dimen>
     <dimen name="card_radius">8dp</dimen>
+    <dimen name="card_radius_md">15dp</dimen>
     <dimen name="card_radius_lg">20dp</dimen>
     <dimen name="card_padding_xs">6dp</dimen>
     <dimen name="card_spacing">8dp</dimen>

@@ -23,8 +23,9 @@ import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_timeline.*
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,6 +33,8 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.lang.Exception
+import java.text.DateFormat
+import java.util.*
 
 class TimelineFragment : Fragment() {
 
@@ -59,7 +62,6 @@ class TimelineFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_timeline, container, false)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onStart() {
         super.onStart()
         init()
@@ -100,7 +102,7 @@ class TimelineFragment : Fragment() {
                             else showEmptyView()
 
                             /** Insert events in database */
-                            launch {
+                            GlobalScope.launch {
                                 GladysDb.database?.eventDao()?.deleteEvents()
                                 GladysDb.database?.eventDao()?.insertEvents(events)
                             }
@@ -112,7 +114,7 @@ class TimelineFragment : Fragment() {
 
                     override fun onFailure(call: Call<MutableList<Event>>, err: Throwable) = runBlocking {
 
-                        launch {
+                        GlobalScope.launch {
                             events = GladysDb.database?.eventDao()?.getAllEvents()!!
                         }.join()
 
@@ -142,32 +144,43 @@ class TimelineFragment : Fragment() {
     }
 
     private val onNewEvent = Emitter.Listener { args ->
+        runBlocking {
 
-        val data = args[0] as JSONObject
-        newEvent.datetime = data.getString("datetime")
-        newEvent.name = data.getString("name")
+            val data = args[0] as JSONObject
 
-        /** Insert new event in database */
-        launch {
-            GladysDb.database?.eventDao()?.insertEvent(newEvent)
-        }
+            newEvent.datetime = data.getString("datetime")
+            newEvent.name = data.getString("name")
 
-        /** Insert new event in UI */
-        activity!!.runOnUiThread {
-            events.add(0, newEvent)
-            adapter.notifyItemInserted(0)
-            timeline_rv.scrollToPosition(0)
+            /** Insert new event in database */
+            GlobalScope.launch {
+                GladysDb.database?.eventDao()?.insertEvent(newEvent)
+            }.join()
 
-            if(events.size == 1) {
-                refreshView(events)
-                timeline_appbar.visibility = View.VISIBLE
-                timeline_rv.visibility = View.VISIBLE
-                empty_state_img_timeline.visibility = View.INVISIBLE
-                empty_state_message_timeline.visibility = View.INVISIBLE
+            /** Get list with new event
+             * This is dirty sorry but it solve a bug of duplicate events in UI
+             **/
+            GlobalScope.launch {
+                events = GladysDb.database?.eventDao()?.getAllEvents()!!
+            }.join()
+
+            /** Insert new event in UI */
+            activity!!.runOnUiThread {
+                if (::adapter.isInitialized) {
+                    refreshView(events)
+                }
+
+                if (events.size == 1) {
+                    refreshView(events)
+                    timeline_appbar.visibility = View.VISIBLE
+                    timeline_rv.visibility = View.VISIBLE
+                    empty_state_img_timeline.visibility = View.INVISIBLE
+                    empty_state_message_timeline.visibility = View.INVISIBLE
+                }
             }
-        }
 
+        }
     }
+
 
     private fun getEventsType(){
         retrofit
@@ -177,7 +190,7 @@ class TimelineFragment : Fragment() {
                     override fun onResponse(call: Call<MutableList<Event>>, response: Response<MutableList<Event>>) {
                         if(response.code() == 200) {
                             eventsType = response.body()!!
-                            launch {
+                            GlobalScope.launch {
                                 for (eventType in eventsType){
                                     eventsTypeCode += eventType.code!!
                                     eventsTypeName += eventType.name!!
@@ -227,7 +240,7 @@ class TimelineFragment : Fragment() {
                         eventTypeIndex = index
                         dialog.setActionButtonEnabled(WhichButton.POSITIVE, true)
                     }
-                    .positiveButton(R.string.validate){ _ ->
+                    .positiveButton(R.string.validate){
                         createEvent(eventsTypeCode[eventTypeIndex])
                     }
                     .negativeButton(R.string.cancel)

@@ -1,5 +1,6 @@
 package com.gladysproject.gladys.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -19,10 +20,13 @@ import android.text.TextWatcher
 import android.view.*
 import android.view.View.OnTouchListener
 import android.widget.TextView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.listItems
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.MessageAdapter
 import com.gladysproject.gladys.database.GladysDb
 import com.gladysproject.gladys.database.entity.Message
+import com.gladysproject.gladys.utils.AdapterCallback
 import com.gladysproject.gladys.utils.ConnectivityAPI
 import com.gladysproject.gladys.utils.GladysAPI
 import com.gladysproject.gladys.utils.SelfSigningClientBuilder
@@ -30,17 +34,17 @@ import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_chat.*
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.lang.Exception
 
-class ChatFragment : Fragment() {
+class ChatFragment : Fragment(), AdapterCallback.AdapterCallbackMessage {
 
     private var token : String = ""
     private lateinit var retrofit : Retrofit
@@ -66,7 +70,7 @@ class ChatFragment : Fragment() {
         init()
     }
 
-    fun init(){
+    private fun init(){
         retrofit = Retrofit.Builder()
                 .baseUrl(ConnectivityAPI.getUrl(context!!)) /** The function getUrl return string address */
                 .addConverterFactory(MoshiConverterFactory.create())
@@ -83,7 +87,7 @@ class ChatFragment : Fragment() {
         message.setOnTouchListener(OnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 if (event.rawX >= message.right - message.compoundDrawables[2].bounds.width()) {
-                    if (message.text.isNotEmpty() || message.text != null) sendMessage(message.text.toString())
+                    if (message.text.isNotEmpty() && message.text != null && message.text.toString() != "") addNewMessage(message.text.toString())
                     return@OnTouchListener false
                 }
             }
@@ -122,7 +126,7 @@ class ChatFragment : Fragment() {
                             else showEmptyView()
 
                             /** Insert messages in database */
-                            launch {
+                            GlobalScope.launch {
                                 GladysDb.database?.messageDao()?.deleteMessages()
                                 GladysDb.database?.messageDao()?.insertMessages(messages)
                             }
@@ -133,7 +137,7 @@ class ChatFragment : Fragment() {
 
                     override fun onFailure(call: Call<MutableList<Message>>, err: Throwable) = runBlocking {
 
-                        launch {
+                        GlobalScope.launch {
                             messages = GladysDb.database?.messageDao()?.getAllMessages()!!
                         }.join()
 
@@ -145,6 +149,24 @@ class ChatFragment : Fragment() {
                 })
     }
 
+    private fun addNewMessage(text: String){
+        /** Reset fields */
+        message.setText("")
+
+        /** Insert new message in UI */
+        messages.add(messages.size, Message(text, PreferenceManager.getDefaultSharedPreferences(context).getString("user_id", "1")!!.toInt(), "", "", 0))
+        adapter.notifyItemInserted(messages.size)
+        chat_rv.scrollToPosition(adapter.itemCount - 1)
+
+        if(messages.size == 1){
+            refreshView(messages)
+            chat_rv.visibility = View.VISIBLE
+            empty_state_message_chat.visibility = View.INVISIBLE
+        }
+
+        sendMessage(text)
+    }
+
     private fun sendMessage(text : String){
         retrofit
                 .create(GladysAPI::class.java)
@@ -152,32 +174,47 @@ class ChatFragment : Fragment() {
                 .enqueue(object : Callback<Message> {
                     override fun onResponse(call: Call<Message>, response: Response<Message>) {
                         if(response.code() == 200) {
-                            /** Reset fields */
-                            message.setText("")
 
-                            /** Insert new message in UI */
-                            messages.add(messages.size ,response.body()!!)
-                            adapter.notifyItemInserted(messages.size)
-                            chat_rv.scrollToPosition(adapter.itemCount - 1)
-
-                            if(messages.size == 1){
-                                refreshView(messages)
-                                chat_rv.visibility = View.VISIBLE
-                                empty_state_message_chat.visibility = View.INVISIBLE
-                            }
+                            messages.last().senderName = response.body()!!.senderName
+                            messages.last().datetime = response.body()!!.datetime
+                            adapter.notifyDataSetChanged()
 
                             /** Insert new message in database */
-                            launch {
+                            GlobalScope.launch {
                                 GladysDb.database?.messageDao()?.insertMessage(response.body()!!)
                             }
                         } else {
+                            messages.last().datetime = "error"
+                            adapter.notifyDataSetChanged()
                             showSnackBar()
                         }
                     }
                     override fun onFailure(call: Call<Message>, err: Throwable) {
+                        messages.last().datetime = "error"
+                        adapter.notifyDataSetChanged()
                         showSnackBar()
                     }
                 })
+    }
+
+    override fun onClickCallbackMessage(text: String, isSend: Boolean) {
+
+        var myItems = listOf(resources.getString(R.string.copy_text))
+        if(!isSend){
+            myItems = listOf(resources.getString(R.string.copy_text), resources.getString(R.string.retry))
+        }
+        MaterialDialog(context!!)
+                .listItems(items = myItems){ _, index, _ ->
+                    if(index == 0){
+                        setClipboard(messages.last().text!!)
+                    } else {
+                        val t = messages.last().text
+                        messages.removeAt(messages.size -1)
+                        adapter.notifyDataSetChanged()
+                        addNewMessage(t!!)
+                    }
+                }
+                .show()
     }
 
     private val onNewMessage = Emitter.Listener { args ->
@@ -187,7 +224,7 @@ class ChatFragment : Fragment() {
         newMessage.sender = null /** The null sender is Gladys */
 
         /** Insert new message in database */
-        launch {
+        GlobalScope.launch {
             GladysDb.database?.messageDao()?.insertMessage(newMessage)
         }
 
@@ -206,10 +243,10 @@ class ChatFragment : Fragment() {
         }
     }
 
-    fun refreshView(data : List<Message>){
+    fun refreshView(data : MutableList<Message>){
         if(chat_rv != null){
             chat_rv.layoutManager = LinearLayoutManager(context)
-            adapter = MessageAdapter(data)
+            adapter = MessageAdapter(data, this)
             chat_rv.adapter = adapter
             chat_rv.scrollToPosition(adapter.itemCount -1)
 
@@ -277,6 +314,18 @@ class ChatFragment : Fragment() {
         //if (context != null) {
         //    context!!.startService(intent)
         //}
+    }
+
+    private fun setClipboard(text: String) {
+        val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+        val clip = android.content.ClipData.newPlainText("Copied Text", text)
+        clipboard.primaryClip = clip
+        Snackbar.make(chat_cl, R.string.copied_text, Snackbar.LENGTH_SHORT)
+                .apply {
+                    view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
+                            .apply { setMargins(leftMargin, topMargin, rightMargin, activity?.bottom_navigation?.height!! + 22) }
+                }.show()
+
     }
 
     fun showSnackBar(){

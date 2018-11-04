@@ -13,8 +13,8 @@ android {
         applicationId "com.gladysproject.gladys"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         kapt {
@@ -42,8 +42,8 @@ android {
             applicationId 'com.gladysproject.gladys'
             targetSdkVersion 28
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-            versionCode 2
-            versionName '1.1'
+            versionCode 3
+            versionName '1.2'
         }
         demo {
             minSdkVersion 19

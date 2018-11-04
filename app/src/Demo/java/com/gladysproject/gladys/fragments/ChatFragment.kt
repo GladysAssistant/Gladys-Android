@@ -16,10 +16,11 @@ import com.gladysproject.gladys.R
 import com.gladysproject.gladys.Utils.GetDemoData
 import com.gladysproject.gladys.adapters.MessageAdapter
 import com.gladysproject.gladys.database.entity.Message
+import com.gladysproject.gladys.utils.AdapterCallback
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 
-class ChatFragment : Fragment() {
+class ChatFragment : Fragment(), AdapterCallback.AdapterCallbackMessage {
 
     private var messages = mutableListOf<Message>()
     private lateinit var adapter : MessageAdapter
@@ -78,10 +79,10 @@ class ChatFragment : Fragment() {
 
     private fun sendMessage(){}
 
-    fun refreshView(data : List<Message>){
+    fun refreshView(data : MutableList<Message>){
         if(chat_rv != null){
             chat_rv.layoutManager = LinearLayoutManager(context)
-            adapter = MessageAdapter(data)
+            adapter = MessageAdapter(data, this)
             chat_rv.adapter = adapter
             chat_rv.scrollToPosition(adapter.itemCount -1)
 
@@ -96,6 +97,10 @@ class ChatFragment : Fragment() {
                 drawable.colorFilter = PorterDuffColorFilter(getColor(context!!, color), PorterDuff.Mode.SRC_IN)
             }
         }
+    }
+
+    override fun onClickCallbackMessage(text: String, isSend: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

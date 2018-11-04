@@ -10,7 +10,7 @@
     <string name="activate_vibration_explanation">Make your device vibrate during notifications</string>
     <string name="app_name">Gladys</string>
     <string name="app_description">Your home assistant</string>
-    <string name="app_version">Gladys Android version 1.0</string>
+    <string name="app_version">Gladys Android version v1.2-Alpha03</string>
     <string name="assistance">Assistance</string>
     <string name="ask_him_something">Ask him something..</string>
     <string name="auto_start">Automatic start</string>

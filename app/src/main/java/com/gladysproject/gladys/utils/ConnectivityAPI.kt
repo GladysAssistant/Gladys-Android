@@ -45,7 +45,19 @@ class ConnectivityAPI {
         */
         private fun getLocalPreferences(context: Context) : String {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            return if(prefs.getString("local_ip", "fakeurl") != "") "http://${prefs.getString("local_ip", "fakeurl")}:${prefs.getString("local_port", "8080")}/" else "http://fakeurl"
+            var portNb = prefs.getString("local_port", "8080")
+            var httpOrHttps = "http"
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                // for Android P and above, cleartext traffic are not allowed
+                // see more at : https://android-developers.googleblog.com/2018/04/protecting-users-with-tls-by-default-in.html
+                httpOrHttps = "https"
+                portNb = if (portNb == "8080" || portNb == "80") { "443" /*default port for HTTPS*/ } else { portNb }
+            }
+
+            val localIp = prefs.getString("local_ip", "fakeurl")
+
+            return if(localIp != "") "$httpOrHttps://$localIp:$portNb/" else "http://fakeurl"
         }
 
         /**

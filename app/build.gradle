@@ -25,7 +25,7 @@ android {
     }
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
+            applicationIdSuffix ".debug" //allow to install 2 version of the full or demo app's version on the same device
         }
         release {
             minifyEnabled false

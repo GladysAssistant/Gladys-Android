@@ -1,5 +1,0 @@
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="Typos">
-    <string name="app_name">Gladys Debug</string>
-</resources>

@@ -52,6 +52,7 @@ class ConnectivityAPI {
                 // for Android P and above, cleartext traffic are not allowed
                 // see more at : https://android-developers.googleblog.com/2018/04/protecting-users-with-tls-by-default-in.html
                 httpOrHttps = "https"
+                //check port number just to be sure to not use default HTTP port...
                 portNb = if (portNb == "8080" || portNb == "80") { "443" /*default port for HTTPS*/ } else { portNb }
             }
 
@@ -101,11 +102,19 @@ class ConnectivityAPI {
          Building the URL according to the type of connection
          */
         fun getUrl(context: Context): String {
-            return when(getTypeOfConnection(context)){
+            var url = when(getTypeOfConnection(context)){
                 1 -> ConnectivityAPI.getLocalPreferences(context)
                 2 -> ConnectivityAPI.getNatPreferences(context)
                 else -> "http://noconnection"
             }
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P && url.startsWith("http://")) {
+                // for Android P and above, cleartext traffic are not allowed
+                // see more at : https://android-developers.googleblog.com/2018/04/protecting-users-with-tls-by-default-in.html
+                url.replace("http://", "https://")
+            }
+
+            return url
         }
 
         /**

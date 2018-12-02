@@ -24,6 +24,9 @@ android {
         }
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug" //allow to install 2 version of the full or demo app's version on the same device
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

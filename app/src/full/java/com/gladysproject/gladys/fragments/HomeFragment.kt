@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SimpleItemAnimator
+import android.util.Log
 import android.view.*
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.DeviceTypeAdapter
@@ -31,7 +32,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.lang.Exception
 
 class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
 
@@ -44,6 +44,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
 
     companion object {
         fun newInstance() = HomeFragment()
+        private const val TAG = "HomeFragment"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -146,6 +147,8 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                     }
 
                     override fun onFailure(call: Call<MutableList<Rooms>>, err: Throwable) = runBlocking {
+                        // Log the error for debug
+                        Log.e(TAG, err.message)
                         GlobalScope.launch {
                             val rooms : MutableList<Rooms> = GladysDb.database?.roomsDao()?.getAllRooms()!!
                             for (room in rooms){

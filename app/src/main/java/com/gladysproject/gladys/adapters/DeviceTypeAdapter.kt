@@ -2,11 +2,11 @@ package com.gladysproject.gladys.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
 import android.widget.Switch
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.database.GladysDb
@@ -134,6 +134,9 @@ class DeviceTypeAdapter(
     class BinaryVH(itemView: View) : RecyclerView.ViewHolder(itemView){
         @SuppressLint("SetTextI18n")
         fun bind(deviceType: DeviceType, deviceTypeByRoom: MutableList<Rooms>, groupPosition: Int, context: Context, callbacks: AdapterCallback.AdapterCallbackDeviceState){
+
+            if(deviceType.category !== null) itemView.device_binary_icon.setImageDrawable(ContextCompat.getDrawable(context, getIcon(deviceType.category!!)))
+
             if(deviceType.deviceTypeName != null && deviceType.deviceTypeName != "")itemView.device_binary_name.text = deviceType.deviceTypeName
             else itemView.device_binary_name.text = "${context.getString(R.string.devicetype)} : ${deviceType.id}"
 
@@ -155,6 +158,9 @@ class DeviceTypeAdapter(
     class MultilevelVH(itemView: View) : RecyclerView.ViewHolder(itemView){
         @SuppressLint("SetTextI18n")
         fun bind(deviceType: DeviceType, context: Context, callbacks: AdapterCallback.AdapterCallbackDeviceState){
+
+            if(deviceType.category !== null) itemView.device_multilevel_icon.setImageDrawable(ContextCompat.getDrawable(context, getIcon(deviceType.category!!)))
+
             if(deviceType.deviceTypeName != null && deviceType.deviceTypeName != "")itemView.device_multilevel_name.text = deviceType.deviceTypeName
             else itemView.device_multilevel_name.text = "${context.getString(R.string.devicetype)} : ${deviceType.id}"
 
@@ -178,6 +184,9 @@ class DeviceTypeAdapter(
     class SensorVH(itemView: View) : RecyclerView.ViewHolder(itemView){
         @SuppressLint("SetTextI18n")
         fun bind(deviceType: DeviceType, context: Context) {
+
+            if(deviceType.category !== null) itemView.device_sensor_icon.setImageDrawable(ContextCompat.getDrawable(context, getIcon(deviceType.category!!)))
+
             if(deviceType.deviceTypeName != null && deviceType.deviceTypeName != "")itemView.device_sensor_name.text = deviceType.deviceTypeName
             else itemView.device_sensor_name.text = "${context.getString(R.string.devicetype)} : ${deviceType.id}"
 
@@ -196,6 +205,22 @@ class DeviceTypeAdapter(
             for ((index, room) in deviceTypeByRoom.withIndex()) {
                 if (room.isExpanded) {
                     expandableItemManager.expandGroup(index)
+                }
+            }
+        }
+
+        fun getIcon(category: String): Int {
+            return when (category) {
+                "light" -> R.drawable.ic_bulb_24dp
+                "outlet" -> R.drawable.ic_toggle_right_24dp
+                "temperature-sensor" -> R.drawable.ic_thermometer_24dp
+                "humidity-sensor" -> R.drawable.ic_droplet_24dp
+                "light-sensor" -> R.drawable.ic_sun_24dp
+                "battery-sensor" -> R.drawable.ic_percent_24dp
+                "door-opening-sensor" -> R.drawable.ic_home_24dp
+                "window-opening-sensor" -> R.drawable.ic_home_24dp
+                else -> {
+                    R.drawable.ic_bar_chart_24dp
                 }
             }
         }

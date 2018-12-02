@@ -120,10 +120,11 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                                     }else GladysDb.database?.roomsDao()?.insertRoom(newRoom)
 
                                     for (devicetype in room.deviceTypes){
-                                        val newDevicetype : DeviceType = object : DeviceType("", 0, "", "", "", 0, 0, 1, 0, 0.toFloat(), 0, 0){}
+                                        val newDevicetype : DeviceType = object : DeviceType("", 0, "", "", "", "", 0, 0, 1, 0, 0.toFloat(), 0, 0){}
                                         newDevicetype.deviceTypeName = devicetype.deviceTypeName
                                         newDevicetype.id = devicetype.id
                                         newDevicetype.type = devicetype.type
+                                        newDevicetype.category = devicetype.category
                                         newDevicetype.tag = devicetype.tag
                                         newDevicetype.unit = devicetype.unit
                                         newDevicetype.min = devicetype.min

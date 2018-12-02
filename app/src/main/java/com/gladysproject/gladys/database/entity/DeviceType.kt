@@ -11,6 +11,7 @@ open class DeviceType {
     var id: Long = 0
     var deviceTypeName: String? = null
     var type: String? = null
+    var category: String? = null
     var tag: String? = null
     var unit: String? = null
     var min: Int? = null
@@ -25,10 +26,11 @@ open class DeviceType {
 
     constructor()
 
-    constructor(deviceTypeName: String, id: Long, type: String, tag: String, unit: String, min: Int?, max: Int?, display: Long?, sensor: Long?, lastValue: Float?, roomId: Long?, roomHouse: Long?) : super() {
+    constructor(deviceTypeName: String, id: Long, type: String, category: String, tag: String, unit: String, min: Int?, max: Int?, display: Long?, sensor: Long?, lastValue: Float?, roomId: Long?, roomHouse: Long?) : super() {
         this.deviceTypeName = deviceTypeName
         this.id = id
         this.type = type
+        this.category = category
         this.tag = tag
         this.unit = unit
         this.min = min

@@ -42,6 +42,15 @@
         android:positiveButtonText="@string/validate"
         android:title="@string/dns_adress" />
 
+    <EditTextPreference
+        android:dialogTitle="@string/port"
+        android:inputType="number"
+        android:key="nat_port"
+        android:hint="@string/dns_port_default"
+        android:negativeButtonText="@string/cancel"
+        android:positiveButtonText="@string/validate"
+        android:title="@string/port" />
+
     <SwitchPreference
         android:dependency="nat"
         android:layout_width="wrap_content"
@@ -50,15 +59,5 @@
         android:key="https"
         android:title="@string/https"
         android:disableDependentsState="true"/>
-
-    <EditTextPreference
-        android:dependency="https"
-        android:dialogTitle="@string/port"
-        android:inputType="number"
-        android:key="nat_port"
-        android:hint="@string/dns_port_example"
-        android:negativeButtonText="@string/cancel"
-        android:positiveButtonText="@string/validate"
-        android:title="@string/port" />
 
 </PreferenceScreen>

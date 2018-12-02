@@ -23,7 +23,7 @@
     <string name="devicetype">Périphérique</string>
     <string name="dns_adress">DNS / IP Publique</string>
     <string name="dns_adress_example">Exemple: monadresse.ddns.net</string>
-    <string name="dns_port_example">Exemple: 443</string>
+    <string name="dns_port_default">Par défault: 443</string>
     <string name="edit">Modifier</string>
     <string name="error">Une erreur est survenue</string>
     <string name="firstname">Prénom</string>

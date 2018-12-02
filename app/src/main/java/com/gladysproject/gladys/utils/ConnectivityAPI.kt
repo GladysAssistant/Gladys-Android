@@ -59,8 +59,8 @@ class ConnectivityAPI {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             return if (prefs.getBoolean("nat", false)){
                 // Test if the string is not empty
-                if(prefs.getString("dns", "fakeurl") != ""){
-                    buildNatAddress(prefs.getString("dns", "fakeurl")!!, prefs.getString("nat_port", "80")!!, prefs.getBoolean("https", false))
+                if(prefs.getString("dns", "") != ""){
+                    buildNatAddress(prefs.getString("dns", "fakeurl")!!, prefs.getString("nat_port", "")!!, prefs.getBoolean("https", false))
                 }else {
                     "http://fakeurl"
                 }
@@ -71,14 +71,16 @@ class ConnectivityAPI {
 
         private fun buildNatAddress(address : String, nat_port: String, https: Boolean): String{
             return if("https://" in address || "http://" in address){
-                if (https){
+                if(nat_port == "") {
                     "$address/"
-                }else{
+                } else {
                     "$address/:$nat_port/"
                 }
             } else {
-                if (https){
+                if (https && nat_port == ""){
                     "https://$address/"
+                } else if (https && nat_port != ""){
+                    "https://$address:$nat_port/"
                 }else{
                     "http://$address:$nat_port/"
                 }

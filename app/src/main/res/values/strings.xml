@@ -23,7 +23,7 @@
     <string name="devicetype">Devices</string>
     <string name="dns_adress">DNS / Public IP</string>
     <string name="dns_adress_example">Example: myaddress.ddns.net</string>
-    <string name="dns_port_example">Example: 443</string>
+    <string name="dns_port_default">Default: 443</string>
     <string name="edit">Edit</string>
     <string name="error">An error has occurred</string>
     <string name="firstname">First name</string>

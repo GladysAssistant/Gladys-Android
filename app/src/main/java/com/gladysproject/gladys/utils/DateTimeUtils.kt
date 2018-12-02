@@ -20,6 +20,9 @@ object DateTimeUtils {
     }
 
     fun convertStringToDate(date: String): Date{
+        if (date == "") {
+            throw IllegalArgumentException("The dates must not be null")
+        }
         val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         return format.parse(date)
     }
@@ -51,7 +54,7 @@ object DateTimeUtils {
         return isAfterDay(cal1, cal2)
     }
 
-    fun isAfterDay(cal1: Calendar?, cal2: Calendar?): Boolean {
+    private fun isAfterDay(cal1: Calendar?, cal2: Calendar?): Boolean {
         if (cal1 == null || cal2 == null) {
             throw IllegalArgumentException("The dates must not be null")
         }

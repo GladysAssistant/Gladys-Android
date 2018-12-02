@@ -1,7 +1,6 @@
 package com.gladysproject.gladys.adapters
 
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,7 +61,6 @@ class MessageAdapter(private val messages: MutableList<Message>, private var cal
             } else if(position + 1 != messages.size) {
                 if (DateTimeUtils.isAfterDay(convertStringToDate(messages[position].datetime!!), convertStringToDate(messages[position - 1].datetime!!))) {
                     itemView.gladys_date.text = getDate(messages[position].datetime!!)
-                    Log.e("Test", getDate(messages[position].datetime!!))
                     itemView.gladys_date_indicator.visibility = View.VISIBLE
                     itemView.gladys_date_indicator.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
                 } else {
@@ -92,7 +90,6 @@ class MessageAdapter(private val messages: MutableList<Message>, private var cal
             } else if(position + 1 != messages.size) {
                 if (DateTimeUtils.isAfterDay(convertStringToDate(messages[position].datetime!!), convertStringToDate(messages[position - 1].datetime!!))) {
                     itemView.user_date.text = getDate(messages[position].datetime!!)
-                    Log.e("Test", getDate(messages[position].datetime!!))
                     itemView.user_date_indicator.visibility = View.VISIBLE
                     itemView.user_date_indicator.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
                 } else {

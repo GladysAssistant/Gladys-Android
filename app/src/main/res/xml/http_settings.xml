@@ -43,6 +43,7 @@
         android:title="@string/dns_adress" />
 
     <EditTextPreference
+        android:dependency="nat"
         android:dialogTitle="@string/port"
         android:inputType="number"
         android:key="nat_port"
@@ -59,5 +60,10 @@
         android:key="https"
         android:title="@string/https"
         android:disableDependentsState="true"/>
+
+    <Preference
+        android:dependency="nat"
+        android:layout="@layout/custom_android_9_message_settings">
+    </Preference>
 
 </PreferenceScreen>

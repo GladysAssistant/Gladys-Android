@@ -8,6 +8,7 @@
     <string name="activate_notification">Enable notifications</string>
     <string name="activate_vibration">Enable vibration</string>
     <string name="activate_vibration_explanation">Make your device vibrate during notifications</string>
+    <string name="android_9_message">Warning: From version 9 of Android HTTPS is mandatory for network communications. Make sure you have HTTPS enabled on your Gladys. (The HTTPS will be automatically used even if you do not activate it in the settings if it is on)</string>
     <string name="app_name">Gladys</string>
     <string name="app_description">Your home assistant</string>
     <string name="app_version">Gladys Android version v1.2-Alpha03</string>

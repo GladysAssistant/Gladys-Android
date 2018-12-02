@@ -104,7 +104,7 @@ class ConnectivityAPI {
          Building the URL according to the type of connection
          */
         fun getUrl(context: Context): String {
-            var url = when(getTypeOfConnection(context)){
+            val url = when(getTypeOfConnection(context)){
                 1 -> ConnectivityAPI.getLocalPreferences(context)
                 2 -> ConnectivityAPI.getNatPreferences(context)
                 else -> "http://noconnection"

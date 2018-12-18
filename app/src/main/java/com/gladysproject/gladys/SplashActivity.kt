@@ -2,7 +2,7 @@ package com.gladysproject.gladys
 
 import android.os.Bundle
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 
 class SplashActivity : AppCompatActivity() {
 

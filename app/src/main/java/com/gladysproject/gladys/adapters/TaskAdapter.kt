@@ -2,9 +2,9 @@ package com.gladysproject.gladys.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.database.entity.Task
 import com.gladysproject.gladys.utils.AdapterCallback

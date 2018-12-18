@@ -2,12 +2,12 @@ package com.gladysproject.gladys.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.database.GladysDb
 import com.gladysproject.gladys.database.entity.DeviceType
@@ -72,17 +72,15 @@ class DeviceTypeAdapter(
         }
     }
 
-    override fun onCreateGroupViewHolder(parent: ViewGroup, viewType: Int): RoomVH? {
+    override fun onCreateGroupViewHolder(parent: ViewGroup, viewType: Int): RoomVH {
         return RoomVH(LayoutInflater.from(parent.context).inflate(R.layout.card_device_room, parent, false))
     }
 
-    override fun onCreateChildViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+    override fun onCreateChildViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
 
             1 -> BinaryVH(LayoutInflater.from(parent.context).inflate(R.layout.card_device_binary, parent, false))
-
             2 -> MultilevelVH(LayoutInflater.from(parent.context).inflate(R.layout.card_device_multilevel, parent, false))
-
             else -> SensorVH(LayoutInflater.from(parent.context).inflate(R.layout.card_device_sensor, parent, false))
         }
     }
@@ -104,7 +102,7 @@ class DeviceTypeAdapter(
 
     override fun onBindChildViewHolder(holder: RecyclerView.ViewHolder, groupPosition: Int, childPosition: Int, viewType: Int) {
 
-        /** Bind view compared to view type and set the corner of card if the child is a last ghild of the group*/
+        /** Bind view compared to view type and set the corner of card if the child is a last child of the group*/
 
         when(viewType) {
             1 -> {

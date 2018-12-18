@@ -1,6 +1,5 @@
 package com.gladysproject.gladys.models
 
-
 class User {
 
     lateinit var firstname: String

@@ -3,12 +3,11 @@
 package com.gladysproject.gladys
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.preference.Preference.OnPreferenceClickListener
 import android.app.Fragment
 import android.preference.*
-import android.support.v7.content.res.AppCompatResources
+import androidx.appcompat.app.AppCompatActivity
 
 class SettingsActivity : AppCompatActivity() {
 

@@ -73,7 +73,7 @@
             tools:ignore="ContentDescription" />
     </ViewFlipper>
 
-    <android.support.v7.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_message_user"
@@ -104,6 +104,6 @@
                 android:textColor="@color/primaryDarkColor" />
         </FrameLayout>
 
-    </android.support.v7.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>

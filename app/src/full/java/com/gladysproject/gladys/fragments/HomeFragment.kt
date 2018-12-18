@@ -2,22 +2,19 @@ package com.gladysproject.gladys.fragments
 
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.design.widget.CoordinatorLayout
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SimpleItemAnimator
 import android.util.Log
 import android.view.*
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.adapters.DeviceTypeAdapter
 import com.gladysproject.gladys.database.GladysDb
 import com.gladysproject.gladys.database.entity.DeviceType
 import com.gladysproject.gladys.database.entity.Rooms
-import com.gladysproject.gladys.utils.AdapterCallback
-import com.gladysproject.gladys.utils.ConnectivityAPI
-import com.gladysproject.gladys.utils.GladysAPI
-import com.gladysproject.gladys.utils.SelfSigningClientBuilder
+import com.gladysproject.gladys.utils.*
+import com.google.android.material.snackbar.Snackbar
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
@@ -85,14 +82,14 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
 
                             deviceTypeByRoom = response.body()!!
 
-                            /** Remove devicetype not displayed */
+                            /** Remove device type not displayed */
                             GlobalScope.launch {
                                 for(room in deviceTypeByRoom){
                                     room.deviceTypes = room.deviceTypes.asSequence().filterIndexed{ _, it -> it.display != 0.toLong() }.toMutableList()
                                 }
                             }.join()
 
-                            /** Remove room if after removing devicetypes not displayed her is empty */
+                            /** Remove room if after removing device types not displayed her is empty */
                             GlobalScope.launch {
                                 for(room in deviceTypeByRoom){
                                     if(room.deviceTypes.isEmpty()){
@@ -234,7 +231,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
 
         /** Update value in database */
         GlobalScope.launch {
-            GladysDb.database?.deviceTypeDao()?.updateDeviceTypeLastValue( data.getInt("value").toFloat(), data.getLong("devicetype"))
+            GladysDb.database?.deviceTypeDao()?.updateDeviceTypeLastValue(data.getInt("value").toFloat(), data.getLong("devicetype"))
         }
     }
 

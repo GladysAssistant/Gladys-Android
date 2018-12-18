@@ -1,6 +1,6 @@
 package com.gladysproject.gladys.database.dao
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.gladysproject.gladys.database.entity.DeviceType
 
 @Dao

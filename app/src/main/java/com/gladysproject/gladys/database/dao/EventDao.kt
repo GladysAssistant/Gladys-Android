@@ -1,10 +1,7 @@
 package com.gladysproject.gladys.database.dao
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
+import androidx.room.*
 import com.gladysproject.gladys.database.entity.Event
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
 
 @Dao
 interface EventDao {

@@ -5,32 +5,32 @@
     android:orientation="vertical"
     android:padding="@dimen/card_padding_lg">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         style="@style/Widget.Gladys.TextInputLayout">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/mqtt_topic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/topic"
             android:inputType="text"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         style="@style/Widget.Gladys.TextInputLayout">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/mqtt_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/message"
             android:inputType="text"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>

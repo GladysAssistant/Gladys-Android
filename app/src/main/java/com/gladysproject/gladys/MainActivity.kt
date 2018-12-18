@@ -3,18 +3,18 @@ package com.gladysproject.gladys
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.app.AppCompatDelegate
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
 import com.gladysproject.gladys.database.GladysDb
 import com.gladysproject.gladys.fragments.ChatFragment
 import com.gladysproject.gladys.fragments.HomeFragment
 import com.gladysproject.gladys.fragments.TimelineFragment
 import com.gladysproject.gladys.services.MqttService
 import com.gladysproject.gladys.utils.ConnectivityAPI
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.socket.client.Socket
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         }
         false
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

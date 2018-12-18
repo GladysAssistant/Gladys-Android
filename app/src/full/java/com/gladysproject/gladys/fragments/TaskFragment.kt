@@ -3,14 +3,14 @@ package com.gladysproject.gladys.fragments
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.ViewFlipper
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.actions.setActionButtonEnabled

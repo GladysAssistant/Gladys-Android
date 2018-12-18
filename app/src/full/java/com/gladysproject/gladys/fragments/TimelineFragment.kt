@@ -3,10 +3,9 @@ package com.gladysproject.gladys.fragments
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.*
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.actions.setActionButtonEnabled
@@ -19,6 +18,7 @@ import com.gladysproject.gladys.utils.ConnectivityAPI
 import com.gladysproject.gladys.utils.DateTimeUtils.getCurrentDate
 import com.gladysproject.gladys.utils.GladysAPI
 import com.gladysproject.gladys.utils.SelfSigningClientBuilder
+import com.google.android.material.snackbar.Snackbar
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -33,8 +33,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.lang.Exception
-import java.text.DateFormat
-import java.util.*
 
 class TimelineFragment : Fragment() {
 

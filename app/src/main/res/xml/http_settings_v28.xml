@@ -59,6 +59,12 @@
         android:defaultValue="true"
         android:key="https"
         android:title="@string/https"
-        android:disableDependentsState="true"/>
+        android:disableDependentsState="true"
+        android:enabled="false"/>
+
+    <Preference
+        android:dependency="nat"
+        android:layout="@layout/custom_android_9_message_settings">
+    </Preference>
 
 </PreferenceScreen>

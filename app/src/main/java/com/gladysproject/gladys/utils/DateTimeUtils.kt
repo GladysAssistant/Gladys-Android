@@ -20,11 +20,13 @@ object DateTimeUtils {
     }
 
     fun convertStringToDate(date: String): Date{
-        if (date == "") {
-            throw IllegalArgumentException("The dates must not be null")
+        return if (date == "" || date.isEmpty()) {
+            // if the date is null or empty
+            // return current date
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).parse(getCurrentDate())
+        } else {
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).parse(date)
         }
-        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-        return format.parse(date)
     }
 
     fun getDate(date: String): String {

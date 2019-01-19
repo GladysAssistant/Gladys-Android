@@ -44,7 +44,7 @@ class SettingsActivity : AppCompatActivity() {
                             null)
 
             } else {
-                if(preference.key == "token" || preference.key == "mqtt_user_password") preference.summary = replaceSumary(stringValue)
+                if(preference.key == "token" || preference.key == "mqtt_user_password") preference.summary = replaceSummary(stringValue)
                 else preference.summary = stringValue
             }
             true
@@ -58,7 +58,7 @@ class SettingsActivity : AppCompatActivity() {
                             .getString(preference.key, ""))
         }
 
-        private fun replaceSumary(value: String) : String {
+        private fun replaceSummary(value: String) : String {
             val re = Regex("[A-Za-z0-9!@#\$%^&*(),.?:{}|<> ]")
             return re.replace(value,"*")
         }
@@ -117,7 +117,11 @@ class SettingsActivity : AppCompatActivity() {
     class HttpSettingsFragment : PreferenceFragment() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            addPreferencesFromResource(R.xml.http_settings)
+            if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P){
+                addPreferencesFromResource(R.xml.http_settings_v28)
+            } else {
+                addPreferencesFromResource(R.xml.http_settings)
+            }
 
             bindPreferenceSummaryToValue(findPreference("local_ip"))
             bindPreferenceSummaryToValue(findPreference("local_port"))

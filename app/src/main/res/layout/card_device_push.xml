@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.github.captain_miao.optroundcardview.OptRoundCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_device_push"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/card_spacing"
+    android:layout_marginRight="@dimen/card_spacing"
+    app:cardElevation="@dimen/card_elevation"
+    app:optRoundCardCornerRadius="@dimen/card_radius"
+    app:optRoundCardBackgroundColor="@color/secondaryColor">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/card_padding_lg">
+
+        <ImageView
+            android:id="@+id/device_push_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/card_padding_lg"
+            app:srcCompat="@drawable/ic_toggle_right_24dp"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/device_push_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/device_push_icon"
+            android:layout_marginEnd="50dp"
+            android:layout_toStartOf="@+id/device_push_value"
+            android:textColor="@color/primaryColor"
+            android:textSize="@dimen/card_title_size"
+            android:singleLine="true"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/device_push_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/device_push_name"
+            android:layout_marginEnd="50dp"
+            android:layout_toStartOf="@+id/device_push_value"
+            android:layout_below="@+id/device_push_name"
+            android:textSize="12sp"
+            android:singleLine="true"
+            android:ellipsize="end" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/device_push_value"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="push"/>
+
+    </RelativeLayout>
+
+</com.github.captain_miao.optroundcardview.OptRoundCardView>

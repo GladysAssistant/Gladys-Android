@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Switch
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +19,7 @@ import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemAda
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemViewHolder
 import kotlinx.android.synthetic.main.card_device_binary.view.*
 import kotlinx.android.synthetic.main.card_device_multilevel.view.*
+import kotlinx.android.synthetic.main.card_device_push.view.*
 import kotlinx.android.synthetic.main.card_device_room.view.*
 import kotlinx.android.synthetic.main.card_device_sensor.view.*
 import kotlinx.coroutines.GlobalScope
@@ -64,9 +66,10 @@ class DeviceTypeAdapter(
     }
 
     override fun getChildItemViewType(groupPosition: Int, childPosition: Int): Int {
-        return if (deviceTypeByRoom[groupPosition].deviceTypes[childPosition].sensor?.toInt() == 1) 3
+        return if (deviceTypeByRoom[groupPosition].deviceTypes[childPosition].sensor?.toInt() == 1) 4
             else { when (deviceTypeByRoom[groupPosition].deviceTypes[childPosition].type) {
                 "binary" -> 1
+                "push" -> 3
                 else -> 2
             }
         }
@@ -81,6 +84,7 @@ class DeviceTypeAdapter(
 
             1 -> BinaryVH(LayoutInflater.from(parent.context).inflate(R.layout.card_device_binary, parent, false))
             2 -> MultilevelVH(LayoutInflater.from(parent.context).inflate(R.layout.card_device_multilevel, parent, false))
+            3 -> PushVH(LayoutInflater.from(parent.context).inflate(R.layout.card_device_push, parent, false))
             else -> SensorVH(LayoutInflater.from(parent.context).inflate(R.layout.card_device_sensor, parent, false))
         }
     }
@@ -114,6 +118,10 @@ class DeviceTypeAdapter(
                 if (childPosition + 1 == deviceTypeByRoom[groupPosition].deviceTypes.size) holder.itemView.card_device_multilevel.showCorner(false, false, true, true)
                 else holder.itemView.card_device_multilevel.showCorner(false, false, false, false)
             } 3 -> {
+                (holder as PushVH).bind(deviceTypeByRoom[groupPosition].deviceTypes[childPosition], deviceTypeByRoom, groupPosition, context, callbacks)
+                if (childPosition + 1 == deviceTypeByRoom[groupPosition].deviceTypes.size) holder.itemView.card_device_push.showCorner(false, false, true, true)
+                else holder.itemView.card_device_push.showCorner(false, false, false, false)
+            } else -> {
                 (holder as SensorVH).bind(deviceTypeByRoom[groupPosition].deviceTypes[childPosition], context)
                 if (childPosition + 1 == deviceTypeByRoom[groupPosition].deviceTypes.size) holder.itemView.card_device_sensor.showCorner(false, false, true, true)
                 else holder.itemView.card_device_sensor.showCorner(false, false, false, false)
@@ -179,6 +187,27 @@ class DeviceTypeAdapter(
         }
     }
 
+    class PushVH(itemView: View) : RecyclerView.ViewHolder(itemView){
+        @SuppressLint("SetTextI18n")
+        fun bind(deviceType: DeviceType, deviceTypeByRoom: MutableList<Rooms>, groupPosition: Int, context: Context, callbacks: AdapterCallback.AdapterCallbackDeviceState) {
+
+            if(deviceType.category !== null) itemView.device_push_icon.setImageDrawable(ContextCompat.getDrawable(context, getIcon(deviceType.category!!)))
+
+            if(deviceType.deviceTypeName != null && deviceType.deviceTypeName != "")itemView.device_push_name.text = deviceType.deviceTypeName
+            else itemView.device_push_name.text = "${context.getString(R.string.devicetype)} : ${deviceType.id}"
+
+            if(deviceType.tag != null)itemView.device_push_tag.text = deviceType.tag
+            else itemView.device_push_tag.text = context.getString(R.string.no_tag)
+
+            itemView.findViewById<Button>(R.id.device_push_value).setOnClickListener{
+                if (deviceTypeByRoom[groupPosition].isExpanded) {
+                    callbacks.onClickCallbackDeviceState(deviceType.id, 1f)
+                }
+            }
+
+        }
+    }
+
     class SensorVH(itemView: View) : RecyclerView.ViewHolder(itemView){
         @SuppressLint("SetTextI18n")
         fun bind(deviceType: DeviceType, context: Context) {
@@ -215,8 +244,7 @@ class DeviceTypeAdapter(
                 "humidity-sensor" -> R.drawable.ic_droplet_24dp
                 "light-sensor" -> R.drawable.ic_sun_24dp
                 "battery-sensor" -> R.drawable.ic_percent_24dp
-                "door-opening-sensor" -> R.drawable.ic_home_24dp
-                "window-opening-sensor" -> R.drawable.ic_home_24dp
+                "door-opening-sensor", "window-opening-sensor" -> R.drawable.ic_home_24dp
                 else -> {
                     R.drawable.ic_bar_chart_24dp
                 }

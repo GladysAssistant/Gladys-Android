@@ -130,8 +130,12 @@ class ConnectivityAPI {
 
                 if (instance == null || url != getUrl(context)) {
                     try {
+                        val opts = IO.Options()
+                        opts.callFactory = SelfSigningClientBuilder.unsafeOkHttpClient
+                        opts.webSocketFactory = SelfSigningClientBuilder.unsafeOkHttpClient
+
                         url = getUrl(context)
-                        instance = IO.socket("$url?__sails_io_sdk_version=0.13.7")
+                        instance = IO.socket("$url?__sails_io_sdk_version=0.13.7", opts)
                     } catch (e: URISyntaxException) {
                         Log.e("Error", e.toString())
                     }

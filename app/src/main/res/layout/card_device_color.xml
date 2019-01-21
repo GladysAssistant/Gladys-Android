@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.github.captain_miao.optroundcardview.OptRoundCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_device_color"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/card_spacing"
+    android:layout_marginRight="@dimen/card_spacing"
+    app:cardElevation="@dimen/card_elevation"
+    app:optRoundCardCornerRadius="@dimen/card_radius"
+    app:optRoundCardBackgroundColor="@color/secondaryColor">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/card_padding_lg">
+
+        <ImageView
+            android:id="@+id/device_color_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/card_padding_lg"
+            app:srcCompat="@drawable/ic_toggle_right_24dp"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/device_color_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/device_color_icon"
+            android:layout_marginEnd="50dp"
+            android:layout_toStartOf="@+id/device_color_value_ll"
+            android:textColor="@color/primaryColor"
+            android:textSize="@dimen/card_title_size"
+            android:singleLine="true"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/device_color_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/device_color_name"
+            android:layout_marginEnd="50dp"
+            android:layout_toStartOf="@+id/device_color_value_ll"
+            android:layout_below="@+id/device_color_name"
+            android:textSize="12sp"
+            android:singleLine="true"
+            android:ellipsize="end" />
+
+        <LinearLayout
+            android:id="@+id/device_color_value_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_white_border"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="1dp">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/device_color_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/circle_white_border"
+                app:elevation="0dp"
+                app:fabCustomSize="35dp"
+                app:fabSize="mini"
+                app:hoveredFocusedTranslationZ="0dp"
+                app:pressedTranslationZ="0dp"
+                app:rippleColor="@color/primaryDarkColor" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</com.github.captain_miao.optroundcardview.OptRoundCardView>

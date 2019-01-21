@@ -17,6 +17,7 @@
     <string name="auto_start">Automatic start</string>
     <string name="auto_start_explanation">Start automatically when you start your device</string>
     <string name="cancel">Cancel</string>
+    <string name="choose_color">Choose a color</string>
     <string name="connection">Connection</string>
     <string name="copied_text">Text copied in the clipboard</string>
     <string name="copy_text">Copy the text</string>

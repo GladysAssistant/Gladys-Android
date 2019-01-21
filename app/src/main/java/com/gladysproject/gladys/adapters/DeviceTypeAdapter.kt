@@ -2,6 +2,8 @@ package com.gladysproject.gladys.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,9 @@ import android.widget.Button
 import android.widget.Switch
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import com.gladysproject.gladys.R
 import com.gladysproject.gladys.database.GladysDb
 import com.gladysproject.gladys.database.entity.DeviceType
@@ -17,7 +22,10 @@ import com.gladysproject.gladys.utils.AdapterCallback
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemAdapter
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemViewHolder
+import com.skydoves.colorpickerview.ActionMode
+import com.skydoves.colorpickerview.ColorPickerView
 import kotlinx.android.synthetic.main.card_device_binary.view.*
+import kotlinx.android.synthetic.main.card_device_color.view.*
 import kotlinx.android.synthetic.main.card_device_multilevel.view.*
 import kotlinx.android.synthetic.main.card_device_push.view.*
 import kotlinx.android.synthetic.main.card_device_room.view.*
@@ -25,6 +33,10 @@ import kotlinx.android.synthetic.main.card_device_sensor.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
+import com.skydoves.colorpickerview.sliders.AlphaSlideBar
+import com.skydoves.colorpickerview.sliders.BrightnessSlideBar
+import java.lang.Exception
 
 class DeviceTypeAdapter(
         private var deviceTypeByRoom: MutableList<Rooms>,
@@ -66,10 +78,11 @@ class DeviceTypeAdapter(
     }
 
     override fun getChildItemViewType(groupPosition: Int, childPosition: Int): Int {
-        return if (deviceTypeByRoom[groupPosition].deviceTypes[childPosition].sensor?.toInt() == 1) 4
+        return if (deviceTypeByRoom[groupPosition].deviceTypes[childPosition].sensor?.toInt() == 1) 5
             else { when (deviceTypeByRoom[groupPosition].deviceTypes[childPosition].type) {
                 "binary" -> 1
                 "push" -> 3
+                "color" -> 4
                 else -> 2
             }
         }
@@ -85,6 +98,7 @@ class DeviceTypeAdapter(
             1 -> BinaryVH(LayoutInflater.from(parent.context).inflate(R.layout.card_device_binary, parent, false))
             2 -> MultilevelVH(LayoutInflater.from(parent.context).inflate(R.layout.card_device_multilevel, parent, false))
             3 -> PushVH(LayoutInflater.from(parent.context).inflate(R.layout.card_device_push, parent, false))
+            4 -> ColorVH(LayoutInflater.from(parent.context).inflate(R.layout.card_device_color, parent, false))
             else -> SensorVH(LayoutInflater.from(parent.context).inflate(R.layout.card_device_sensor, parent, false))
         }
     }
@@ -121,6 +135,10 @@ class DeviceTypeAdapter(
                 (holder as PushVH).bind(deviceTypeByRoom[groupPosition].deviceTypes[childPosition], deviceTypeByRoom, groupPosition, context, callbacks)
                 if (childPosition + 1 == deviceTypeByRoom[groupPosition].deviceTypes.size) holder.itemView.card_device_push.showCorner(false, false, true, true)
                 else holder.itemView.card_device_push.showCorner(false, false, false, false)
+            } 4 -> {
+                (holder as ColorVH).bind(deviceTypeByRoom[groupPosition].deviceTypes[childPosition], deviceTypeByRoom, groupPosition, context, callbacks)
+                if (childPosition + 1 == deviceTypeByRoom[groupPosition].deviceTypes.size) holder.itemView.card_device_color.showCorner(false, false, true, true)
+                else holder.itemView.card_device_color.showCorner(false, false, false, false)
             } else -> {
                 (holder as SensorVH).bind(deviceTypeByRoom[groupPosition].deviceTypes[childPosition], context)
                 if (childPosition + 1 == deviceTypeByRoom[groupPosition].deviceTypes.size) holder.itemView.card_device_sensor.showCorner(false, false, true, true)
@@ -202,6 +220,63 @@ class DeviceTypeAdapter(
             itemView.findViewById<Button>(R.id.device_push_value).setOnClickListener{
                 if (deviceTypeByRoom[groupPosition].isExpanded) {
                     callbacks.onClickCallbackDeviceState(deviceType.id, 1f)
+                }
+            }
+
+        }
+    }
+
+    class ColorVH(itemView: View) : RecyclerView.ViewHolder(itemView){
+        @SuppressLint("SetTextI18n")
+        fun bind(deviceType: DeviceType, deviceTypeByRoom: MutableList<Rooms>, groupPosition: Int, context: Context, callbacks: AdapterCallback.AdapterCallbackDeviceState) {
+
+            if(deviceType.category !== null) itemView.device_color_icon.setImageDrawable(ContextCompat.getDrawable(context, getIcon(deviceType.category!!)))
+
+            if(deviceType.deviceTypeName != null && deviceType.deviceTypeName != "")itemView.device_color_name.text = deviceType.deviceTypeName
+            else itemView.device_color_name.text = "${context.getString(R.string.devicetype)} : ${deviceType.id}"
+
+            if(deviceType.tag != null)itemView.device_color_tag.text = deviceType.tag
+            else itemView.device_color_tag.text = context.getString(R.string.no_tag)
+
+            try {
+                itemView.device_color_value.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#${Integer.toHexString(deviceType.lastValue!!.toInt())}"))
+            } catch (e: Exception){
+                itemView.device_color_value.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+            }
+
+            itemView.device_color_value.setOnClickListener{
+                if (deviceTypeByRoom[groupPosition].isExpanded) {
+
+                    val pickerDialog = MaterialDialog(context)
+
+                    pickerDialog
+                        .title(text = context.getString(R.string.choose_color))
+                        .customView(R.layout.dialog_color_picker)
+                        .positiveButton(R.string.validate)
+                        .negativeButton(R.string.cancel)
+                        .show()
+
+                    // get color picker view
+                    val colorPickerView = pickerDialog.getCustomView()!!.findViewById<ColorPickerView>(R.id.ColorPickerView)
+                    colorPickerView.actionMode = ActionMode.LAST
+
+                    // get and attach alphaSlideBar to color picker view
+                    val alphaSlideBar = pickerDialog.getCustomView()!!.findViewById<AlphaSlideBar>(R.id.AlphaSlideBar)
+                    colorPickerView.attachAlphaSlider(alphaSlideBar)
+
+                    // get and attach brightnessSlideBar to color picker view
+                    val brightnessSlideBar = pickerDialog.getCustomView()!!.findViewById<BrightnessSlideBar>(R.id.BrightnessSlideBar)
+                    colorPickerView.attachBrightnessSlider(brightnessSlideBar)
+
+                    colorPickerView.setColorListener(
+                            ColorEnvelopeListener { envelope, fromUser ->
+                                if(fromUser) {
+                                    val hexColor = envelope.hexCode.replaceFirst("FF", "")
+                                    val intColor = Integer.parseInt(hexColor, 16)
+                                    callbacks.onClickCallbackDeviceState(deviceType.id, intColor.toFloat())
+                                }
+                            })
+
                 }
             }
 

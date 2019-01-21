@@ -17,6 +17,7 @@
     <string name="auto_start">Démarrage automatique</string>
     <string name="auto_start_explanation">Démarrer automatiquement au démarrage de votre appareil</string>
     <string name="cancel">Annuler</string>
+    <string name="choose_color">Choisissez une couleur</string>
     <string name="connection">Connexion</string>
     <string name="copied_text">Texte copié dans la presse papier</string>
     <string name="copy_text">Copier le texte</string>

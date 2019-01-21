@@ -37,7 +37,6 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
     private lateinit var socket : Socket
     private lateinit var deviceTypeByRoom: MutableList<Rooms>
     private lateinit var adapter : DeviceTypeAdapter
-    private var isNotGladysDeviceState : Boolean = false
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -188,20 +187,26 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
     }
 
     override fun onClickCallbackDeviceState(id: Long?, value: Float?) {
+        socket.off("newDeviceState", onNewDeviceState)
+
         retrofit
                 .create(GladysAPI::class.java)
                 .changeDeviceState(id, value, token)
                 .enqueue(object : Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                        /** The new device state is captured by onNewDeviceState function by websocket connection
-                         *  But we put the variable a true for can not create a loop between the cursor/switch listeners and event flicker by the socket
-                         *  See the onNewDeviceState function for more comprehension
-                         * */
-                        if (response.code() == 200) isNotGladysDeviceState = true
-                        else showSnackBar()
+                        /** The new device state is captured by onNewDeviceState function by websocket connection **/
+                        if (response.code() == 200) {
+                            socket.on("newDeviceState", onNewDeviceState)
+                        }
+                        else {
+                            adapter.notifyDataSetChanged()
+                            socket.on("newDeviceState", onNewDeviceState)
+                            showSnackBar()
+                        }
                     }
                     override fun onFailure(call: Call<Void>, err: Throwable) {
                         showSnackBar()
+                        socket.on("newDeviceState", onNewDeviceState)
                     }
                 })
     }
@@ -211,22 +216,17 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
         val data = args[0] as JSONObject
 
         activity!!.runOnUiThread {
-            /** If the variable is true then it means that the device state was triggered by the app
-             *  So the view is already up to date
-             * */
-            if (!isNotGladysDeviceState) {
-                for (room in deviceTypeByRoom) {
-                    for (deviceType in room.deviceTypes) {
-                        if (data.getLong("devicetype") == deviceType.id) {
-                            deviceType.lastValue = data.getInt("value").toFloat()
-                            adapter.notifyDataSetChanged()
-                            break
-                        }
+
+            for (room in deviceTypeByRoom) {
+                for (deviceType in room.deviceTypes) {
+                    if (data.getLong("devicetype") == deviceType.id) {
+                        deviceType.lastValue = data.getInt("value").toFloat()
+                        adapter.notifyDataSetChanged()
+                        break
                     }
                 }
-            }else {
-                isNotGladysDeviceState = false
             }
+
         }
 
         /** Update value in database */

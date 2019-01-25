@@ -23,8 +23,8 @@
     <string name="copy_text">Copier le texte</string>
     <string name="delete">Supprimer</string>
     <string name="devicetype">Périphérique</string>
-    <string name="dns_adress">DNS / IP Publique</string>
-    <string name="dns_adress_example">Exemple: monadresse.ddns.net</string>
+    <string name="dns_address">DNS / IP Publique</string>
+    <string name="dns_address_example">Exemple: monadresse.ddns.net</string>
     <string name="dns_port_default">Par défault: 443</string>
     <string name="edit">Modifier</string>
     <string name="error">Une erreur est survenue</string>
@@ -40,8 +40,8 @@
     <string name="indicator_light">Voyant du téléphone</string>
     <string name="indicator_light_explanation">Faire clignoter le voyant lumineux de votre appareil lors des notifications</string>
     <string name="info">Infos</string>
-    <string name="ip_adress">Adresse IP locale</string>
-    <string name="ip_adresse_example">Exemple: 192.168.1.12</string>
+    <string name="ip_address">Adresse IP locale</string>
+    <string name="ip_address_example">Exemple: 192.168.1.12</string>
     <string name="message">Message</string>
     <string name="mqtt">Mqtt</string>
     <string name="mqtt_host_exemple">Exemple: m49.cloudmqtt.com</string>
@@ -83,7 +83,7 @@
     <string name="topic">topic</string>
     <string name="trigger_an_event">Déclencher un évènement</string>
     <string name="trigger">Déclencheur</string>
-    <string name="use_dns_adress">Utiliser un DNS / IP publique</string>
+    <string name="use_dns_address">Utiliser un DNS / IP publique</string>
     <string name="user_id">Identifiant utilisateur</string>
     <string name="user_name">Nom d\'utilisateur</string>
     <string name="url">Url</string>

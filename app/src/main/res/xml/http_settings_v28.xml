@@ -2,13 +2,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditTextPreference
-        android:dialogTitle="@string/ip_adress"
-        android:hint="@string/ip_adresse_example"
+        android:dialogTitle="@string/ip_address"
+        android:hint="@string/ip_address_example"
         android:inputType="text"
         android:key="local_ip"
         android:negativeButtonText="@string/cancel"
         android:positiveButtonText="@string/validate"
-        android:title="@string/ip_adress" />
+        android:title="@string/ip_address" />
 
     <EditTextPreference
         android:dialogTitle="@string/port"
@@ -31,16 +31,16 @@
     <SwitchPreference
         android:defaultValue="false"
         android:key="nat"
-        android:title="@string/use_dns_adress" />
+        android:title="@string/use_dns_address" />
 
     <EditTextPreference
         android:dependency="nat"
-        android:dialogTitle="@string/dns_adress"
+        android:dialogTitle="@string/dns_address"
         android:key="dns"
-        android:hint="@string/dns_adress_example"
+        android:hint="@string/dns_address_example"
         android:negativeButtonText="@string/cancel"
         android:positiveButtonText="@string/validate"
-        android:title="@string/dns_adress" />
+        android:title="@string/dns_address" />
 
     <EditTextPreference
         android:dependency="nat"

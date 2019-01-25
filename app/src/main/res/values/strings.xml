@@ -23,8 +23,8 @@
     <string name="copy_text">Copy the text</string>
     <string name="delete">Delete</string>
     <string name="devicetype">Devices</string>
-    <string name="dns_adress">DNS / Public IP</string>
-    <string name="dns_adress_example">Example: myaddress.ddns.net</string>
+    <string name="dns_address">DNS / Public IP</string>
+    <string name="dns_address_example">Example: myaddress.ddns.net</string>
     <string name="dns_port_default">Default: 443</string>
     <string name="edit">Edit</string>
     <string name="error">An error has occurred</string>
@@ -40,8 +40,8 @@
     <string name="indicator_light">Phone light</string>
     <string name="indicator_light_explanation">Blink the light on your device during notifications</string>
     <string name="info">Info</string>
-    <string name="ip_adress">Local IP address</string>
-    <string name="ip_adresse_example">Example: 192.168.1.12</string>
+    <string name="ip_address">Local IP address</string>
+    <string name="ip_address_example">Example: 192.168.1.12</string>
     <string name="message">Message</string>
     <string name="mqtt">MQTT</string>
     <string name="mqtt_host_exemple">Example: m49.cloudmqtt.com</string>
@@ -83,7 +83,7 @@
     <string name="topic">topic</string>
     <string name="trigger_an_event">Trigger an event</string>
     <string name="trigger">Trigger</string>
-    <string name="use_dns_adress">Use a public DNS / IP</string>
+    <string name="use_dns_address">Use a public DNS / IP</string>
     <string name="user_id">User ID</string>
     <string name="user_name">Username</string>
     <string name="url">URL</string>

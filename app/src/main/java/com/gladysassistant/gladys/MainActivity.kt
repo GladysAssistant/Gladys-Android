@@ -1,10 +1,13 @@
 package com.gladysassistant.gladys
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
@@ -18,6 +21,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.socket.client.Socket
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
@@ -97,6 +101,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
+        // if it is a first run, we invite the user to go to the settings
+        Handler().post {if(!ConnectivityAPI.isPreferencesSet(this)) showConfigPrompt() }
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -107,6 +113,16 @@ class MainActivity : AppCompatActivity() {
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun showConfigPrompt() {
+            MaterialTapTargetPrompt.Builder(this)
+                    .setTarget(R.id.settings_button)
+                    .setPrimaryText(resources.getString(R.string.prompt_Title))
+                    .setSecondaryText(resources.getString(R.string.prompt_message))
+                    .setBackgroundColour(resources.getColor(R.color.transparentPrimaryDarkColor))
+                    .setFocalColour(resources.getColor(R.color.transparentPrimaryColor))
+                    .show()
     }
 
     private fun connectSocket(){

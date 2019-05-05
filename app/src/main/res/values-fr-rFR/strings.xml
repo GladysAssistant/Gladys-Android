@@ -71,6 +71,8 @@
     <string name="password">Mot de passe</string>
     <string name="port">Port</string>
     <string name="port_example">Exemple: 8080</string>
+    <string name="prompt_message">Accédez aux paramètres pour configurer la connexion. Puis revenez par ici ;)</string>
+    <string name="prompt_Title">Configuration</string>
     <string name="report_bug">Signaler un bug</string>
     <string name="retry">Réessayer</string>
     <string name="select_ringtone">Sélection du son</string>

@@ -336,7 +336,7 @@ class ChatFragment : Fragment(), AdapterCallback.AdapterCallbackMessage {
                             view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
                                     .apply { setMargins(leftMargin, topMargin, rightMargin, activity?.bottom_navigation?.height!! + 22) }
                         }.show()
-            } else {
+            } else if (ConnectivityAPI.isPreferencesSet(this@ChatFragment.context!!)) {
                 Snackbar.make(chat_cl, R.string.error, Snackbar.LENGTH_LONG)
                         .apply {
                             view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)

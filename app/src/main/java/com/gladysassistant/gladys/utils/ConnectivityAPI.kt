@@ -10,6 +10,9 @@ import io.socket.client.Socket
 import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
 import java.net.URISyntaxException
+import android.content.SharedPreferences
+
+
 
 @Suppress("DEPRECATION")
 class ConnectivityAPI {
@@ -117,6 +120,11 @@ class ConnectivityAPI {
             }
 
             return url
+        }
+
+        fun isPreferencesSet(context: Context): Boolean {
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+            return sharedPreferences.all.size >= 3
         }
 
         /**

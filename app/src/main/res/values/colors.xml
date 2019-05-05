@@ -11,4 +11,6 @@
     <color name="lightGrey">#f1f3f4</color>
     <color name="grey">#ababab</color>
     <color name="primaryColorLight">#207391fa</color>
+    <color name="transparentPrimaryColor">#E80052D4</color>
+    <color name="transparentPrimaryDarkColor">#D7002BA2</color>
 </resources>

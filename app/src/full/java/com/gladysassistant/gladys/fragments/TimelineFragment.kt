@@ -265,7 +265,7 @@ class TimelineFragment : Fragment() {
         try {
             if (ConnectivityAPI.getUrl(this@TimelineFragment.context!!) == "http://noconnection") {
                 Snackbar.make(timeline_cl, R.string.no_connection, Snackbar.LENGTH_LONG).show()
-            } else {
+            } else if (ConnectivityAPI.isPreferencesSet(this@TimelineFragment.context!!)) {
                 Snackbar.make(timeline_cl, R.string.error, Snackbar.LENGTH_LONG).show()
             }
         } catch (er: Exception){}

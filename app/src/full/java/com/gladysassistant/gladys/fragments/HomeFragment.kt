@@ -1,6 +1,7 @@
 package com.gladysassistant.gladys.fragments
 
 import android.os.Bundle
+import android.os.Handler
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.*
@@ -29,6 +30,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 
 class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
 
@@ -261,7 +263,7 @@ class HomeFragment : Fragment(), AdapterCallback.AdapterCallbackDeviceState{
                             view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)
                                     .apply { setMargins(leftMargin, topMargin, rightMargin, activity?.bottom_navigation?.height!! + 22) }
                         }.show()
-            } else {
+            } else if (ConnectivityAPI.isPreferencesSet(this@HomeFragment.context!!)) {
                 Snackbar.make(home_rv, R.string.error, Snackbar.LENGTH_LONG)
                         .apply {
                             view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams)

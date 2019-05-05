@@ -10,14 +10,14 @@
         android:shortcutShortLabel="@string/new_message">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="com.gladysproject.gladys.SplashActivity"
-            android:targetPackage="com.gladysproject.gladys">
+            android:targetClass="com.gladysassistant.gladys.SplashActivity"
+            android:targetPackage="com.gladysassistant.gladys">
         </intent>
 
         <intent
-            android:action="com.gladysproject.gladys.startChat"
-            android:targetClass="com.gladysproject.gladys.MainActivity"
-            android:targetPackage="com.gladysproject.gladys">
+            android:action="com.gladysassistant.gladys.startChat"
+            android:targetClass="com.gladysassistant.gladys.MainActivity"
+            android:targetPackage="com.gladysassistant.gladys">
         </intent>
     </shortcut>
 </shortcuts>

@@ -10,11 +10,11 @@ android {
     compileSdkVersion 28
     flavorDimensions "default"
     defaultConfig {
-        applicationId "com.gladysproject.gladys"
+        applicationId 'com.gladysassistant.gladys'
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 5
-        versionName "1.4"
+        versionCode 1
+        versionName '1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         kapt {
@@ -42,15 +42,15 @@ android {
     productFlavors {
         full {
             minSdkVersion 19
-            applicationId 'com.gladysproject.gladys'
+            applicationId 'com.gladysassistant.gladys'
             targetSdkVersion 28
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-            versionCode 5
-            versionName '1.4'
+            versionCode 1
+            versionName '1'
         }
         demo {
             minSdkVersion 19
-            applicationId 'com.gladysproject.gladys.demo'
+            applicationId 'com.gladysassistant.gladys.demo'
             targetSdkVersion 28
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
             versionCode 1

@@ -11,7 +11,7 @@
     <string name="android_9_message">Attention: A partir de la version 9 d\'Android l\'HTTPS est obligatoire pour les communications réseau. Veillez à bien activé l\'HTTPS sur votre Gladys. (L\'HTTPS sera automatiquement utilisé, même si vous ne l\'activez pas dans les paramètres si dessus)</string>
     <string name="app_name">Gladys</string>
     <string name="app_description">Your home assistant</string>
-    <string name="app_version">Gladys Android version v1.4-Alpha05</string>
+    <string name="app_version">Gladys Android version v1.0</string>
     <string name="assistance">Assistance</string>
     <string name="ask_him_something">Demandez lui quelque chose.. </string>
     <string name="auto_start">Démarrage automatique</string>
